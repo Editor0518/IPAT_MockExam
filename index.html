@@ -1,0 +1,879 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>
+:root { padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); color-scheme: light; }
+body { margin: 0; }
+img { max-width: 100%; }
+[hidden] { display: none !important; }
+</style>
+<title>산업재산권법 모의고사</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans+KR:wght@400;500;600;700&family=Noto+Serif+KR:wght@400;600;700&display=swap">
+<style>
+/* Layout: one 720px reading column; exam screens get a sticky timer bar and a sticky bottom action bar. OMR-card motifs for answer bubbles and the progress strip. */
+:root {
+  --bg: #F2F4F7;
+  --surface: #FFFFFF;
+  --surface-2: #EBEFF5;
+  --ink: #161D2B;
+  --ink-2: #465166;
+  --ink-3: #737D92;
+  --line: #D7DDE6;
+  --accent: #2448B5;
+  --accent-ink: #FFFFFF;
+  --accent-soft: #E4EAFA;
+  --ok: #137A4C;
+  --ok-soft: #E1F3E9;
+  --bad: #C2312E;
+  --bad-soft: #FBE6E4;
+  --warn: #A35F00;
+  --warn-soft: #FDF0D8;
+  --omr: #D45478;
+  --shadow: 0 1px 2px rgba(22, 29, 43, .06), 0 6px 20px rgba(22, 29, 43, .06);
+  --f-ui: "IBM Plex Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", "Noto Sans KR", system-ui, sans-serif;
+  --f-q: "Noto Serif KR", "AppleMyungjo", "Batang", "Nanum Myeongjo", serif;
+  --f-num: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  --gutter-l: max(16px, env(safe-area-inset-left, 0px));
+  --gutter-r: max(16px, env(safe-area-inset-right, 0px));
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0F141C; --surface: #171E29; --surface-2: #1F2835; --ink: #E6EAF1; --ink-2: #AEB7C6; --ink-3: #828C9E; --line: #2B3546;
+    --accent: #8FA7FF; --accent-ink: #0F141C; --accent-soft: #1F2A48; --ok: #52C48D; --ok-soft: #133022; --bad: #FF8079; --bad-soft: #3B1C1B;
+    --warn: #F2B65C; --warn-soft: #3A2B12; --omr: #EC8DA6; --shadow: 0 1px 2px rgba(0,0,0,.3), 0 6px 20px rgba(0,0,0,.25);
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0F141C; --surface: #171E29; --surface-2: #1F2835; --ink: #E6EAF1; --ink-2: #AEB7C6; --ink-3: #828C9E; --line: #2B3546;
+  --accent: #8FA7FF; --accent-ink: #0F141C; --accent-soft: #1F2A48; --ok: #52C48D; --ok-soft: #133022; --bad: #FF8079; --bad-soft: #3B1C1B;
+  --warn: #F2B65C; --warn-soft: #3A2B12; --omr: #EC8DA6; --shadow: 0 1px 2px rgba(0,0,0,.3), 0 6px 20px rgba(0,0,0,.25);
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  background: var(--bg); color: var(--ink);
+  font-family: var(--f-ui); font-size: 15px; line-height: 1.6;
+  word-break: keep-all; overflow-wrap: anywhere;
+  -webkit-tap-highlight-color: transparent;
+}
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 30; background: var(--bg); }
+body[data-bar]::before { background: var(--surface); }
+button { font: inherit; color: inherit; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.num { font-family: var(--f-num); font-variant-numeric: tabular-nums; }
+
+.wrap { max-width: 720px; margin: 0 auto; padding-left: var(--gutter-l); padding-right: var(--gutter-r); }
+.screen { padding-block: 20px 120px; }
+
+/* ---------- buttons ---------- */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  min-height: 50px; padding: 0 20px; border-radius: 12px; border: 1px solid var(--line);
+  background: var(--surface); font-weight: 600; font-size: 16px; cursor: pointer; text-decoration: none;
+}
+.btn:active { transform: translateY(1px); }
+.btn svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; flex: none; }
+.btn:disabled { opacity: .45; cursor: default; }
+.btn-primary { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+.btn-danger { color: var(--bad); }
+.btn-block { width: 100%; }
+.btn-sm { min-height: 38px; padding: 0 14px; font-size: 14px; border-radius: 10px; }
+.icon-btn {
+  width: 40px; height: 40px; border-radius: 10px; border: 1px solid var(--line); background: var(--surface);
+  display: inline-grid; place-items: center; cursor: pointer; flex: none;
+}
+.icon-btn svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+/* ---------- home ---------- */
+.eyebrow { font-size: 12.5px; letter-spacing: .06em; color: var(--ink-3); font-weight: 600; }
+.home-hero { display: grid; gap: 10px; padding-block: 12px 4px; }
+.home-hero h1 { font-family: var(--f-q); font-weight: 700; font-size: clamp(28px, 7.4vw, 38px); line-height: 1.25; margin: 0; text-wrap: balance; }
+.home-hero .meta { display: flex; flex-wrap: wrap; gap: 6px 14px; color: var(--ink-2); font-size: 14.5px; }
+.home-hero .meta b { color: var(--ink); font-weight: 600; }
+.panel { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 18px; }
+.stack { display: grid; gap: 14px; grid-template-columns: minmax(0, 1fr); }
+.section-title { font-size: 13px; letter-spacing: .06em; color: var(--ink-3); font-weight: 600; margin: 0 0 10px; }
+.rules { margin: 0; padding: 0; list-style: none; display: grid; gap: 10px; }
+.rules li { display: grid; grid-template-columns: 22px 1fr; gap: 8px; color: var(--ink-2); font-size: 14.5px; }
+.rules li::before { content: ""; width: 8px; height: 8px; border-radius: 50%; border: 2px solid var(--omr); margin-top: 7px; justify-self: center; }
+.rules b { color: var(--ink); font-weight: 600; }
+
+.map { display: grid; gap: 12px; }
+.map-law { display: grid; gap: 6px; }
+.map-law-head { display: flex; justify-content: space-between; font-size: 14px; font-weight: 600; }
+.map-law-head span:last-child { color: var(--ink-3); font-weight: 500; }
+.map-cells { display: grid; grid-template-columns: repeat(10, minmax(0, 1fr)); gap: 4px; }
+.map-cell { aspect-ratio: 1; min-width: 0; max-width: 100%; border-radius: 50%; border: 1.5px solid var(--omr); display: grid; place-items: center; font-family: var(--f-num); font-size: 10px; color: var(--omr); }
+
+.resume { display: grid; gap: 12px; border-color: var(--accent); }
+.resume-head { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+.resume-head strong { font-size: 16px; }
+.resume-head span { color: var(--ink-2); font-size: 14px; }
+.btn-row { display: flex; gap: 10px; flex-wrap: wrap; }
+.btn-row > .btn { flex: 1 1 140px; }
+
+.hist { display: grid; gap: 0; margin: 0; padding: 0; list-style: none; }
+.hist li + li { border-top: 1px solid var(--line); }
+.hist button { width: 100%; background: none; border: 0; padding: 12px 2px; display: grid; grid-template-columns: 1fr auto; gap: 2px 12px; text-align: left; cursor: pointer; }
+.hist .h-title { font-weight: 600; }
+.hist .h-sub { color: var(--ink-3); font-size: 13px; }
+.hist .h-score { grid-row: span 2; align-self: center; font-family: var(--f-num); font-weight: 600; font-size: 17px; }
+
+/* ---------- exam bar ---------- */
+.bar { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20; background: var(--surface); border-bottom: 1px solid var(--line); }
+.bar-inner { max-width: 720px; margin: 0 auto; padding-left: var(--gutter-l); padding-right: var(--gutter-r); padding-block: 8px 8px; display: grid; gap: 8px; }
+.bar-row { display: flex; align-items: center; gap: 10px; }
+.bar-pos { flex: 1; min-width: 0; line-height: 1.25; }
+.bar-pos .p1 { font-weight: 700; font-size: 15px; }
+.bar-pos .p1 .of { font-family: var(--f-num); font-weight: 500; color: var(--ink-3); font-size: 13px; margin-left: 4px; }
+.bar-pos .p2 { font-size: 12.5px; color: var(--ink-3); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.timer { text-align: right; line-height: 1.1; }
+.timer .t-label { font-size: 11.5px; font-weight: 600; letter-spacing: .04em; color: var(--ink-3); }
+.timer .t-main { font-family: var(--f-num); font-variant-numeric: tabular-nums; font-weight: 600; font-size: 26px; letter-spacing: -.01em; }
+.timer .t-sub { font-variant-numeric: tabular-nums; font-size: 12px; color: var(--ink-3); white-space: nowrap; }
+.timer.is-warn .t-main, .timer.is-warn .t-label { color: var(--warn); }
+.timer.is-over .t-main, .timer.is-over .t-label { color: var(--bad); }
+.timer.is-paused .t-main { color: var(--ink-3); }
+.strip { display: flex; gap: 3px; }
+.strip i { flex: 1; height: 6px; border-radius: 3px; background: var(--surface-2); box-shadow: inset 0 0 0 1px var(--line); }
+.strip i.ok { background: var(--ok); box-shadow: none; }
+.strip i.bad { background: var(--bad); box-shadow: none; }
+.strip i.cur { background: var(--accent); box-shadow: none; }
+
+/* ---------- question ---------- */
+.q { display: grid; gap: 16px; }
+.q-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+.tag { display: inline-flex; align-items: center; height: 24px; padding: 0 9px; border-radius: 999px; font-size: 12.5px; font-weight: 600; background: var(--surface-2); color: var(--ink-2); }
+.tag.t-accent { background: var(--accent-soft); color: var(--accent); }
+.stem { font-family: var(--f-q); font-size: 17.5px; line-height: 1.78; font-weight: 600; margin: 0; }
+.stem .qn { font-family: var(--f-num); font-weight: 600; margin-right: 6px; }
+.items { border: 1px solid var(--ink-3); border-radius: 4px; padding: 14px 14px; display: grid; gap: 10px; background: var(--surface); }
+.item { display: grid; grid-template-columns: 26px 1fr; font-family: var(--f-q); font-size: 16px; line-height: 1.75; }
+.item b { font-weight: 600; }
+.opts { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+.opt {
+  width: 100%; display: grid; grid-template-columns: 32px 1fr; gap: 12px; align-items: start; text-align: left;
+  padding: 14px 14px; border-radius: 14px; border: 1px solid var(--line); background: var(--surface); cursor: pointer;
+  font-family: var(--f-q); font-size: 16px; line-height: 1.72; transition: border-color .12s, background-color .12s;
+}
+@media (hover: hover) { .opt:not(:disabled):hover { border-color: var(--accent); } }
+.opt:not(:disabled):active { border-color: var(--accent); background: var(--accent-soft); }
+.opt:disabled { cursor: default; }
+.bub {
+  width: 30px; height: 30px; border-radius: 50%; border: 1.5px solid var(--omr); color: var(--omr);
+  display: grid; place-items: center; font-family: var(--f-num); font-size: 14px; font-weight: 600; margin-top: -1px; flex: none;
+}
+.opt.is-ok { border-color: var(--ok); background: var(--ok-soft); }
+.opt.is-ok .bub { background: var(--ok); border-color: var(--ok); color: var(--surface); }
+.opt.is-bad { border-color: var(--bad); background: var(--bad-soft); }
+.opt.is-bad .bub { background: var(--bad); border-color: var(--bad); color: var(--surface); }
+.opt.is-dim { opacity: .62; }
+.opt .mark { display: block; font-family: var(--f-ui); font-size: 12px; font-weight: 700; margin-top: 4px; letter-spacing: .02em; }
+.opt.is-ok .mark { color: var(--ok); }
+.opt.is-bad .mark { color: var(--bad); }
+
+/* ---------- verdict + explanation ---------- */
+.verdict { scroll-margin-top: 110px; border-radius: 14px; padding: 14px 16px; display: grid; gap: 4px; }
+.verdict.ok { background: var(--ok-soft); color: var(--ok); }
+.verdict.bad { background: var(--bad-soft); color: var(--bad); }
+.verdict.skip { background: var(--surface-2); color: var(--ink-2); }
+.verdict strong { font-size: 18px; }
+.verdict .v-sub { color: var(--ink-2); font-size: 14px; display: flex; flex-wrap: wrap; gap: 4px 14px; }
+.verdict .v-sub b { color: var(--ink); font-weight: 600; }
+.expl { display: grid; gap: 12px; }
+.expl-head { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; flex-wrap: wrap; }
+.expl-head h2 { margin: 0; font-size: 18px; }
+.expl-head span { color: var(--ink-3); font-size: 13.5px; }
+.expl-legend { font-size: 12.5px; color: var(--ink-3); margin: -6px 0 0; }
+.rows { display: grid; gap: 8px; }
+.row { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; display: grid; gap: 6px; }
+.row.is-key { background: var(--accent-soft); border-color: color-mix(in srgb, var(--accent) 45%, var(--line)); }
+.row-top { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.row-lbl { font-family: var(--f-q); font-weight: 700; font-size: 16px; min-width: 20px; }
+.judge { display: inline-grid; place-items: center; min-width: 28px; height: 24px; padding: 0 7px; border-radius: 6px; font-size: 13px; font-weight: 700; border: 1.5px solid currentColor; }
+.judge.j-o { color: var(--ok); }
+.judge.j-x { color: var(--bad); }
+.judge.j-ans { color: var(--accent-ink); background: var(--accent); border-color: var(--accent); }
+.judge.j-rej { color: var(--ink-2); }
+.chip-mine, .chip-key { font-size: 12px; font-weight: 700; padding: 1px 8px; border-radius: 999px; }
+.chip-key { background: var(--accent); color: var(--accent-ink); }
+.chip-mine { background: var(--surface-2); color: var(--ink-2); }
+.row-text { margin: 0; font-size: 15px; line-height: 1.65; }
+.row-basis { margin: 0; font-size: 13px; color: var(--ink-3); display: grid; grid-template-columns: auto 1fr; gap: 8px; }
+.row-basis span:first-child { font-weight: 600; color: var(--ink-2); }
+.final { display: grid; gap: 6px; padding: 14px 16px; border-radius: 12px; background: var(--surface-2); }
+.final .f1 { font-weight: 700; font-size: 16px; }
+.final .f1 em { font-style: normal; color: var(--accent); font-family: var(--f-q); font-size: 18px; margin-left: 4px; }
+.final p { margin: 0; font-size: 13px; color: var(--ink-2); }
+.final .note { color: var(--ink); font-size: 14px; }
+
+.actionbar { position: fixed; left: 0; right: 0; bottom: 0; z-index: 20; background: var(--surface); background: color-mix(in srgb, var(--surface) 92%, transparent); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); border-top: 1px solid var(--line); padding-bottom: env(safe-area-inset-bottom, 0px); }
+.actionbar .wrap { padding-block: 10px; display: flex; gap: 10px; }
+.actionbar .btn { flex: 1; white-space: nowrap; padding: 0 14px; font-size: 15.5px; }
+.actionbar .btn-primary { flex: 1.5; }
+.actionbar .btn.flex-0 { flex: 0 0 auto; }
+
+/* ---------- overlay ---------- */
+.overlay { position: fixed; inset: 0; z-index: 40; background: var(--bg); background: color-mix(in srgb, var(--bg) 82%, transparent); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); display: grid; place-items: center; padding: 24px var(--gutter-r) 24px var(--gutter-l); }
+.sheet { width: min(420px, 100%); background: var(--surface); border: 1px solid var(--line); border-radius: 18px; padding: 22px; box-shadow: var(--shadow); display: grid; gap: 14px; }
+.sheet h2 { margin: 0; font-size: 20px; }
+.sheet p { margin: 0; color: var(--ink-2); }
+.sheet .big { font-family: var(--f-num); font-size: 34px; font-weight: 600; color: var(--ink); }
+.sheet .btns { display: grid; gap: 8px; }
+
+/* ---------- results ---------- */
+.res-head { display: grid; gap: 4px; }
+.res-head h1 { margin: 0; font-size: 24px; font-family: var(--f-q); }
+.score { display: grid; grid-template-columns: auto 1fr; gap: 18px; align-items: center; }
+.score-big { font-family: var(--f-num); font-weight: 600; font-size: 52px; line-height: 1; letter-spacing: -.02em; }
+.score-big small { font-size: 22px; color: var(--ink-3); font-weight: 500; }
+.score-facts { display: grid; gap: 6px; font-size: 14px; color: var(--ink-2); }
+.score-facts b { color: var(--ink); font-weight: 600; font-variant-numeric: tabular-nums; }
+.score-facts .over { color: var(--bad); }
+.sw { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.sw-card { border-radius: 14px; padding: 14px; display: grid; gap: 8px; align-content: start; }
+.sw-card h3 { margin: 0; font-size: 14px; }
+.sw-card.good { background: var(--ok-soft); }
+.sw-card.good h3 { color: var(--ok); }
+.sw-card.weak { background: var(--bad-soft); }
+.sw-card.weak h3 { color: var(--bad); }
+.sw-card ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 4px; font-size: 14px; }
+.sw-card li { display: flex; justify-content: space-between; gap: 8px; }
+.sw-card li span:last-child { font-family: var(--f-num); color: var(--ink-2); white-space: nowrap; }
+.sw-card .empty { color: var(--ink-2); font-size: 13.5px; }
+@media (max-width: 420px) { .sw { grid-template-columns: 1fr; } }
+
+.bars { display: grid; gap: 12px; }
+.bar-item { display: grid; gap: 5px; }
+.bar-top { display: flex; justify-content: space-between; gap: 10px; font-size: 14px; }
+.bar-top .bt-name { font-weight: 600; min-width: 0; }
+.bar-top .bt-val { font-family: var(--f-num); font-variant-numeric: tabular-nums; color: var(--ink-2); white-space: nowrap; font-size: 13px; }
+.track { height: 8px; border-radius: 4px; background: var(--surface-2); overflow: hidden; }
+.track i { display: block; height: 100%; border-radius: 4px; }
+.lv-hi { background: var(--ok); }
+.lv-mid { background: var(--warn); }
+.lv-lo { background: var(--bad); }
+.tabs { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 14px; }
+.tab { height: 34px; padding: 0 12px; border-radius: 999px; border: 1px solid var(--line); background: var(--surface); font-size: 13.5px; font-weight: 600; cursor: pointer; color: var(--ink-2); }
+.tab[aria-selected="true"] { background: var(--ink); border-color: var(--ink); color: var(--surface); }
+
+.wrong-groups { display: grid; gap: 14px; }
+.wg-head { display: flex; justify-content: space-between; font-weight: 600; font-size: 14.5px; margin-bottom: 6px; }
+.wg-head span:last-child { color: var(--bad); font-family: var(--f-num); }
+.wg-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+.wg-list button { width: 100%; text-align: left; background: var(--surface-2); border: 0; border-radius: 10px; padding: 9px 12px; cursor: pointer; display: grid; grid-template-columns: auto 1fr; gap: 2px 10px; }
+.wg-list .wn { font-family: var(--f-num); font-weight: 600; grid-row: span 2; align-self: center; }
+.wg-list .wt { font-weight: 600; font-size: 14px; }
+.wg-list .wf { font-size: 12.5px; color: var(--ink-3); }
+.wrong-sum { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
+
+.omr { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+.omr-wrap { overflow-x: auto; }
+.omr th { text-align: left; font-size: 12px; color: var(--ink-3); font-weight: 600; padding: 0 4px 8px; }
+.omr td { padding: 7px 4px; border-top: 1px solid var(--line); vertical-align: middle; }
+.omr tr.clickable { cursor: pointer; }
+.omr tr.clickable:hover td { background: var(--surface-2); }
+.omr .c-n { font-family: var(--f-num); font-weight: 600; width: 30px; }
+.omr .c-b { white-space: nowrap; width: 136px; }
+.omr .c-t { color: var(--ink-2); min-width: 0; }
+.omr .c-t div { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.omr .c-s { font-family: var(--f-num); text-align: right; white-space: nowrap; width: 62px; }
+.omr .c-s.slow { color: var(--warn); font-weight: 600; }
+.mini { display: inline-grid; place-items: center; width: 22px; height: 22px; margin-right: 3px; border-radius: 50%; border: 1.2px solid var(--omr); color: var(--omr); font-family: var(--f-num); font-size: 11px; font-weight: 600; }
+.mini.m-mine { background: var(--ink); border-color: var(--ink); color: var(--surface); }
+.mini.m-ok { background: var(--ok); border-color: var(--ok); color: var(--surface); }
+.mini.m-bad { background: var(--bad); border-color: var(--bad); color: var(--surface); }
+.mini.m-key { box-shadow: 0 0 0 2px var(--surface), 0 0 0 3.5px var(--ok); }
+.legend { display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: 12.5px; color: var(--ink-3); margin-top: 10px; align-items: center; }
+.legend .mini { width: 16px; height: 16px; font-size: 0; margin-right: 4px; vertical-align: -3px; }
+.time-facts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.tf { background: var(--surface-2); border-radius: 12px; padding: 10px 12px; display: grid; gap: 2px; }
+.tf span { font-size: 12px; color: var(--ink-3); font-weight: 600; }
+.tf b { font-family: var(--f-num); font-weight: 600; font-size: 15px; }
+.slow-list { margin: 12px 0 0; padding: 0; list-style: none; display: grid; gap: 6px; font-size: 14px; }
+.slow-list li { display: flex; justify-content: space-between; gap: 10px; }
+.slow-list li span:last-child { font-family: var(--f-num); color: var(--warn); white-space: nowrap; }
+.hint { font-size: 13px; color: var(--ink-3); margin: 8px 0 0; }
+
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; scroll-behavior: auto !important; } }
+@media (min-width: 640px) {
+  .stem { font-size: 18.5px; }
+  .opt { font-size: 16.5px; }
+}
+</style>
+</head>
+<body>
+<div id="app" aria-live="polite"></div>
+<noscript><div class="wrap screen">이 페이지는 자바스크립트가 필요합니다.</div></noscript>
+<script>window.EXAM_DATA=[{"num":1,"law":"특허·실용신안","area":"총칙·절차","topic":"대리인 제도","format":"옳지 않은 것","caseLaw":false,"scenario":false,"stem":"특허법상 대리인 제도에 관한 설명으로 옳지 않은 것은?","items":[],"options":["행위능력 또는 법정대리권이 없거나 특허에 관한 절차를 밟는 데 필요한 권한의 위임에 흠이 있는 자가 밟은 절차는 보정(補正)된 당사자나 법정대리인이 추인하면 행위를 한 때로 소급하여 그 효력이 발생한다.","국내에 주소 또는 영업소가 있는 자로부터 특허에 관한 절차를 밟을 것을 위임받은 대리인은 특별히 권한을 위임받아야만 청구의 취하를 할 수 있다.","지식재산처장 또는 특허법 제145조(심판장)제1항에 따라 지정된 심판장은, 특허에 관한 절차를 밟는 자가 그 절차를 원활히 수행할 수 없거나 구술심리(口述審理)에서 진술할 능력이 없다고 인정되는 등 그 절차를 밟는 데 적당하지 아니하다고 인정되면 대리인을 선임하여 그 절차를 밟을 것을 명할 수 있다.","특허에 관한 절차를 밟는 자의 위임을 받은 대리인의 대리권은, 법정대리인이 사망하거나 행위능력을 상실하면 소멸한다.","대리인의 선임 또는 교체 명령 후 지식재산처장 또는 심판장은 특허에 관한 절차를 밟는 자 또는 대리인이 그 전에 지식재산처장 또는 특허심판원장에 대하여 한 특허에 관한 절차의 전부 또는 일부를 무효로 할 수 있다."],"answer":[4],"expl":{"type":"옳지 않은 것","rows":[{"label":"①","judge":"O","text":"흠 있는 절차는 보정된 당사자·법정대리인이 추인하면 행위를 한 때로 소급하여 효력 발생.","basis":"특허법 제7조의2"},{"label":"②","judge":"O","text":"국내 주소·영업소가 있는 자의 대리인은 특별수권이 있어야 '청구의 취하'를 할 수 있음(제6조 제5호).","basis":"특허법 제6조"},{"label":"③","judge":"O","text":"지식재산처장·심판장은 절차를 밟는 데 적당하지 않은 자에게 대리인 선임을 명할 수 있음.","basis":"특허법 제10조 제1항"},{"label":"④","judge":"X","text":"→ 법정대리인의 사망이나 행위능력 상실이 있어도 위임대리인의 대리권은 '소멸하지 아니한다'.","basis":"특허법 제8조 제4호"},{"label":"⑤","judge":"O","text":"선임·교체명령 후 그 전에 한 절차의 전부 또는 일부를 무효로 할 수 있음.","basis":"특허법 제10조 제4항"}],"final":"④","verify":"공식 최종정답과 일치 · 정답 보기의 근거를 첨부자료에서 확인","note":null}},{"num":2,"law":"특허·실용신안","area":"총칙·절차","topic":"절차의 중지·중단·추후보완","format":"옳은 것","caseLaw":false,"scenario":false,"stem":"특허법상 절차에 관한 설명으로 옳은 것은?","items":[],"options":["당사자에게 일정하지 아니한 기간 동안 지식재산처 또는 특허심판원에 계속 중인 절차를 속행할 수 없는 장애사유가 생긴 경우, 지식재산처장 또는 심판관은 결정으로 장애사유가 해소될 때까지 해당 절차의 중지를 명할 수 있으며, 이에 따른 결정은 취소할 수 없다.","지식재산처장 또는 특허심판원장은 특허법 제46조(절차의 보정)에 따른 보정명령을 받은 자가 지정된 기간에 그 보정을 하지 아니하면 특허에 관한 절차를 무효로 할 수 있다. 다만, 특허법 제82조(수수료)제2항에 따른 심사청구료를 내지 아니하여 보정명령을 받은 자가 지정된 기간에 그 심사청구료를 내지 아니하는 경우에는 특허출원서에 첨부한 명세서에 관한 보정을 무효로 할 수 있다.","특허에 관한 절차를 밟은 자가 책임질 수 없는 사유로 특허법 제132조의17(특허거절결정 등에 대한 심판)에 따른 심판의 청구기간을 지키지 못한 경우에는 그 사유가 소멸한 날부터 3개월 이내에 지키지 못한 절차를 추후 보완할 수 있다. 다만, 그 기간의 만료일부터 1년이 지났을 때에는 그러하지 아니하다.","지식재산처 또는 특허심판원에 계속 중인 특허에 관한 절차는 당사자가 사망한 경우 중단되며, 사망한 당사자의 상속인ㆍ상속재산관리인 또는 법률에 따라 절차를 속행할 자는 중단 중인 절차를 즉시 수계(受繼)하여야 한다.","특허에 관한 절차가 천재지변을 이유로 중지된 경우에 그 기간의 진행은 정지되고, 해당 사유가 소멸되어 그 절차가 속행되면 잔여 기간이 진행된다."],"answer":[2],"expl":{"type":"옳은 것","rows":[{"label":"①","judge":"X","text":"→ 지식재산처장 또는 심판관은 중지 결정을 '취소할 수 있다'.","basis":"특허법 제23조 제2항·제3항"},{"label":"②","judge":"O","text":"보정명령 불이행 시 절차 무효. 단, 심사청구료 미납의 경우에는 명세서에 관한 보정을 무효로 할 수 있음.","basis":"특허법 제16조 제1항"},{"label":"③","judge":"X","text":"→ 사유가 소멸한 날부터 '2개월' 이내에 추후보완(만료일부터 1년 경과 시 불가).","basis":"특허법 제17조"},{"label":"④","judge":"X","text":"→ 절차를 밟을 것을 위임받은 대리인이 있으면 중단되지 않음. 또한 상속인은 상속을 포기할 수 있을 때까지 수계하지 못하므로 '즉시' 수계 의무도 아님.","basis":"특허법 제20조 단서, 제21조 제1호"},{"label":"⑤","judge":"X","text":"→ 중단·중지 시 기간의 진행은 정지되고, 수계통지 또는 속행 시부터 '다시 모든 기간'이 진행(잔여기간 아님).","basis":"특허법 제24조"}],"final":"②","verify":"공식 최종정답과 일치 · 정답 보기의 근거를 첨부자료에서 확인","note":null}},{"num":3,"law":"특허·실용신안","area":"등록요건","topic":"확대된 선출원(제29조③)","format":"옳은 것","caseLaw":false,"scenario":true,"stem":"甲은 2024. 2. 1. 명세서에 국어로 ‘발명의 설명 A, B 및 청구범위 A’를 기재하여 특허출원 X를 하였고, 乙은 2024. 8. 1. 발명 B에 대하여 특허출원 Y를 하였다. 다음 중 2026. 2. 28. 시점에서 乙의 특허출원 Y가 특허법 제29조(특허요건)제3항에 의하여 거절되지 않는 경우는? (특허출원 X의 경우 비밀취급된 특허출원의 발명에 관한 것이 아니고, 특허출원 X에 대한 조기공개신청은 없으며, 각 설명은 독립적이고, 요일은 판단하지 않음)","items":[],"options":["甲이 2024. 8. 1. 특허출원 X를 기초로 발명 B에 대하여 분할출원 Z를 한 후 2025. 2. 1. 특허출원 X를 취하한 경우","甲이 2025. 2. 1. 乙에게 특허출원 X에 대한 특허를 받을 수 있는 권리를 양도한 경우","甲의 특허출원 X가 2026. 2. 1. 무효된 경우","乙이 2023. 12. 1. 발명 B를 공개하여 국내에 공지된 후 2024. 12. 1. 소정의 보완수수료를 납부하면서 특허법 제30조(공지 등이 되지 아니한 발명으로 보는 경우)제1항제1호를 적용받으려는 취지를 적은 서류 및 이를 증명하는 서류를 적법하게 제출한 경우","甲이 2024. 6. 1. 특허출원 X의 발명의 설명에서 B를 삭제 보정한 경우"],"answer":[1],"expl":{"type":"거절되지 않는 경우","rows":[{"label":"①","judge":"정답","text":"분할출원 Z는 제29조③ 적용 시 '분할출원을 한 때'(2024.8.1.)에 출원한 것으로 보므로 Y와 같은 날 → Y의 '출원일 전' 출원이 아님. 원출원 X는 출원공개(2025.8.1. 예정) 전 취하되어 제29조③ 제2호 요건 불충족 → Y는 거절되지 않음.","basis":"특허법 제52조 제2항 제1호, 제29조 제3항"},{"label":"②","judge":"거절","text":"출원인 동일 예외는 'Y를 출원한 때'의 출원인 기준. 2024.8.1. 당시 X의 출원인은 甲이므로 이후 양도로 예외 불인정.","basis":"특허법 제29조 제3항 단서"},{"label":"③","judge":"거절","text":"X는 2025.8.1. 이미 출원공개되었으므로 이후 무효되어도 제29조③의 다른 특허출원 지위 유지.","basis":"특허법 제29조 제3항 제2호"},{"label":"④","judge":"거절","text":"공지예외는 제29조 제1항·제2항 적용 시에만 인정되고 제29조③(확대된 선출원)에는 적용되지 않음.","basis":"특허법 제30조 제1항"},{"label":"⑤","judge":"거절","text":"제29조③은 '출원서에 최초로 첨부된' 명세서·도면 기준이므로 B를 삭제 보정해도 지위 유지.","basis":"특허법 제29조 제3항 본문"}],"final":"①","verify":"공식 최종정답과 일치 · 정답 보기의 근거를 첨부자료에서 확인","note":null}},{"num":4,"law":"특허·실용신안","area":"출원·명세서·보정","topic":"명세서 기재요건","format":"옳지 않은 것","caseLaw":true,"scenario":false,"stem":"특허출원서에 첨부하는 명세서에 관한 설명으로 옳지 않은 것은? (다툼이 있으면 판례에 따름)","items":[],"options":["물건의 발명에서 통상의 기술자가 특허출원 당시의 기술수준으로 보아 과도한 실험이나 특수한 지식을 부가하지 않고서도 발명의 설명에 기재된 사항에 의하여 물건 자체를 생산하고 이를 사용할 수 있고, 구체적인 실험 등으로 증명이 되어 있지 않더라도 통상의 기술자가 발명의 효과의 발생을 충분히 예측할 수 있다면, 특허법 제42조(특허출원)제3항제1호에서 정한 기재요건을 충족한다고 볼 수 있다.","청구범위의 청구항이 발명의 설명에 의하여 뒷받침되지 않으면 거절 이유가 되며, 착오로 등록된 경우에는 무효사유가 된다.","발명의 설명을 기재할 때 그 발명의 배경이 되는 기술을 전혀 적지 않았음에도 착오로 등록된 경우에는 무효사유가 된다.","도면의 간단한 설명은 명세서의 발명의 설명에 기재하며, 해당하는 사항이 없는 경우에는 그 기재를 생략할 수 있다.","특허출원인이 명세서 및 도면(도면 중 설명부분에 한정한다)을 국어가 아닌 영어로 적겠다는 취지를 특허출원을 할 때 특허출원서에 적은 경우에는 영어로 적을 수 있다."],"answer":[3],"expl":{"type":"옳지 않은 것","rows":[{"label":"①","judge":"O","text":"통상의 기술자가 과도한 실험 없이 생산·사용할 수 있고, 효과가 실험으로 증명되거나 능히 예측 가능하면 제42조③1호 충족(판례 법리).","basis":"특허심사기준 p.160(파라미터발명 판례 인용)"},{"label":"②","judge":"O","text":"제42조④(뒷받침 요건) 위반은 거절이유이자 무효사유.","basis":"특허법 제62조 제4호, 제133조 제1항 제1호"},{"label":"③","judge":"X","text":"→ 배경기술 기재(제42조③2호) 위반은 거절이유이나 무효사유가 아님(무효사유는 제42조③1호·④만 규정). 착오로 등록되어도 무효사유가 되지 않는다.","basis":"특허법 제62조 제4호, 제133조 제1항 제1호"},{"label":"④","judge":"O","text":"발명의 설명에 '도면의 간단한 설명'을 포함하되, 해당 사항이 없으면 생략 가능.","basis":"특허법 시행규칙 제21조 ③·④(특허심사기준 p.155 인용)"},{"label":"⑤","judge":"O","text":"외국어특허출원은 총리령으로 정하는 언어(영어)로 명세서·도면(설명부분)을 적을 수 있음.","basis":"특허법 제42조의3 제1항, 특허심사기준 p.523"}],"final":"③","verify":"공식 최종정답과 일치 · 정답 보기의 근거를 첨부자료에서 확인","note":null}},{"num":5,"law":"특허·실용신안","area":"우선권","topic":"국내우선권 선출원 취하간주","format":"모두 고르기","caseLaw":false,"scenario":false,"stem":"특허법 제55조(특허출원 등을 기초로 한 우선권 주장)제1항에 따른 우선권 주장의 기초가 된 선출원이 그 출원일부터 1년 3개월이 지나더라도 취하된 것으로 보지 않는 경우를 모두 고른 것은?","items":[{"label":"ㄱ","text":"그 선출원이 포기, 무효 또는 취하된 경우"},{"label":"ㄴ","text":"그 선출원이 설정등록된 경우"},{"label":"ㄷ","text":"그 선출원에 대하여 거절한다는 취지의 심결이 확정된 경우"},{"label":"ㄹ","text":"해당 선출원을 기초로 한 우선권 주장이 취하된 경우"}],"options":["ㄱ, ㄴ, ㄷ","ㄱ, ㄴ, ㄹ","ㄱ, ㄷ, ㄹ","ㄴ, ㄷ, ㄹ","ㄱ, ㄴ, ㄷ, ㄹ"],"answer":[5],"expl":{"type":"모두 고른 것","rows":[{"label":"ㄱ","judge":"O","text":"포기·무효·취하된 경우 취하간주 제외.","basis":"특허법 제56조 제1항 제1호"},{"label":"ㄴ","judge":"O","text":"설정등록된 경우 취하간주 제외.","basis":"특허법 제56조 제1항 제2호"},{"label":"ㄷ","judge":"O","text":"거절한다는 취지의 심결이 확정된 경우 취하간주 제외.","basis":"특허법 제56조 제1항 제2호"},{"label":"ㄹ","judge":"O","text":"해당 선출원을 기초로 한 우선권주장이 취하된 경우 취하간주 제외.","basis":"특허법 제56조 제1항 제3호"}],"final":"⑤","verify":"공식 최종정답과 일치 · 정답 보기의 근거를 첨부자료에서 확인","note":null}},{"num":6,"law":"특허·실용신안","area":"등록요건","topic":"신규성·진보성","format":"옳지 않은 것","caseLaw":true,"scenario":false,"stem":"특허법상 신규성 및 진보성 판단에 관한 설명으로 옳지 않은 것은? (다툼이 있으면 판례에 따름)","items":[],"options":["선행발명에 개시된 물건이 특허발명과 동일한 구성 또는 속성을 가질 수도 있다는 가능성 또는 개연성만으로는 두 발명을 동일하다고 할 수 없고, 필연적으로 그와 같은 구성 또는 속성을 가진다는 점이 증명되어야 한다.","발명이 공지공용의 것이라 함은 공지공용의 기술과 동일한 경우에 한정할 필요는 없고, 어느 발명이 선행의 공지공용의 기술로부터 이루어진 것이라고 하여도 이것이 공지공용의 기술에 근사한 것이 명백하여 특별히 새로운 기술이라고 볼 수 없는 경우에는 진보성에 앞서 그 신규성 자체를 부정할 수 있을 것이다.","여러 선행기술문헌을 인용하여 특허발명의 진보성을 판단함에 있어서는 그 인용되는 기술을 조합 또는 결합하면 당해 특허발명에 이를 수 있다는 암시ㆍ동기 등이 선행기술문헌에 제시되어 있거나, 그렇지 않더라도 당해 특허발명의 출원 당시의 기술수준, 기술상식, 해당 기술분야의 기본적 과제, 발전경향, 해당 업계의 요구 등에 비추어 보아 그 기술분야에 통상의 지식을 가진 자가 용이하게 그와 같은 결합에 이를 수 있다고 인정할 수 있는 경우에는 당해 특허발명의 진보성은 부정된다.","발명과 동일한 물건이 매매, 도급 등을 원인으로 양도된 경우에는 양수인에게 비밀유지의무가 부과되었다는 등의 특별한 사정이 없는 한 외관을 통해 발명의 기술적 구성을 용이하게 알 수 없더라도 그 발명이 속하는 기술분야에서 통상의 지식을 가진 사람이 그 물건을 분해하거나 분석하여 발명의 기술적 구성을 용이하게 알 수 있다면 발명이 공연히 실시된 것으로 볼 수 있다.","선행 또는 공지의 발명에 구성요소가 상위개념으로 기재되어 있고, 위 상위개념에 포함되는 하위개념만을 구성요소 중의 전부 또는 일부로 하는 선택발명의 진보성이 부정되지 않기 위해서는, 선택발명에 포함되는 하위개념들 중 일부가 선행발명이 갖는 효과와 질적으로 다른 효과를 갖고 있거나, 질적인 차이가 없더라도 양적으로 현저한 차이가 있어야 한다."],"answer":[5],"expl":{"type":"옳지 않은 것","rows":[{"label":"①","judge":"O","text":"판례 법리(동일 구성·속성을 '필연적으로' 가진다는 점의 증명 필요). 첨부자료 내 동일 문구는 미확인.","basis":"첨부자료 직접 근거 없음(판례)"},{"label":"②","judge":"O","text":"판례 법리(공지공용 기술에 근사함이 명백하면 신규성 부정 가능). 첨부자료 내 동일 문구는 미확인.","basis":"첨부자료 직접 근거 없음(판례)"},{"label":"③","judge":"O","text":"결합의 암시·동기가 없더라도 기술수준·기술상식·기본적 과제·발전경향·업계 요구 등에 비추어 용이하게 결합할 수 있으면 진보성 부정.","basis":"특허심사기준 p.322"},{"label":"④","judge":"O","text":"판례 법리(양도된 물건을 분해·분석하여 구성을 용이하게 알 수 있으면 공연실시). 첨부자료 내 동일 문구는 미확인.","basis":"첨부자료 직접 근거 없음(판례)"},{"label":"⑤","judge":"X","text":"→ 선택발명에 포함되는 하위개념들 '모두가' 선행발명이 갖는 효과와 질적으로 다른 효과를 갖거나 양적으로 현저한 차이가 있어야 한다('일부' 아님).","basis":"특허심사기준 p.315"}],"final":"⑤","verify":"공식 최종정답과 일치 · 정답 보기의 근거를 첨부자료에서 확인","note":null}},{"num":7,"law":"특허·실용신안","area":"출원·명세서·보정","topic":"분할출원","format":"옳지 않은 것","caseLaw":true,"scenario":false,"stem":"특허법상 분할출원에 관한 설명으로 옳지 않은 것은? (다툼이 있으면 판례에 따름)","items":[],"options":["출원인이 원출원의 일부를 2개의 특허출원(분할출원 1, 분할출원 2)으로 분할하는 과정에서 출원인의 착오로 2개의 출원이 동일한 출원이 되었으나, 출원인의 보정 등에 의하여 결국 원출원과 보정된 분할출원 1, 그리고 분할출원 2에 대하여 각각 특허사정(특허결정)이 이루어진 경우, 출원인은 분할출원 2에 대한 특허사정(특허결정)의 취소를 구할 법률상 이익이 있다.","둘 이상의 발명을 하나로 한 원출원에서 공지예외주장을 하지 않았더라도, 분할출원에서 적법한 절차를 준수하여 공지예외주장을 하였다면, 원출원이 자기 공지일로부터 12개월 이내에 이루어진 이상 공지예외의 효과를 인정받을 수 있다.","분할출원은 국내우선권주장출원의 기초가 되는 선출원이 될 수 없다. 하지만 국내우선권주장출원을 기초로 분할출원할 수는 있다.","원출원 중 일부 발명이 실시례 등의 상세한 설명에 기재된 것으로서 원출원 발명과 다른 하나의 발명으로 볼 수 있는 경우에는 그 일부를 분할출원할 수 있으며, 이 경우 그 동일성 여부의 판단은 특허청구범위에 기재된 양 발명의 기술적 구성이 동일한가 여부에 의하여 판단하되 그 효과도 참작하여야 할 것인바, 기술적 구성에 차이가 있더라도 그 차이가 주지 관용기술의 부가, 삭제, 변경 등으로 새로운 효과의 발생이 없는 정도에 불과하다면 양 발명은 서로 동일하다고 하여야 한다.","분할출원이 외국어특허출원인 경우에 특허출원인은 국어번역문 또는 새로운 국어번역문을 특허법 제52조(분할출원)에서 정한 기간까지 제출할 수 있으나, 특허출원인이 출원심사의 청구를 한 경우에는 새로운 국어번역문을 제출할 수 없다."],"answer":[1],"expl":{"type":"옳지 않은 것","rows":[{"label":"①","judge":"X","text":"→ 출원인에게 유리한 특허결정(특허사정)에 대해서는 출원인이 그 취소를 구할 법률상 이익이 '없다'(판례). 첨부자료 내 직접 근거는 미확인이며, 나머지 보기가 첨부자료로 옳음이 확인되어 정답으로 판단.","basis":"첨부자료 직접 근거 없음(판례)"},{"label":"②","judge":"O","text":"원출원 시 공지예외주장을 하지 않았더라도 분할출원 시 적법하게 주장하고 원출원이 공지일부터 12개월 이내이면 인정.","basis":"특허심사기준 p.554(대법원 2020후11479)"},{"label":"③","judge":"O","text":"분할출원은 국내우선권의 기초(선출원)가 될 수 없고, 우선권주장출원을 기초로 한 분할은 가능(분할출원도 우선권주장한 것으로 봄).","basis":"특허법 제55조 제1항 제2호, 제52조 제4항"},{"label":"④","judge":"O","text":"기술적 구성의 차이가 주지관용기술의 부가·삭제·변경 등으로 새로운 효과 발생이 없는 정도면 실질적으로 동일.","basis":"특허심사기준 p.341(대법원 2006후1452)"},{"label":"⑤","judge":"O","text":"외국어 분할출원은 분할출원일부터 30일까지 국어번역문·새로운 국어번역문 제출 가능하나, 출원심사청구를 한 경우 새로운 국어번역문은 제출 불가.","basis":"특허법 제52조 제7항, 제42조의3 제3항 제2호"}],"final":"①","verify":"공식 최종정답과 일치 · 정답 판단의 일부 근거가 판례 등 첨부자료 밖에 있음(직접 확인 불가)","note":null}},{"num":8,"law":"특허·실용신안","area":"심사·공개·이의신청","topic":"출원심사청구","format":"모두 고르기","caseLaw":false,"scenario":true,"stem":"甲은 2024. 8. 1. 특허청(現지식재산처)에 발명 A 및 B에 대한 특허출원 X를 하였다. 다음 중 옳은 것을 모두 고른 것은? (각 설명은 독립적이며, 요일은 판단하지 않음)","items":[{"label":"ㄱ","text":"청구범위를 적지 않은 특허출원 X에 대하여 乙이 2025. 5. 20. 출원심사청구를 하여 甲이 2025. 6. 1. 그 취지의 통지를 받은 경우, 甲은 2025. 9. 1. 까지 명세서에 청구범위를 적는 보정을 하여야 한다."},{"label":"ㄴ","text":"甲이 2023. 8. 1. 출원한 발명 A에 대한 미국 특허출원 Z를 기초로 특허법 제54조(조약에 의한 우선권 주장)에 의한 우선권을 주장하는 경우라면, 甲은 발명 A에 대하여 2026. 8. 1. 까지 출원심사청구를 하여야 한다."},{"label":"ㄷ","text":"甲이 정당한 사유로 출원심사청구 기간을 지키지 못하여 특허출원 X가 취하된 것으로 인정되었는데, 그 사유가 2028. 7. 1. 소멸된 경우 甲은 2028. 9. 1. 출원심사청구를 할 수 있다."},{"label":"ㄹ","text":"甲이 2025. 8. 1. 출원심사청구를 한 후, 심사관이 2026. 8. 1. 최초 거절이유통지(의견서 제출기한: 2026. 12. 1.)를 하였는데 甲이 2026. 10. 1. 출원을 취하한 경우, 甲은 이미 낸 심사청구료의 3분의 1에 해당하는 금액을 청구에 의하여 반환받을 수 있다."}],"options":["ㄱ, ㄷ","ㄱ, ㄹ","ㄴ, ㄷ","ㄱ, ㄷ, ㄹ","ㄴ, ㄷ, ㄹ"],"answer":[2],"expl":{"type":"옳은 것 모두","rows":[{"label":"ㄱ","judge":"O","text":"심사청구 취지 통지(2025.6.1.)부터 3개월(2025.9.1.)과 출원일부터 1년 2개월(2025.10.1.) 중 빠른 날인 2025.9.1.까지 청구범위 보정.","basis":"특허법 제42조의2 제2항"},{"label":"ㄴ","judge":"X","text":"→ 심사청구기간은 우선일이 아닌 '특허출원일'(2024.8.1.)부터 3년, 즉 2027.8.1.까지.","basis":"특허법 제59조 제2항"},{"label":"ㄷ","judge":"X","text":"→ 사유 소멸일부터 2개월 이내라도 기간 만료일(2027.8.1.)부터 1년(2028.8.1.)이 지나면 회복 불가 → 2028.9.1. 청구 불가.","basis":"특허법 제67조의3 제1항"},{"label":"ㄹ","judge":"O","text":"최초거절이유통지 후 의견서 제출기간 만료 전 취하 시 심사청구료의 3분의 1 반환.","basis":"특허법 제84조 제1항 제5호의2 나목"}],"final":"②","verify":"공식 최종정답과 일치 · 정답 보기의 근거를 첨부자료에서 확인","note":null}},{"num":9,"law":"특허·실용신안","area":"심사·공개·이의신청","topic":"출원공개·보상금청구권","format":"옳지 않은 것","caseLaw":false,"scenario":true,"stem":"甲은 2024. 6. 1. 물건 A[발명 1] 및 물건 A를 생산하는 방법[발명 2]에 대하여 특허출원 X를 하였고, 乙은 2025. 6. 1. 부터 물건 A를 정당한 권원 없이 국내에서 업으로서 실시 중이다. 이에 甲은 특허법 제65조(출원공개의 효과)제2항에 따른 청구권(이하 ‘청구권’)을 행사하려고 한다. 다음 중 옳지 않은 것은? (물건 A는 특허법 제29조(특허요건)제1항 요건을 만족하고, 각 설명은 독립적이며, 요일은 판단하지 않음)","items":[],"options":["甲이 특허출원 X에 대하여 특허법 제61조(우선심사)제1호에 의한 우선심사신청을 하기 위해서는 특허출원 X가 출원공개되어 있어야 하고, 우선심사신청 전 또는 우선심사신청과 동시에 출원심사청구를 하여야 한다.","甲의 특허출원 X가 2025. 12. 1. 출원공개되었고, 甲의 출원공개된 발명임을 乙이 2025. 12. 15. 알았으며, 甲이 乙에게 특허출원된 발명임을 기재한 서면 경고장을 2026. 1. 1. 발송하여 2026. 1. 15. 송달된 경우, 甲의 청구권은 2025. 12. 15. 부터 발생한다.","甲의 특허출원 X가 2025. 12. 1. 출원공개되었고, 설정등록된 후 그 특허가 조약을 위반하여 특허법 제133조(특허의 무효심판)에 따른 특허를 무효로 한다는 심결이 확정된 경우 甲의 청구권은 처음부터 발생하지 아니한 것으로 본다.","甲의 청구권이 적법하게 발생하였고, 특허출원 X가 2026. 6. 1. 설정등록된 경우 甲은 乙에게 2029. 6. 1. 까지 청구권을 행사하여야 한다.","甲이 乙에게 청구권을 적법하게 행사하는 경우, 乙의 물건 A는 甲의 [발명 2]에 의하여 생산된 것으로 추정되지만, 乙의 과실은 추정되지 않는다."],"answer":[3],"expl":{"type":"옳지 않은 것","rows":[{"label":"①","judge":"O","text":"제61조 제1호 우선심사는 출원공개 후 제3자의 업으로서의 실시가 요건이며, 우선심사 신청대상은 심사청구가 있는 출원에 한정.","basis":"특허법 제61조 제1호, 특허심사기준 p.690(우선심사 고시 제4조)"},{"label":"②","judge":"O","text":"경고를 받거나 출원공개된 발명임을 '알았을 때'부터 청구권 발생 → 乙이 안 2025.12.15.부터.","basis":"특허법 제65조 제2항"},{"label":"③","judge":"X","text":"→ 제133조 제1항 제4호(특허 후 권리능력 상실·조약 위반) 사유로 무효심결이 확정된 경우는 '처음부터 발생하지 아니한 것으로 보는' 대상에서 제외된다.","basis":"특허법 제65조 제6항 제4호 괄호"},{"label":"④","judge":"O","text":"민법 제766조 준용 시 '안 날'을 설정등록일로 보므로 설정등록일(2026.6.1.)부터 3년 내 행사.","basis":"특허법 제65조 제5항"},{"label":"⑤","judge":"O","text":"제129조(생산방법의 추정)는 준용되나 제130조(과실의 추정)는 준용되지 않음.","basis":"특허법 제65조 제5항"}],"final":"③","verify":"공식 최종정답과 일치 · 정답 보기의 근거를 첨부자료에서 확인","note":null}},{"num":10,"law":"특허·실용신안","area":"권리·실시권","topic":"법정실시권","format":"모두 고르기","caseLaw":false,"scenario":false,"stem":"특허법상 법정실시권에 관한 설명으로 옳은 것을 모두 고른 것은?","items":[{"label":"ㄱ","text":"특허법 제103조(선사용에 의한 통상실시권)에 따른 통상실시권을 가진 자는 특허권자에게 상당한 대가를 지급하여야 한다."},{"label":"ㄴ","text":"특허법 제103조의2(특허권의 이전청구에 따른 이전등록 전의 실시에 의한 통상실시권)제1항에 따른 통상실시권을 가진 자는 이전등록된 특허권자에게 상당한 대가를 지급하여야 한다."},{"label":"ㄷ","text":"특허법 제104조(무효심판청구 등록 전의 실시에 의한 통상실시권)제1항에 따른 통상실시권을 가진 자는 특허권자 또는 전용실시권자에게 상당한 대가를 지급하여야 한다."},{"label":"ㄹ","text":"특허법 제183조(재심에 의하여 통상실시권을 상실한 원권리자의 통상실시권)제1항에 따른 통상실시권을 가진 자는 특허권자 또는 전용실시권자에게 상당한 대가를 지급하여야 한다."},{"label":"ㅁ","text":"특허법 제182조(재심에 의하여 회복한 특허권에 대한 선사용자의 통상실시권)에 따라 성립한 통상실시권은 등록하지 않으면 그 후에 특허권 또는 전용실시권을 취득한 자에 대해서 그 효력이 발생하지 않는다."}],"options":["ㄱ, ㄴ, ㄷ","ㄱ, ㄴ, ㅁ","ㄱ, ㄹ, ㅁ","ㄴ, ㄷ, ㄹ","ㄷ, ㄹ, ㅁ"],"answer":[4],"expl":{"type":"옳은 것 모두","rows":[{"label":"ㄱ","judge":"X","text":"→ 선사용에 의한 통상실시권(제103조)은 대가 지급 규정이 없는 '무상'의 법정실시권이다.","basis":"특허법 제103조"},{"label":"ㄴ","judge":"O","text":"이전등록된 특허권자에게 상당한 대가 지급.","basis":"특허법 제103조의2 제2항"},{"label":"ㄷ","judge":"O","text":"특허권자 또는 전용실시권자에게 상당한 대가 지급.","basis":"특허법 제104조 제2항"},{"label":"ㄹ","judge":"O","text":"특허권자 또는 전용실시권자에게 상당한 대가 지급.","basis":"특허법 제183조 제2항"},{"label":"ㅁ","judge":"X","text":"→ 제182조에 따른 통상실시권은 '등록이 없더라도' 그 후 특허권·전용실시권을 취득한 자에게 효력이 발생한다.","basis":"특허법 제118조 제2항"}],"final":"④","verify":"공식 최종정답과 일치 · 정답 보기의 근거를 첨부자료에서 확인","note":null}},{"num":11,"law":"특허·실용신안","area":"권리·실시권","topic":"실시권","format":"옳지 않은 것","caseLaw":true,"scenario":false,"stem":"특허법상 실시권에 관한 설명으로 옳지 않은 것은? (다툼이 있으면 판례에 따름)","items":[],"options":["특허권자가 업으로 실시할 수 있는 전(全)범위를 전용실시권자에게 허락하는 것도 가능하다.","방법발명에 관한 특허권자로부터 허락을 받은 실시권자가 제3자에게 전용품의 제작을 의뢰하여 그로부터 전용품을 공급받아 방법발명을 실시하는 경우에 있어서 그러한 제3자의 전용품 생산ㆍ양도 등의 행위는 특허권의 간접침해에 해당한다고 볼 수 없다.","설정계약으로 전용실시권의 범위에 관하여 특별한 제한을 두고도 이를 등록하지 않은 경우, 전용실시권자가 등록되어 있지 않은 제한을 넘어 특허발명을 업으로서 실시하더라도 특허권자에 대하여 특허권침해가 성립하는 것은 아니다.","특허법 제89조(허가등에 따른 특허권의 존속기간의 연장)에 따른 특허권 존속기간의 연장등록을 받는 데에 필요한 허가등을 신청할 수 있는 자의 범위에 전용실시권자는 포함되지 않는다.","전용실시권을 실시사업(實施事業)과 함께 이전하는 경우 전용실시권자는 특허권자의 동의를 받지 않아도 전용실시권을 이전할 수 있다."],"answer":[4],"expl":{"type":"옳지 않은 것","rows":[{"label":"①","judge":"O","text":"전용실시권자는 설정행위로 정한 범위에서 독점하므로 전 범위 설정도 가능(판례 취지). 첨부자료는 조문만 확인.","basis":"특허법 제100조 제2항(판례 문구는 첨부자료 미확인)"},{"label":"②","judge":"O","text":"판례 법리(실시권자가 의뢰한 제3자의 전용품 생산·양도는 간접침해 아님). 첨부자료 내 직접 근거 미확인.","basis":"첨부자료 직접 근거 없음(판례)"},{"label":"③","judge":"O","text":"판례 법리(등록되지 않은 제한을 넘은 실시는 채무불이행 문제일 뿐 특허권 침해 아님). 첨부자료 내 직접 근거 미확인.","basis":"첨부자료 직접 근거 없음(판례)"},{"label":"④","judge":"X","text":"→ 허가등을 받을 수 있는 자에는 특허권자 외에 '전용실시권자'와 '등록된 통상실시권자'가 포함된다(이들이 허가를 받지 않은 경우만 거절이유).","basis":"특허법 제91조 제2호, 특허심사기준 p.625·633"},{"label":"⑤","judge":"O","text":"실시사업과 함께 이전하는 경우 특허권자 동의 불요.","basis":"특허법 제100조 제3항 제1호"}],"final":"④","verify":"공식 최종정답과 일치 · 정답 보기의 근거를 첨부자료에서 확인","note":null}},{"num":12,"law":"특허·실용신안","area":"침해·권리보호","topic":"특허권자의 보호","format":"옳지 않은 것","caseLaw":true,"scenario":false,"stem":"특허법상 특허권자의 보호에 관한 설명으로 옳지 않은 것은? (다툼이 있으면 판례에 따름)","items":[],"options":["특허가 방법 발명인 경우에 그 방법의 실시에만 사용하는 물건을 생산ㆍ양도ㆍ대여ㆍ수출 또는 수입하거나 그 물건의 양도 또는 대여의 청약을 하는 행위를 업으로서 하는 경우에는 특허권 또는 전용실시권을 침해한 것으로 본다.","법원은 특허권 또는 전용실시권 침해소송에서 당사자의 신청에 의하여 상대방 당사자에게 해당 침해의 증명 또는 침해로 인한 손해액의 산정에 필요한 자료의 제출을 명할 수 있다. 당사자가 정당한 이유 없이 자료제출명령에 따르지 아니한 때에는 법원은 자료의 기재에 대한 상대방의 주장을 진실한 것으로 인정할 수 있다.","특허발명 실시계약 체결 이후에 특허가 무효로 확정되었더라도 특허발명 실시계약이 원시적으로 이행불능 상태에 있었다거나 그 밖에 특허발명 실시계약 자체에 별도의 무효사유가 없는 한, 특허권자는 원칙적으로 특허발명 실시계약이 유효하게 존재하는 기간 동안 실시료의 지급을 청구할 수 있다.","특허권 침해소송에서 손해액의 산정에 반드시 필요한 자료라는 이유로 법원이 피고에게 자료의 제출을 명한 경우, 그 자료가 특허법 제132조(자료의 제출)에 따른 ‘영업비밀’에 해당한다면 피고는 그 자료의 제출을 거절할 수 있다.","특허권 등의 침해로 인한 손해액의 추정에 관한 특허법 제128조(손해배상청구권 등)제2항에서 말하는 이익은 침해자가 침해행위에 따라 얻게 된 것으로서 그 내용에 특별한 제한은 없으나, 이 규정은 특허권자에게 손해가 발생한 경우에 그 손해액을 평가하는 방법을 정한 것에 불과하여 침해행위에도 불구하고 특허권자에게 손해가 없는 경우에는 적용될 여지가 없으며, 다만 손해의 발생에 관한 주장ㆍ입증의 정도에 있어서는 경업관계 등으로 인하여 손해 발생의 염려 내지 개연성이 있음을 주장ㆍ입증하는 것으로 충분하다."],"answer":[4,5],"expl":{"type":"옳지 않은 것","rows":[{"label":"①","judge":"O","text":"방법발명의 실시에만 사용하는 물건의 생산·양도 등을 업으로 하면 간접침해.","basis":"특허법 제127조 제2호"},{"label":"②","judge":"O","text":"자료제출명령, 불응 시 자료 기재에 대한 상대방 주장을 진실한 것으로 인정 가능.","basis":"특허법 제132조 제1항·제4항"},{"label":"③","judge":"O","text":"판례 법리(실시계약 후 특허 무효 확정 시에도 원시적 이행불능 등이 없는 한 유효기간 동안 실시료 청구 가능). 첨부자료 내 직접 근거 미확인.","basis":"첨부자료 직접 근거 없음(판례)"},{"label":"④","judge":"X","text":"→ 영업비밀이라도 침해 증명 또는 손해액 산정에 '반드시 필요한 때'에는 제출 거절의 정당한 이유로 보지 아니하므로 거절할 수 없다.","basis":"특허법 제132조 제3항"},{"label":"⑤","judge":"X","text":"→ 문장의 판례 법리는 '침해자 이익액의 추정' 규정에 관한 것으로, 현행법상 해당 조항은 제128조 '제4항'이다. 현행 제128조 제2항은 양도수량 기준 손해액 산정 규정이므로 '제2항'으로 적은 부분이 옳지 않음(최종정답 복수 인정 사유).","basis":"특허법 제128조 제2항·제4항"}],"final":"④, ⑤","verify":"공식 최종정답과 일치 · 정답 보기의 근거를 첨부자료에서 확인","note":"※ 복수정답(④·⑤): ⑤의 판례 문장은 현행 제128조 제4항(침해자 이익액 추정)에 관한 것인데 '제2항'으로 기재되어 옳지 않은 보기로 함께 인정된 것으로 판단됨."}},{"num":13,"law":"특허·실용신안","area":"심판","topic":"특허취소신청","format":"옳지 않은 것","caseLaw":false,"scenario":false,"stem":"특허법상 특허취소신청에 관한 설명으로 옳지 않은 것은?","items":[],"options":["심판장은 특허취소신청에 대한 결정이 있는 때에는 그 결정의 등본을 특허취소신청인, 특허권자 및 참가인에게 송달하여야 하지만, 그 특허취소신청에 대한 심리에 참가를 신청하였으나 그 신청이 거부된 자에게는 송달할 필요가 없다.","특허취소신청을 심리하여 결정하는 합의체는 부적법한 특허취소신청으로서 그 흠을 보정할 수 없을 때에는 특허권자에게 특허취소신청서의 부본을 송달하지 아니하고, 결정으로 그 특허취소신청을 각하할 수 있으며, 이러한 각하결정에 대해서는 불복할 수 없다.","청구범위의 청구항이 둘 이상인 경우에는 청구항마다 특허취소신청을 할 수 있다.","특허취소신청에 관한 심리는 서면으로 한다.","심판장은 특허취소신청이 있으면 그 사실을 해당 특허권의 전용실시권자나 그 밖에 그 특허에 관하여 등록을 한 권리를 가지는 자에게 알려야 한다."],"answer":[1],"expl":{"type":"옳지 않은 것","rows":[{"label":"①","judge":"X","text":"→ 결정등본은 신청인·특허권자·참가인 및 '참가신청을 하였으나 거부된 자'에게도 송달하여야 한다.","basis":"특허법 제132조의14 제2항"},{"label":"②","judge":"O","text":"보정할 수 없는 부적법 신청은 부본 송달 없이 결정으로 각하, 불복 불가.","basis":"특허법 제132조의6"},{"label":"③","judge":"O","text":"청구항이 둘 이상이면 청구항마다 신청 가능.","basis":"특허법 제132조의2 제1항 후단"},{"label":"④","judge":"O","text":"특허취소신청 심리는 서면으로 한다.","basis":"특허법 제132조의8 제1항"},{"label":"⑤","judge":"O","text":"전용실시권자 등 등록권리자에게 신청 사실 통지.","basis":"특허법 제132조의4 제4항"}],"final":"①","verify":"공식 최종정답과 일치 · 정답 보기의 근거를 첨부자료에서 확인","note":null}},{"num":14,"law":"특허·실용신안","area":"심판","topic":"특허 무효심판","format":"옳지 않은 것","caseLaw":true,"scenario":false,"stem":"특허법상 무효심판에 관한 설명으로 옳지 않은 것은? (다툼이 있으면 판례에 따름)","items":[],"options":["무권리자의 출원을 무효사유로 한 특허무효심판 및 그에 따른 심결취소소송에서 무효사유에 관한 증명책임은 무효라고 주장하는 당사자에게 있다.","일사부재리 원칙 위반을 이유로 등록무효 심판청구를 각하한 심결에 대한 취소소송에서 심결 시를 기준으로 동일 사실과 동일 증거를 제출한 것인지를 심리하여 일사부재리 원칙 위반 여부를 판단하여야 하며, 이때 심판청구인이 심판절차에서 주장하지 않은 새로운 등록무효 사유를 주장하는 것이 허용된다.","특허무효심판을 청구할 수 있는 이해관계인이란 당해 특허발명의 권리 존속으로 인하여 법률상 어떠한 불이익을 받거나 받을 우려가 있어 그 소멸에 관하여 직접적이고 현실적인 이해관계를 가진 사람을 말한다.","특허처분은 하나의 특허출원에 대하여 하나의 특허권을 부여하는 단일한 행정행위이므로, 설령 그러한 특허처분에 의하여 수인을 공유자로 하는 특허등록이 이루어졌다고 하더라도, 그 특허처분 자체에 대한 무효를 청구하는 제도인 특허무효심판에서 그 공유자 지분에 따라 특허를 분할하여 일부 지분만의 무효심판을 청구하는 것은 허용할 수 없다.","동일한 특허발명에 대하여 정정심판 사건이 특허심판원에 계속 중에 있다는 이유로 상고심에 계속 중인 그 특허발명에 관한 특허무효심결에 대한 취소소송의 심리를 중단하여야 하는 것은 아니다."],"answer":[2],"expl":{"type":"옳지 않은 것","rows":[{"label":"①","judge":"O","text":"판례 법리(무권리자 출원 무효사유의 증명책임은 무효 주장 당사자). 첨부자료 미수록.","basis":"첨부자료 직접 근거 없음(판례)"},{"label":"②","judge":"X","text":"→ 일사부재리 위반 각하심결 취소소송에서는 동일사실·동일증거 여부만 심리하며, 심판에서 주장하지 않은 '새로운 무효사유'를 주장하는 것은 허용되지 않는다(판례). 첨부자료 미수록.","basis":"특허법 제163조(판례는 첨부자료 미수록)"},{"label":"③","judge":"O","text":"판례 법리(이해관계인의 의미). 첨부자료 미수록.","basis":"첨부자료 직접 근거 없음(판례)"},{"label":"④","judge":"O","text":"판례 법리(공유지분별 일부 무효심판 불허). 첨부자료 미수록.","basis":"첨부자료 직접 근거 없음(판례)"},{"label":"⑤","judge":"O","text":"판례 법리(정정심판 계속만으로 상고심 심리 중단 불요). 첨부자료 미수록.","basis":"첨부자료 직접 근거 없음(판례)"}],"final":"②","verify":"공식 최종정답과 일치 · 정답 판단의 일부 근거가 판례 등 첨부자료 밖에 있음(직접 확인 불가)","note":null}},{"num":15,"law":"특허·실용신안","area":"심판","topic":"권리범위 확인심판","format":"옳은 것","caseLaw":true,"scenario":false,"stem":"특허법상 권리범위 확인심판에 관한 설명으로 옳은 것은? (다툼이 있으면 판례에 따름)","items":[],"options":["특허발명과 대비되는 확인대상 발명이 특허발명의 권리범위에 속한다고 하기 위해서는 특허발명의 청구범위에 기재된 각 구성요소와 그 구성요소 간의 유기적 결합관계가 확인대상 발명에 그대로 포함되어 있을 필요는 없고 구성요소 중 일부만 포함되어 있어도 된다.","특허발명의 보호범위는 청구범위에 적혀 있는 사항에 의하여 정하여지고, 발명의 설명이나 도면 등에 의하여 그 보호범위를 제한하는 것은 원칙적으로 허용되지만, 확장하는 것은 허용되지 않는다.","특허법 제30조(공지 등이 되지 아니한 발명으로 보는 경우)제1항에서 정한 공지예외 규정을 적용받아 특허를 받은 특허발명의 경우 확인대상발명이 그 특허권의 권리범위에 속하는지를 판단할 때에는 자유실시기술 주장, 즉 발명이 속하는 기술분야에서 통상의 지식을 가진 사람이 공지예외 규정의 적용 근거가 된 공지기술로부터 확인대상 발명을 쉽게 실시할 수 있어 확인대상발명이 특허권의 권리범위에 속하지 않는다는 주장은 허용된다고 보아야 한다.","확인대상 발명의 설명서와 도면에는 특허발명의 구성요소에 대응하는 확인대상 발명의 구성요소를 명확하게 기재하여야 하며, 확인대상 발명의 특정을 위하여 대상물의 구체적인 구성을 전부 기재해야 한다.","소극적 권리범위 확인심판에서는 심판청구인이 현실적으로 실시하는 기술이 심판청구에서 심판의 대상으로 삼은 구체적인 확인대상 발명과 다르다고 하더라도 심판청구인이 특정한 확인대상 발명이 실시가능성이 없을 경우 그 청구의 적법 여부가 문제될 수 있을 뿐이다."],"answer":[5],"expl":{"type":"옳은 것","rows":[{"label":"①","judge":"X","text":"→ 청구범위에 기재된 각 구성요소와 그 유기적 결합관계가 확인대상발명에 '그대로 포함되어 있어야' 권리범위에 속한다(판례; 첨부자료 미수록).","basis":"첨부자료 직접 근거 없음(판례)"},{"label":"②","judge":"X","text":"→ 보호범위는 청구범위에 적혀 있는 사항에 의하여 정해지며, 발명의 설명·도면에 의한 제한 해석은 '원칙적으로 허용되지 않는다'(확장도 불허).","basis":"특허법 제97조(판례 문구는 첨부자료 미수록)"},{"label":"③","judge":"X","text":"→ 공지예외 적용의 근거가 된 공지기술에 의한 자유실시기술 주장은 '허용되지 않는다'(판례; 첨부자료 미수록).","basis":"첨부자료 직접 근거 없음(판례)"},{"label":"④","judge":"X","text":"→ 대상물의 구체적 구성을 전부 기재할 필요는 없고, 특허발명의 구성요소와 대비할 수 있을 정도로 특정하면 족하다(판례; 첨부자료 미수록).","basis":"첨부자료 직접 근거 없음(판례)"},{"label":"⑤","judge":"O","text":"판례 법리(소극적 권리범위확인심판의 확인대상발명 특정). 첨부자료 미수록.","basis":"첨부자료 직접 근거 없음(판례)"}],"final":"⑤","verify":"공식 최종정답과 일치 · 정답 판단의 일부 근거가 판례 등 첨부자료 밖에 있음(직접 확인 불가)","note":null}},{"num":16,"law":"특허·실용신안","area":"소송","topic":"특허 소송","format":"옳은 것","caseLaw":true,"scenario":false,"stem":"특허법상 소송에 관한 설명으로 옳은 것은? (다툼이 있으면 판례에 따름)","items":[],"options":["정부가 전시, 사변 또는 이에 준하는 비상시에 국방상 필요에 의하여 특허권을 수용한 경우, 그 보상금에 관한 소송에서 해당 특허권에 대한 통상실시권자는 피고가 될 수 없다.","특허침해소송에서 피고가 제조하는 제품(침해대상제품)이 어떤 구성요소를 가지고 있는지와는 달리, 심결취소소송에서 특허발명의 진보성 판단에 제공되는 선행발명이 어떤 구성요소를 가지고 있는지는 주요사실로서 자백의 대상이 되지 않는다.","법원은 특허법 제136조(정정심판)에 따른 심결에 대한 소에 관하여 소송절차가 완결되었을 때에는 지체 없이 그 사건에 대한 각 심급(審級)의 재판서 정본을 특허심판원장에게 보내야 한다.","동일한 특허권에 관하여 甲과 乙이 공동으로 특허무효심판을 청구하여 승소한 경우, 특허권자 丙이 甲을 상대로 제기한 심결취소소송에서 제소기간이 도과한 이후 丙은 소송 중 乙을 당사자로 추가할 수 없다.","특허법 제138조(통상실시권 허락의 심판)에 따른 심결을 받은 자가 통상실시권 허락에 관한 대가에 불복하는 경우, 그 심결 등본을 송달받은 날부터 30일 이내에 소송을 제기하여야 하고 이 불변기간에 대하여 심판장은 교통이 불편한 지역에 있는 자를 위하여 직권으로 부가기간을 정할 수 있다."],"answer":[4],"expl":{"type":"옳은 것","rows":[{"label":"①","judge":"X","text":"→ 수용(제106조) 보상금 소송에서는 중앙행정기관의 장·특허권자·전용실시권자 또는 '통상실시권자'를 피고로 할 수 있다.","basis":"특허법 제191조 제2호"},{"label":"②","judge":"X","text":"→ 심결취소소송에서 선행발명이 어떤 구성요소를 가지는지도 주요사실로서 자백의 대상이 된다(판례; 첨부자료 미수록).","basis":"첨부자료 직접 근거 없음(판례)"},{"label":"③","judge":"X","text":"→ 재판서 정본 송부는 제187조 단서의 소(당사자계: 무효·권리범위확인 등)에 한정되며, 정정심판(제136조) 심결에 대한 소는 해당하지 않는다.","basis":"특허법 제188조 제2항, 제187조"},{"label":"④","judge":"O","text":"판례 법리(공동심판청구인 사건에서 제소기간 경과 후 당사자 추가 불가). 첨부자료 미수록.","basis":"첨부자료 직접 근거 없음(판례)"},{"label":"⑤","judge":"X","text":"→ 대가 불복 소송의 30일은 불변기간이나, 부가기간 지정 규정(제186조 제5항)은 이 소송에 적용되지 않는다.","basis":"특허법 제190조 제2항·제3항, 제186조 제5항"}],"final":"④","verify":"공식 최종정답과 일치 · 정답 판단의 일부 근거가 판례 등 첨부자료 밖에 있음(직접 확인 불가)","note":null}},{"num":17,"law":"특허·실용신안","area":"소송","topic":"심결취소소송","format":"옳지 않은 것","caseLaw":true,"scenario":false,"stem":"특허법상 심결취소소송에 관한 설명으로 옳지 않은 것은? (다툼이 있으면 판례에 따름)","items":[],"options":["정정심판이나 그 심결취소소송에서 정정의견제출 통지서를 통하여 심판청구인에게 의견서 제출 기회를 부여한 바 없는 사유를 들어 정정심판청구를 기각하는 심결을 하거나 심결취소청구를 기각하는 것은 위법하지 않다.","특허법 제186조(심결 등에 대한 소)에 따른 특허취소결정 또는 심결에 대한 소는 특허법원의 전속관할로 하며, 심결 또는 결정의 등본을 송달받은 날부터 30일 이내에 제기하여야 한다.","특허취소를 신청할 수 있는 사항 또는 심판을 청구할 수 있는 사항에 관한 소는 특허취소결정이나 심결에 대한 것이 아니면 제기할 수 없다.","거절결정불복심판청구 기각 심결의 취소소송절차에서 지식재산처장(舊특허청장)은 거절결정의 이유 외에도 심사나 심판 단계에서 의견서 제출의 기회를 부여한 사유 및 이와 주요한 취지가 부합하는 사유를 해당 심결의 결론을 정당하게 하는 사유로 주장할 수 있고, 심결취소소송의 법원은 이를 심리ㆍ판단하여 심결의 당부를 판단하는 근거로 삼을 수 있다.","심결취소소송에서 특허출원 심사 또는 심판 단계에서 통지한 거절이유에 기재된 주선행발명을 다른 선행발명으로 변경하는 경우에는, 일반적으로 출원발명과의 공통점 및 차이점의 인정과 그러한 차이점을 극복하여 출원발명을 쉽게 발명할 수 있는지에 대한 판단 내용이 달라지므로, 출원인에게 이에 대해 실질적으로 의견제출의 기회가 주어졌다고 볼 수 있는 등의 특별한 사정이 없는 한 이미 통지된 거절이유와 주요한 취지가 부합하지 아니하는 새로운 거절이유에 해당한다."],"answer":[1],"expl":{"type":"옳지 않은 것","rows":[{"label":"①","judge":"X","text":"→ 의견서 제출 기회를 부여한 바 없는 사유로 정정심판청구를 기각하거나 심결취소청구를 기각하는 것은 '위법'하다(판례; 첨부자료 미수록).","basis":"첨부자료 직접 근거 없음(판례)"},{"label":"②","judge":"O","text":"특허법원 전속관할, 등본 송달일부터 30일 이내.","basis":"특허법 제186조 제1항·제3항"},{"label":"③","judge":"O","text":"특허취소신청·심판청구 사항에 관한 소는 결정·심결에 대한 것만 가능.","basis":"특허법 제186조 제6항"},{"label":"④","judge":"O","text":"판례 법리(의견서 제출 기회를 준 사유 및 주요 취지가 부합하는 사유 주장 가능). 첨부자료 미수록.","basis":"첨부자료 직접 근거 없음(판례)"},{"label":"⑤","judge":"O","text":"판례 법리(주선행발명 변경은 원칙적으로 새로운 거절이유). 첨부자료 미수록.","basis":"첨부자료 직접 근거 없음(판례)"}],"final":"①","verify":"공식 최종정답과 일치 · 정답 판단의 일부 근거가 판례 등 첨부자료 밖에 있음(직접 확인 불가)","note":null}},{"num":18,"law":"특허·실용신안","area":"국제출원","topic":"PCT 국제출원","format":"옳은 것","caseLaw":false,"scenario":false,"stem":"특허법상 특허협력조약에 따른 국제출원에 관한 설명으로 옳은 것은?","items":[],"options":["국제출원을 하려는 자는 국어, 영어 또는 일본어로 작성한 출원서와 발명의 설명ㆍ청구범위ㆍ도면 및 요약서를 지식재산처장에게 제출하여야 한다.","‘일본에 주소를 가진’ 일본인 B가 ‘국내에 영업소를 가진’ 미국인 A와 공동으로 국제출원하는 경우, 미국인 A를 대표자로 하여 출원하지 않으면 일본인 B는 국제출원을 할 수 있는 자에 해당하지 않는다.","2인 이상이 공동으로 국제출원을 하는 경우에 특허법 제192조(국제출원을 할 수 있는 자)부터 제196조(취하된 것으로 보는 국제출원 등)까지 및 제198조(수수료)에 따른 절차를 대리인에 의하여 밟으려는 자는 반드시 변리사를 대리인으로 하여야 한다.","지식재산처장은 국제출원이 지식재산처에 도달한 날을 특허협력조약 제11조의 국제출원일로 인정하여야 한다. 다만, 출원인의 성명이나 명칭을 잘못 적은 경우 지식재산처장은 기간을 정하여 서면으로 절차를 보완할 것을 명하여야 한다.","국제출원에 관하여 내야 할 수수료의 일부를 지식재산처장이 정한 기간에 내지 아니하여 특허협력조약 제14조(3)(b)에 해당하게 된 경우에는 수수료를 내지 아니한 지정국의 지정은 취하된 것으로 보며, 지식재산처장은 그 사실을 출원인에게 알려야 한다."],"answer":[5],"expl":{"type":"옳은 것","rows":[{"label":"①","judge":"X","text":"→ 출원서와 발명의 설명·청구범위·'필요한' 도면 및 요약서를 제출(도면은 필요한 경우에만). 언어는 총리령으로 정함(시행규칙 첨부 미수록).","basis":"특허법 제193조 제1항"},{"label":"②","judge":"X","text":"→ 국제출원을 할 수 있는 자에는 제3호(1·2호 해당자를 대표자로 하는 자) 외에 제4호 '총리령으로 정하는 요건에 해당하는 자'도 있으므로, A를 대표자로 하지 않으면 불가하다고 단정할 수 없음(구체 요건은 시행규칙, 첨부 미수록).","basis":"특허법 제192조 제3호·제4호"},{"label":"③","judge":"X","text":"→ 대리인에 의하려면 변리사를 대리인으로 하되, '제3조에 따른 법정대리인은 제외'한다(반드시 변리사는 아님).","basis":"특허법 제197조 제3항"},{"label":"④","judge":"X","text":"→ 보완명령 사유는 출원인의 성명·명칭을 '적지 아니한' 경우이며, 잘못 적은 경우가 아니다.","basis":"특허법 제194조 제1항 제4호·제2항"},{"label":"⑤","judge":"O","text":"수수료 일부 미납으로 PCT 제14조(3)(b) 해당 시 미납 지정국의 지정은 취하간주, 출원인에게 통지.","basis":"특허법 제196조 제2항·제3항"}],"final":"⑤","verify":"공식 최종정답과 일치 · 정답 보기의 근거를 첨부자료에서 확인","note":null}},{"num":19,"law":"특허·실용신안","area":"출원·명세서·보정","topic":"실용신안제도","format":"옳은 것","caseLaw":false,"scenario":false,"stem":"실용신안제도에 관한 설명으로 옳은 것은?","items":[],"options":["실용신안등록출원일은 명세서 및 도면을 첨부한 실용신안등록출원서가 지식재산처장에게 도달한 날로 하며, 이 경우 명세서에 고안의 설명은 적지 아니할 수 있으나, 청구범위는 적어야 한다.","지식재산처장은 인공지능 또는 사물인터넷 등 4차산업혁명과 관련된 기술을 활용한 실용신안등록출원에 대해서는 심사관에게 다른 실용신안등록출원에 우선하여 심사하게 할 수 없다.","누구든지 실용신안권의 설정등록일부터 등록공고일 후 6개월이 되는 날까지 그 실용신안등록이 실용신안법 제7조(선출원)제1항의 규정에 위반된 경우에는 지식재산처장에게 실용신안등록취소신청을 할 수 있다.","실용신안등록출원인은 실용신안등록출원서에 최초로 첨부한 명세서에 청구범위를 적지 아니한 경우에 실용신안법 제8조의2(실용신안등록출원일 등)에서 정한 기간까지 명세서에 청구범위를 적는 보정을 하여야 하며, 이러한 보정을 하지 아니한 경우에는 해당 기한이 되는 날에 그 실용신안등록출원을 취소한 것으로 본다.","국제실용신안등록출원의 출원인은 국제출원일에 제출한 국제출원이 도면을 포함하지 아니한 경우에는 기준일까지 도면을 제출해야 하며, 기준일까지 도면의 제출이 없는 경우에 지식재산처장은 기간을 정하여 도면의 제출을 명할 수 있고, 도면의 제출 명령을 받은 자가 그 지정된 기간에 도면을 제출하지 아니한 경우에는 그 국제실용신안등록출원을 포기한 것으로 본다."],"answer":[2],"expl":{"type":"옳은 것","rows":[{"label":"①","judge":"X","text":"→ 청구범위는 적지 아니할 수 있으나 '고안의 설명은 적어야' 한다(주어 반대). ※ 실용신안법 미첨부, 동일 구조의 특허법 조문으로 확인.","basis":"특허법 제42조의2 제1항(실용신안법 제8조의2 대응)"},{"label":"②","judge":"O","text":"4차 산업혁명 관련 기술 활용 출원 우선심사는 특허출원이 대상이며 '실용신안등록출원은 대상이 되지 않는다'.","basis":"특허심사기준 p.753"},{"label":"③","judge":"X","text":"→ 취소신청은 '특허심판원장'에게 한다(지식재산처장 아님). ※ 실용신안법 미첨부, 특허법 대응조문으로 확인.","basis":"특허법 제132조의2 제1항(대응)"},{"label":"④","judge":"X","text":"→ 기한까지 청구범위 보정이 없으면 기한 다음 날에 출원을 '취하'한 것으로 본다(취소 아님). ※ 특허법 대응조문으로 확인.","basis":"특허법 제42조의2 제3항(대응)"},{"label":"⑤","judge":"X","text":"→ 도면 제출명령 불이행 시 국제실용신안등록출원을 '무효로 할 수 있다'(포기간주 아님). ※ 실용신안법 미첨부로 첨부자료상 직접 확인 불가.","basis":"첨부자료 직접 근거 없음(실용신안법)"}],"final":"②","verify":"공식 최종정답과 일치 · 정답 보기의 근거를 첨부자료에서 확인","note":null}},{"num":20,"law":"특허·실용신안","area":"침해·권리보호","topic":"간접침해·이용관계·청구범위 해석","format":"모두 고르기","caseLaw":true,"scenario":false,"stem":"다음 중 옳은 것을 모두 고른 것은? (다툼이 있으면 판례에 따름)","items":[{"label":"ㄱ","text":"특허법 제127조(침해로 보는 행위) 제1호의 ‘그 물건의 생산에만 사용하는 물건’에서 말하는 ‘생산’이란 국내에서의 생산을 의미하지만, 이러한 생산이 외국에서 일어나고 그 전 단계의 행위가 국내에서 이루어지더라도 간접침해가 성립될 수 있다."},{"label":"ㄴ","text":"침해제품 등이 특허발명을 이용하는 경우에는 특허발명에 대한 특허권 침해에 해당하는데, 이러한 이용관계는 침해제품 등이 특허발명의 구성에 새로운 기술적 요소를 부가하는 것으로서 침해제품 등이 특허발명의 요지를 전부 포함하고 이를 그대로 이용하면서 침해제품 등 내에서 특허발명이 발명으로서의 일체성을 유지하는 경우에 성립한다."},{"label":"ㄷ","text":"국내에서 특허발명의 실시를 위한 부품 또는 구성 전부가 생산되거나 대부분의 생산단계를 마쳐 주요 구성을 갖춘 반제품이 생산되고, 이것이 하나의 주체에게 수출되어 마지막 단계의 가공ㆍ조립이 이루어질 것이 예정되어 있으며, 그와 같은 가공ㆍ조립이 극히 사소하거나 간단하여 이와 같은 부품 전체의 생산 또는 반제품의 생산만으로도 특허발명의 각 구성요소가 유기적으로 결합한 일체로서 가지는 작용효과를 구현할 수 있는 경우에는 국내에서 특허발명의 실시제품이 생산된 것과 같이 볼 수 있다."},{"label":"ㄹ","text":"특허권침해소송에서 침해제품 등과 특허발명의 과제해결원리가 동일한지 여부를 가릴 때에는 청구범위에 기재된 구성의 일부를 형식적으로 추출할 것이 아니라, 명세서에 적힌 발명의 설명의 기재와 출원 당시의 공지기술 등을 참작하여 선행기술과 대비하여 볼 때 특허발명에 특유한 해결수단이 기초하고 있는 기술사상의 핵심이 무엇인가를 실질적으로 탐구하여 판단하여야 한다."},{"label":"ㅁ","text":"특허발명의 보호범위는 청구범위에 기재된 사항에 의하여 정하여지는 것이 원칙이고, 다만 그 기재만으로 특허발명의 기술적 구성을 알 수 없거나 알 수는 있더라도 기술적 범위를 확정할 수 없는 경우에는 명세서의 다른 기재에 의한 보충을 할 수는 있으나, 그 경우에도 명세서의 다른 기재에 의하여 청구범위의 확장 해석은 허용되지 아니함은 물론 청구범위의 기재만으로 기술적 범위가 명백한 경우에는 명세서의 다른 기재에 의하여 청구범위의 기재를 제한 해석할 수 있다."}],"options":["ㄱ, ㄴ, ㄷ","ㄱ, ㄹ, ㅁ","ㄴ, ㄷ, ㄹ","ㄴ, ㄹ, ㅁ","ㄷ, ㄹ, ㅁ"],"answer":[3],"expl":{"type":"옳은 것 모두","rows":[{"label":"ㄱ","judge":"X","text":"→ '생산'은 국내 생산을 의미하므로 생산이 외국에서 일어나는 경우 그 전 단계 행위가 국내에서 이루어져도 원칙적으로 간접침해가 성립하지 않는다(판례; ㄷ과 같은 예외 있음).","basis":"특허법 제127조 제1호(판례는 첨부자료 미수록)"},{"label":"ㄴ","judge":"O","text":"판례 법리(이용관계의 성립 요건). 첨부자료 미수록.","basis":"첨부자료 직접 근거 없음(판례)"},{"label":"ㄷ","judge":"O","text":"판례 법리(국내 부품·반제품 생산을 실시제품 생산과 같이 볼 수 있는 예외). 첨부자료 미수록.","basis":"첨부자료 직접 근거 없음(판례)"},{"label":"ㄹ","judge":"O","text":"판례 법리(균등론의 과제해결원리 동일성 판단). 첨부자료 미수록.","basis":"첨부자료 직접 근거 없음(판례)"},{"label":"ㅁ","judge":"X","text":"→ 청구범위 기재만으로 기술적 범위가 명백한 경우에는 명세서의 다른 기재에 의하여 청구범위를 '제한 해석할 수 없다'.","basis":"특허법 제97조(판례 문구는 첨부자료 미수록)"}],"final":"③","verify":"공식 최종정답과 일치 · 정답 판단의 일부 근거가 판례 등 첨부자료 밖에 있음(직접 확인 불가)","note":null}},{"num":21,"law":"상표","area":"등록요건","topic":"증명·단체·업무표장","format":"옳은 것","caseLaw":false,"scenario":false,"stem":"상표법상 상표등록을 받을 수 있는 자 등에 관한 설명으로 옳은 것은?","items":[],"options":["증명표장을 출원하거나 등록을 받은 자는 그 증명표장과 동일ㆍ유사한 표장을 단체표장으로 등록받을 수 없지만, 업무표장으로 등록받을 수는 있다.","상품의 품질 등 특성을 증명하고 관리하는 것을 업으로 할 수 있는 자라도 자기의 영업에 관한 상품에 사용하려는 경우에는 증명표장의 등록을 받을 수 없다.","지리적 표시를 사용할 수 있는 상품을 판매하는 자만으로 구성된 법인은 직접 사용하기 위한 표장에 대해 지리적 표시 단체표장등록을 받을 수 있다.","“동음이의어 지리적 표시”란 같은 상품에 대한 지리적 표시가 타인의 지리적 표시와 발음은 같지만, 의미는 다른 지리적 표시를 말한다.","국내에서 영리를 목적으로 업무를 하는 자는 자기의 업무인 경우에 한하여 업무표장을 등록받을 수 있다."],"answer":[2],"expl":{"type":"옳은 것","rows":[{"label":"①","judge":"X","text":"→ 증명표장을 출원·등록한 자는 동일·유사 표장을 상표·단체표장 '또는 업무표장'으로도 등록받을 수 없다.","basis":"상표법 제3조 제5항"},{"label":"②","judge":"O","text":"자기의 영업에 관한 상품에 사용하려는 경우 증명표장 등록 불가.","basis":"상표법 제3조 제3항 단서"},{"label":"③","judge":"X","text":"→ 지리적 표시 단체표장은 그 지리적 표시를 사용할 수 있는 상품을 '생산·제조 또는 가공하는 자'로 구성된 법인에 한정(판매자 X).","basis":"상표법 제3조 제2항 괄호, 제2조 제1항 제6호"},{"label":"④","judge":"X","text":"→ 발음은 같지만 '해당 지역이 다른' 지리적 표시를 말한다.","basis":"상표법 제2조 제1항 제5호"},{"label":"⑤","judge":"X","text":"→ 국내에서 '영리를 목적으로 하지 아니하는' 업무를 하는 자가 업무표장을 등록받을 수 있다.","basis":"상표법 제3조 제6항"}],"final":"②","verify":"공식 최종정답과 일치 · 정답 보기의 근거를 첨부자료에서 확인","note":null}},{"num":22,"law":"상표","area":"등록요건","topic":"상표등록요건","format":"옳은 것","caseLaw":true,"scenario":false,"stem":"상표법상 상표등록의 요건 등에 관한 설명으로 옳은 것은? (다툼이 있으면 판례에 따름)","items":[],"options":["상표법 제33조(상표등록의 요건) 제2항에 따라 등록한 상표는 상표법 제90조(상표권의 효력이 미지치 아니하는 범위) 제1항 제2호에 의한 상표권 효력의 제한을 받지 아니한다.","상표법 제33조 제1항에 해당하여 상표등록을 받을 수 없는 상표라도 상표등록출원 전부터 그 상표를 사용한 결과 수요자 간에 특정인의 상품에 관한 출처를 표시하는 것으로 식별할 수 있게 된 경우에는 그 상표를 사용한 상품과 동일ㆍ유사한 상품에 대하여 상표등록을 받을 수 있다.","그 상품에 대하여 관용하는 상표를 상표등록출원 전부터 사용한 결과 수요자 간에 특정인의 상품에 관한 출처를 표시하는 것으로 식별할 수 있게 된 경우에는 제33조 제2항에 따라 등록할 수 있다.","특정 지역의 상품을 표시하는 것이라고 수요자들에게 널리 인식되어 있는 타인의 지리적 표시와 동일ㆍ유사한 상표로서 그 지리적 표시를 사용하는 상품과 유사하다고 인정되어 있는 상품에 사용하는 상표는 상표법 제34조(상표등록을 받을 수 없는 상표) 제1항 제10호에 따라 상표등록을 받을 수 없다.","상표를 등록하여 사용하는 행위가 특정한 당사자 사이에 이루어진 계약을 위반하거나 특정인에 대한 관계에서 신의성실의 원칙에 위배된 경우, 상표법 제34조 제1항 제4호의 공공의 질서를 해칠 우려가 있는 상표에 해당한다."],"answer":[1],"expl":{"type":"옳은 것","rows":[{"label":"①","judge":"O","text":"사용에 의한 식별력으로 등록된 상표에는 기술적 표장에 관한 효력제한(제90조①2호)이 미치지 않는다는 판례 법리. 첨부자료 내 직접 근거는 미확인.","basis":"첨부자료 직접 근거 없음(판례)"},{"label":"②","judge":"X","text":"→ 사용에 의한 식별력은 제33조①3호~7호 상표에 한하며, '그 상표를 사용한 상품에 한정'하여 등록(동일·유사 상품 X).","basis":"상표법 제33조 제2항"},{"label":"③","judge":"X","text":"→ 관용상표(제33조①2호)는 제33조②의 대상(3호~7호)이 아니므로 사용에 의한 식별력으로 등록할 수 없다.","basis":"상표법 제33조 제2항"},{"label":"④","judge":"X","text":"→ 제34조①10호는 지리적 표시를 사용하는 상품과 '동일하다고 인정되어 있는 상품'에 사용하는 경우이다(유사 X).","basis":"상표법 제34조 제1항 제10호"},{"label":"⑤","judge":"X","text":"→ 특정 당사자 사이의 계약 위반이나 특정인과의 관계에서 신의칙 위배는 원칙적으로 제34조①4호의 '공공의 질서'를 해치는 경우에 해당하지 않는다(판례; 첨부자료 미수록).","basis":"첨부자료 직접 근거 없음(판례)"}],"final":"①","verify":"공식 최종정답과 일치 · 정답 판단의 일부 근거가 판례 등 첨부자료 밖에 있음(직접 확인 불가)","note":null}},{"num":23,"law":"상표","area":"권리·실시권","topic":"상표권 질권 등","format":"옳지 않은 것","caseLaw":false,"scenario":false,"stem":"상표법상 질권의 설정 등에 관한 설명으로 옳지 않은 것은?","items":[],"options":["상표법 제100조(전용사용권ㆍ통상사용권 등의 등록의 효력) 제1항에 따른 상속에 의한 통상사용권 이전의 경우 지체 없이 그 취지를 지식재산처장에게 신고하여야 한다.","상표권을 목적으로 하는 질권이 상속에 의하여 이전된 경우, 등록하지 아니하여도 그 효력이 발생한다.","상표권 또는 전용사용권뿐만 아니라 통상사용권을 목적으로 하는 질권을 설정한 경우에도 질권자는 해당 등록상표를 사용할 수 없다.","상표권이 공유인 경우에 각 공유자는 다른 공유자 모두의 동의를 받지 아니하면 그 지분을 목적으로 하는 질권을 설정할 수 없다.","업무표장권을 목적으로 하는 질권은 설정할 수 있다."],"answer":[5],"expl":{"type":"옳지 않은 것","rows":[{"label":"①","judge":"O","text":"상속 등 일반승계에 의한 사용권 이전은 지체 없이 지식재산처장에게 신고.","basis":"상표법 제100조 제3항"},{"label":"②","judge":"O","text":"질권의 상속에 의한 이전은 등록이 효력발생요건이 아님(신고 의무).","basis":"상표법 제96조 제1항 제2호 괄호, 제2항"},{"label":"③","judge":"O","text":"상표권·전용사용권·통상사용권 질권자는 등록상표를 사용할 수 없다.","basis":"상표법 제104조"},{"label":"④","judge":"O","text":"공유자는 다른 공유자 모두의 동의 없이 지분 질권 설정 불가.","basis":"상표법 제93조 제2항"},{"label":"⑤","judge":"X","text":"→ 업무표장권을 목적으로 하는 질권은 '설정할 수 없다'.","basis":"상표법 제93조 제8항"}],"final":"⑤","verify":"공식 최종정답과 일치 · 정답 보기의 근거를 첨부자료에서 확인","note":null}},{"num":24,"law":"상표","area":"침해·권리보호","topic":"상표 권리소진","format":"옳지 않은 것","caseLaw":true,"scenario":false,"stem":"상표법상 권리소진에 관한 설명으로 옳지 않은 것은? (다툼이 있으면 판례에 따름)","items":[],"options":["상표권자가 국내에서 등록상표가 표시된 상품을 양도한 경우 특별한 사정이 없는 한 당해 상품에 대한 상표권은 그 목적을 달성한 것으로서 소진되고, 그로써 상표권의 효력은 당해 상품을 사용, 양도 또는 대여한 행위 등에는 미치지 아니한다.","상표권자가 국내에서 등록상표가 표시된 상품을 양도한 경우라도, 그 양도된 상품을 원래 상품과의 동일성을 해할 정도로 가공 또는 수선한 경우에는 상표권자의 권리를 침해한다.","한국 등록상표와 동일한 출처를 표시하는 것으로 볼 수 있는 상표를 외국 상표권자가 그 수입된 상품에 부착하였고, 수입상품과 한국 상표권자가 등록상표를 부착한 상품 사이의 품질에 실질적 차이가 없으면, 위 상품의 수입은 상표권 침해가 아니다.","통상사용권자가 계약상 부수적인 조건을 위반하여 상품을 양도한 경우에도 상표권자의 동의를 받지 않은 양도행위이므로 일률적으로 권리소진의 원칙이 배제된다.","등록상표가 표시된 상품을 수입한 자가 임의로 그 상품을 소량으로 나누어 새로운 용기에 담는 방식으로 포장한 후 그 등록상표를 표시하거나 그 표시한 것을 양도하였다면 특별한 사정이 없는 한 상표권을 침해하는 행위에 해당한다."],"answer":[4],"expl":{"type":"옳지 않은 것","rows":[{"label":"①","judge":"O","text":"판례 법리(국내 적법 양도 시 상표권 소진). 첨부자료 미수록.","basis":"첨부자료 직접 근거 없음(판례)"},{"label":"②","judge":"O","text":"판례 법리(동일성을 해할 정도의 가공·수선은 침해). 첨부자료 미수록.","basis":"첨부자료 직접 근거 없음(판례)"},{"label":"③","judge":"O","text":"판례 법리(진정상품 병행수입 요건). 첨부자료 미수록.","basis":"첨부자료 직접 근거 없음(판례)"},{"label":"④","judge":"X","text":"→ 통상사용권자가 계약상 '부수적인' 조건을 위반하여 양도한 경우까지 일률적으로 권리소진이 배제되는 것은 아니다(판례; 첨부자료 미수록).","basis":"첨부자료 직접 근거 없음(판례)"},{"label":"⑤","judge":"O","text":"판례 법리(소분·재포장 후 상표 표시는 침해). 첨부자료 미수록.","basis":"첨부자료 직접 근거 없음(판례)"}],"final":"④","verify":"공식 최종정답과 일치 · 정답 판단의 일부 근거가 판례 등 첨부자료 밖에 있음(직접 확인 불가)","note":null}},{"num":25,"law":"상표","area":"침해·권리보호","topic":"상표 손해배상","format":"옳지 않은 것","caseLaw":true,"scenario":false,"stem":"상표법상 손해배상에 관한 설명으로 옳지 않은 것은? (다툼이 있으면 판례에 따름)","items":[],"options":["상표법 제111조(법정손해배상의 청구)에 의한 손해배상을 청구하려면 침해자가 사용한 상표가 상표권자의 등록상표와 같거나 동일성이 있어야 한다.","상표법 제111조는 피해자가 쉽게 권리구제를 받을 수 있도록 하는 예외적 규정이므로, 그 적용요건은 법문에 규정된 대로 엄격하게 해석하여야 한다.","상표권자가 침해자와 동종의 영업을 하고 있는 것을 증명한 경우라면 특별한 사정이 없는 한 상표권 침해에 의하여 영업상의 손해를 입었음이 사실상 추정된다.","법원이 변론전체의 취지와 증거조사의 결과에 기초하여 상당한 손해액을 인정할 수 있다고 규정한 상표법 제110조(손해액의 추정 등) 제6항은 법관에게 손해액 산정에 관한 자유재량을 부여한 것이다.","상표법 제110조 제3항에 따라 침해자의 이익액이 상표권자의 손해액으로 추정되었어도, 침해자가 자신의 상품의 품질과 기술의 우수성 등 상표권 침해와 무관하게 얻은 이익이 있다는 특별한 사정이 있음을 증명하면, 위 추정의 전부 또는 일부가 뒤집어질 수 있다."],"answer":[4],"expl":{"type":"옳지 않은 것","rows":[{"label":"①","judge":"O","text":"법정손해배상은 등록상표와 '같거나 동일성이 있는' 상표를 지정상품과 같거나 동일성이 있는 상품에 사용한 경우.","basis":"상표법 제111조 제1항"},{"label":"②","judge":"O","text":"판례 법리(예외적 규정으로 엄격 해석). 첨부자료 미수록.","basis":"첨부자료 직접 근거 없음(판례)"},{"label":"③","judge":"O","text":"판례 법리(동종 영업 증명 시 영업상 손해 사실상 추정). 첨부자료 미수록.","basis":"첨부자료 직접 근거 없음(판례)"},{"label":"④","judge":"X","text":"→ 제110조⑥(상당한 손해액 인정)은 손해액 증명이 극히 곤란한 경우 증명도를 경감하는 취지일 뿐 법관에게 손해액 산정의 '자유재량'을 부여한 것이 아니다(판례; 첨부자료 미수록).","basis":"상표법 제110조(판례는 첨부자료 미수록)"},{"label":"⑤","judge":"O","text":"제110조③ 침해자 이익액 추정은 번복 가능한 추정(판례 취지).","basis":"상표법 제110조 제3항(판례는 첨부자료 미수록)"}],"final":"④","verify":"공식 최종정답과 일치 · 정답 판단의 일부 근거가 판례 등 첨부자료 밖에 있음(직접 확인 불가)","note":null}},{"num":26,"law":"상표","area":"심판","topic":"상표 심판","format":"옳은 것","caseLaw":false,"scenario":false,"stem":"상표법상 심판에 관한 설명으로 옳은 것은?","items":[],"options":["둘 이상의 지정상품에 관하여 상표법 제117조(상표등록의 무효심판) 제1항에 따른 상표등록의 무효심판이 청구되었을 경우 지정상품마다 심판청구를 취하할 수 있다.","상표권자는 상표등록을 무효로 한다는 심결에 불복하기 위해 심결 등본을 송달받은 날부터 3개월 이내에 특허법원에 심결취소의 소를 제기하여야 한다.","상표법 제119조(상표등록의 취소심판) 제1항 각호 전체의 사유에 의한 상표등록의 취소심판은 취소사유에 해당하는 사실이 없어진 날부터 3년이 지난 후에는 청구할 수 없다.","상표법 제116조(거절결정에 대한 심판)에 따른 거절결정불복심판의 결과에 대하여 이해관계를 가진 자는 심리가 종결될 때까지 심판장에게 참가신청서를 제출하여 그 심판에 보조참가를 할 수 있다.","상표법 제119조 제1항 제3호를 사유로 하는 불사용 취소심판에서 상표등록을 취소한다는 심결이 확정된 경우 그 상표권은 그때부터 소멸된다."],"answer":[1],"expl":{"type":"옳은 것","rows":[{"label":"①","judge":"O","text":"둘 이상의 지정상품에 관한 무효심판은 지정상품마다 취하 가능.","basis":"상표법 제148조 제2항"},{"label":"②","judge":"X","text":"→ 심결등본 송달일부터 '30일' 이내에 소 제기.","basis":"상표법 제162조 제3항"},{"label":"③","judge":"X","text":"→ 3년 제척기간은 제119조①1·2·5·5의2·7~9호에 한함(3·4·6호 등은 제외) — '각호 전체' 아님.","basis":"상표법 제122조 제2항"},{"label":"④","judge":"X","text":"→ 거절결정불복심판은 당사자 대립 구조가 없는 결정계 심판으로 보조참가가 인정되지 않음(판례·실무). 첨부자료 내 명시 조문은 미확인.","basis":"첨부자료 직접 근거 없음(판례·실무)"},{"label":"⑤","judge":"X","text":"→ 제119조①3호(불사용) 사유로 취소심결이 확정되면 '심판청구일'에 소멸한 것으로 본다.","basis":"상표법 제119조 제6항 단서"}],"final":"①","verify":"공식 최종정답과 일치 · 정답 보기의 근거를 첨부자료에서 확인","note":null}},{"num":27,"law":"상표","area":"심사·공개·이의신청","topic":"상표 재심사 청구","format":"옳지 않은 것","caseLaw":false,"scenario":false,"stem":"상표법상 재심사의 청구 등에 관한 설명으로 옳지 않은 것은?","items":[],"options":["출원인이 재심사 청구를 하면서 지정상품을 보정한 경우 그 보정이 최초의 상표등록출원의 요지를 변경하여 부적법한 때에는 심사관은 보정각하 결정을 하여야 한다.","재심사 청구시 출원인이 의견서를 반드시 제출해야 하는 것은 아니다.","지정상품추가등록출원, 존속기간갱신등록신청 및 상품분류전환등록신청에 대한 거절결정에 대해서도 재심사 청구를 할 수 있다.","상표등록거절결정에 대한 거절결정불복심판의 청구기간이 상표법 제17조(기간의 연장 등) 제1항에 따라 연장된 경우 그 연장된 기간 만큼 재심사 청구의 기간도 연장된다.","재심사가 유효하게 청구된 경우 그 상표등록출원에 대하여 종전에 이루어진 상표등록거절결정은 취소된 것으로 본다."],"answer":[3],"expl":{"type":"옳지 않은 것","rows":[{"label":"①","judge":"O","text":"재심사 청구 시 보정이 요지변경이면 보정각하 결정.","basis":"상표법 제40조 제1항 제1호, 제42조"},{"label":"②","judge":"O","text":"재심사 청구와 함께 의견서를 제출'할 수 있다'(임의).","basis":"상표법 제55조의2 제2항"},{"label":"③","judge":"X","text":"→ 재심사청구 규정(제55조의2)은 지정상품추가등록출원·상품분류전환등록신청에는 준용되나 '존속기간갱신등록신청'에는 준용되지 않는다.","basis":"상표법 제88조 제1항·제2항, 제212조"},{"label":"④","judge":"O","text":"거절결정불복심판 청구기간이 연장되면 재심사 청구기간도 연장된 기간.","basis":"상표법 제55조의2 제1항 괄호"},{"label":"⑤","judge":"O","text":"재심사 청구 시 종전 거절결정은 취소된 것으로 본다.","basis":"상표법 제55조의2 제3항"}],"final":"③","verify":"공식 최종정답과 일치 · 정답 보기의 근거를 첨부자료에서 확인","note":null}},{"num":28,"law":"상표","area":"우선권","topic":"조약우선권(상표)","format":"모두 고르기","caseLaw":false,"scenario":false,"stem":"상표법상 조약에 따른 우선권 주장 등에 관한 설명으로 옳은 것을 모두 고른 것은?","items":[{"label":"ㄱ","text":"상표등록출원 시 우선권 주장을 하지 않았더라도 우선권 주장 기간 내에 출원한 경우에는 추후 출원서를 보정하여 우선권 주장을 할 수 있다."},{"label":"ㄴ","text":"동맹국에서 정식으로 수리되어 출원일이 부여된 정규 출원은 출원이 취하된 경우에도 우선권 주장의 기초 출원이 될 수 있다."},{"label":"ㄷ","text":"국제상표등록출원의 출원인이 우선권 주장을 하는 경우에는 지식재산처장에게 우선권 증명서류를 제출하지 아니하더라도 우선권 주장은 효력을 상실하지 아니한다."},{"label":"ㄹ","text":"우선권 주장을 수반한 상표등록출원을 기초로 하여 분할출원하는 경우 우선권이 인정되기 위해서는 분할출원시 별도로 우선권 주장을 해야 한다."}],"options":["ㄱ, ㄴ","ㄱ, ㄷ","ㄴ, ㄷ","ㄴ, ㄹ","ㄷ, ㄹ"],"answer":[3],"expl":{"type":"옳은 것 모두","rows":[{"label":"ㄱ","judge":"X","text":"→ 우선권주장 취지는 출원 시 반드시 기재해야 하며, 출원 시 기재하지 않았다면 보정서 등으로 추후 우선권주장을 할 수 없다.","basis":"상표법 제46조 제3항, 상표심사기준 p.108"},{"label":"ㄴ","judge":"O","text":"동맹국에서 정식 수리되어 출원일이 부여된 제1국 출원은 이후 무효·취하·포기·거절되어도 기초가 될 수 있음.","basis":"상표심사기준 p.106"},{"label":"ㄷ","judge":"O","text":"국제상표등록출원의 파리협약 우선권주장에는 증명서류 제출(제46조④) 및 효력상실(⑤) 규정 미적용.","basis":"상표법 제188조"},{"label":"ㄹ","judge":"X","text":"→ 우선권주장 출원을 기초로 분할하면 분할출원에 대해서도 '우선권주장을 한 것으로 본다'(별도 주장 불요).","basis":"상표법 제45조 제3항"}],"final":"③","verify":"공식 최종정답과 일치 · 정답 보기의 근거를 첨부자료에서 확인","note":null}},{"num":29,"law":"상표","area":"심사·공개·이의신청","topic":"상표등록 이의신청","format":"옳지 않은 것","caseLaw":false,"scenario":false,"stem":"상표법상 상표등록 이의신청 등에 관한 설명으로 옳지 않은 것은?","items":[],"options":["상표등록의 이의신청인은 이의신청기간이 지난 후 30일 이내에 그 이의신청서에 적은 이유와 증거를 보정할 수 있다.","심사관합의체는 이의신청인이 이의신청기간 내에 그 이유나 증거를 제출하지 아니한 때에는 출원인에게 답변서 제출기회를 주지 아니한 경우라도 상표법 제61조(이의신청 이유 등의 보정)에 따른 이의신청 이유 등의 보정기간이 지난 후 결정으로 이의신청을 각하할 수 있다.","심사관합의체는 둘 이상의 이의신청이 있는 경우에 그 중 어느 하나의 이의신청이 이유가 있다고 인정할 때에는 다른 이의신청에 대해서는 결정하지 아니할 수 있다.","심사관합의체는 이의신청에 관하여 출원인이나 이의신청인이 주장하지 아니한 이유에 관하여도 심사할 수 있으나 이 경우 출원인이나 이의신청인에게 기간을 정하여 그 이유에 관하여 의견을 진술할 수 있는 기회를 주어야 한다.","지정상품추가등록 이의신청의 이유는 통상의 상표등록 이의신청의 이유와 동일하다."],"answer":[5],"expl":{"type":"옳지 않은 것","rows":[{"label":"①","judge":"O","text":"이의신청기간 경과 후 30일 이내 이유·증거 보정 가능.","basis":"상표법 제61조"},{"label":"②","judge":"O","text":"기간 내 이유·증거 미제출 시 답변서 기회 없이 보정기간 경과 후 결정으로 각하 가능.","basis":"상표법 제66조 제4항"},{"label":"③","judge":"O","text":"어느 하나의 이의신청이 이유 있으면 다른 이의신청은 결정하지 아니할 수 있음.","basis":"상표법 제65조 제1항"},{"label":"④","judge":"O","text":"주장하지 않은 이유도 심사 가능하나 의견진술 기회를 주어야 함.","basis":"상표법 제63조"},{"label":"⑤","judge":"X","text":"→ 지정상품추가등록 이의신청의 이유는 '추가등록거절결정의 거절이유'(제60조①2호)로, 통상 상표등록 이의신청의 이유(상표등록거절결정의 거절이유, 1호)와 구별된다.","basis":"상표법 제60조 제1항 제1호·제2호"}],"final":"⑤","verify":"공식 최종정답과 일치 · 정답 보기의 근거를 첨부자료에서 확인","note":null}},{"num":30,"law":"상표","area":"국제출원","topic":"국제상표등록출원","format":"옳은 것","caseLaw":false,"scenario":false,"stem":"상표법상 국제상표등록출원 등에 관한 설명으로 옳은 것은?","items":[],"options":["국제상표등록출원이 거절결정된 경우 출원인은 재심사를 청구하거나 거절결정불복심판을 청구하여 불복할 수 있다.","국제상표등록출원의 승계는 출원인이 국제사무국에 명의변경 신고를 하지 아니하면 그 효력이 발생하지 아니한다.","심사관은 상표등록결정을 한 국제상표등록출원에 대하여 명백한 거절이유를 발견한 경우에는 직권으로 상표등록결정을 취소하고 그 국제상표등록출원을 다시 심사할 수 있다.","국제상표등록출원인은 상표법 제58조(손실보상청구권)에 따른 손실보상청구권의 발생을 위하여 국제상표등록출원에 관한 상표 및 지정상품과 동일한 상표 및 상품을 사용하는 자에게 출원공고 전이라도 해당 상표등록출원의 사본을 제시하며 서면으로 경고할 수 있다.","국제상표등록출원인이 거절이유에 대한 의견서 제출 기간 내에 의견서를 제출하지 못한 경우 의견서 제출 기간 만료일부터 2개월 내에 상표에 관한 절차를 계속 진행할 것을 신청하고 거절이유에 대한 의견서를 제출할 수 있다."],"answer":[2],"expl":{"type":"옳은 것","rows":[{"label":"①","judge":"X","text":"→ 국제상표등록출원에는 재심사청구(제55조의2)가 적용되지 않으므로 거절결정불복심판으로만 불복.","basis":"상표법 제193조의2"},{"label":"②","judge":"O","text":"국제상표등록출원의 승계는 '국제사무국에 명의변경신고'를 하지 아니하면 효력 없음.","basis":"상표법 제184조 제1항"},{"label":"③","judge":"X","text":"→ 국제상표등록출원에는 직권재심사(제68조의2)가 적용되지 않는다.","basis":"상표법 제193조 제3항"},{"label":"④","judge":"X","text":"→ 출원공고 전 경고 시 '해당 국제출원의 사본'을 제시하여야 한다(상표등록출원의 사본 아님).","basis":"상표법 제192조"},{"label":"⑤","judge":"X","text":"→ 국제상표등록출원에는 의견서 제출기간 경과 후 2개월 내 절차계속신청(제55조③)이 적용되지 않는다.","basis":"상표법 제190조 제2항"}],"final":"②","verify":"공식 최종정답과 일치 · 정답 보기의 근거를 첨부자료에서 확인","note":null}},{"num":31,"law":"디자인","area":"총칙·절차","topic":"디자인 절차능력·대리","format":"옳지 않은 것","caseLaw":false,"scenario":false,"stem":"디자인보호법에 관한 설명으로 옳지 않은 것은?","items":[],"options":["미성년자ㆍ피한정후견인 또는 피성년후견인의 법정대리인은 후견감독인의 동의 없이 상대방이 청구한 심판 또는 재심에 대한 절차를 밟을 수 있다.","미성년자와 피성년후견인이 독립하여 법률행위를 할 수 있는 경우에는 법정대리인에 의하지 않더라도 디자인등록에 관한 출원ㆍ청구, 그 밖의 절차를 밟을 수 있다.","국내에 주소 또는 영업소가 있는 자로부터 디자인에 관한 절차를 밟을 것을 위임받은 대리인은 특별히 권한을 위임받지 아니하면 디자인등록거절결정에 대한 심판을 청구할 수 없다.","디자인등록출원인은 그 디자인등록출원에 관하여 디자인등록거절결정 등본을 송달받은 날부터 3개월 이내에 재심사를 청구할 경우에는 디자인보호법 제48조(출원의 보정과 요지변경) 제1항부터 제3항까지의 규정에 따른 보정을 하여야 한다.","통상실시권을 등록한 경우에는 그 등록 후에 디자인권 또는 전용실시권을 취득한 자에 대하여도 그 효력이 있다."],"answer":[2],"expl":{"type":"옳지 않은 것","rows":[{"label":"①","judge":"O","text":"법정대리인은 후견감독인 동의 없이 상대방이 청구한 (이의신청·)심판·재심 절차를 밟을 수 있음.","basis":"디자인보호법 제4조 제2항"},{"label":"②","judge":"X","text":"→ 독립하여 법률행위를 할 수 있는 경우의 예외는 '미성년자와 피한정후견인'에 한한다(피성년후견인 X).","basis":"디자인보호법 제4조 제1항 단서"},{"label":"③","judge":"O","text":"거절결정불복심판(제120조) 청구는 특별수권 사항.","basis":"디자인보호법 제7조 제4호"},{"label":"④","judge":"O","text":"재심사 청구는 거절결정등본 송달일부터 3개월 내 제48조①~③에 따른 보정을 하여 청구.","basis":"디자인보호법 제64조 제1항"},{"label":"⑤","judge":"O","text":"등록한 통상실시권은 그 후 디자인권·전용실시권 취득자에게도 효력.","basis":"디자인보호법 제104조 제1항"}],"final":"②","verify":"공식 최종정답과 일치 · 정답 보기의 근거를 첨부자료에서 확인","note":null}},{"num":32,"law":"디자인","area":"총칙·절차","topic":"디자인 절차(중지·수계)","format":"옳은 것","caseLaw":false,"scenario":false,"stem":"디자인보호법령상 절차에 관한 설명으로 옳은 것은?","items":[],"options":["당사자가 절차를 밟을 능력을 상실한 경우 지식재산처 또는 특허심판원에 계속 중인 디자인에 관한 절차는 중지된다. 다만, 절차를 밟을 대리인이 있는 경우에는 그러하지 아니하다.","지식재산처장 또는 심판장은 디자인에 관한 절차가 지식재산처 또는 특허심판원에 계속(係屬) 중일 때 디자인권 또는 디자인에 관한 권리가 이전되면 그 디자인권 또는 디자인에 관한 권리의 승계인에 대하여 그 절차를 속행(續行)하게 할 수 있다. 이 경우 지식재산처장 또는 심판장은 그 취지를 당사자에게 서면으로 통지하여야 한다.","지식재산처장 또는 특허심판원장은 디자인보호법 제47조(절차의 보정)에 따른 보정명령을 받은 자가 지정된 기간 내에 그 보정을 하지 아니하여 디자인에 관한 절차를 무효로 한 경우 지정된 기간을 지키지 못한 것이 정당한 사유에 의한 것으로 인정될 때에는 그 사유가 소멸한 날부터 3개월 이내에 보정명령을 받은 자의 청구에 따라 그 무효처분을 취소할 수 있다.","심판관이 천재지변이나 그 밖의 불가피한 사유로 그 직무를 수행할 수 없을 때에는 심판장은 결정으로 장애사유가 해소될 때까지 그 절차의 중지를 명할 수 있다.","디자인보호법 제24조(수계신청) 제4항에 따라 중단된 절차에 관한 수계명령을 받은 자가 같은 항에 따른 기간에 수계하지 아니하면 그 기간이 끝나는 날에 수계한 것으로 본다."],"answer":[2],"expl":{"type":"옳은 것","rows":[{"label":"①","judge":"X","text":"→ 당사자가 절차를 밟을 능력을 상실하면 절차는 '중단'된다(중지 아님). 대리인이 있으면 예외.","basis":"디자인보호법 제22조 제3호"},{"label":"②","judge":"O","text":"권리 이전 시 승계인에게 절차를 속행하게 할 수 있음. (후단의 서면통지 부분은 법률 본문에는 없고 하위법령 사항으로, 첨부자료로는 확인되지 않음)","basis":"디자인보호법 제21조"},{"label":"③","judge":"X","text":"→ 무효처분 취소 청구는 사유 소멸일부터 '2개월' 이내(만료일부터 1년 경과 시 불가).","basis":"디자인보호법 제18조 제2항"},{"label":"④","judge":"X","text":"→ 심판관이 직무를 수행할 수 없을 때에는 결정 없이 그 사유가 없어질 때까지 '당연히 중지'된다(결정으로 명하는 것은 당사자 장애사유의 경우).","basis":"디자인보호법 제25조 제1항·제2항"},{"label":"⑤","judge":"X","text":"→ 기간이 끝나는 날의 '다음 날'에 수계한 것으로 본다.","basis":"디자인보호법 제24조 제5항"}],"final":"②","verify":"공식 최종정답과 일치 · 정답 보기의 근거를 첨부자료에서 확인","note":null}},{"num":33,"law":"디자인","area":"등록요건","topic":"디자인 대상 물품","format":"옳지 않은 것","caseLaw":false,"scenario":false,"stem":"디자인보호법상 디자인의 대상이 되는 물품에 관한 설명으로 옳지 않은 것은?","items":[],"options":["디자인보호법의 대상이 되는 디자인으로 성립하기 위해서는 추상적 모티브만으로는 부족하고, 물품에 창작내용이 포함되어 있어야 한다.","독립하여 거래대상이 될 수 없는 물품의 부분일지라도 거래대상이 될 수 있는 전체 물품의 부분디자인으로는 등록 가능하다.","고형화장분과 같이 고형화된 분상물의 집합은 그 집합단위로서 그 형체를 갖춘 경우 디자인등록의 대상이 된다.","화상은 기기(器機)의 조작에 이용되거나 기능이 발휘되는 것에 한정하여 물품성을 갖춘 것으로 본다.","디자인의 대상이 되는 물품은 유체동산이어야 하므로, 조립가옥과 같이 최종적으로 토지에 정착해서 부동산이 되는 것은 비록 유통 과정에서 동산으로 취급되더라도 디자인등록의 대상이 될 수 없다."],"answer":[5],"expl":{"type":"옳지 않은 것","rows":[{"label":"①","judge":"O","text":"디자인은 물품과 불가분이므로 물품에 표현되어야 성립.","basis":"디자인심사기준 p.30(2.1.1 물품성)"},{"label":"②","judge":"O","text":"독립 거래대상이 아닌 부분도 전체 물품의 부분디자인으로 등록 가능(디자인에는 물품의 부분 포함).","basis":"디자인보호법 제2조 제1호"},{"label":"③","judge":"O","text":"각설탕·고형시멘트처럼 고형화된 분상물 집합은 집합단위로 형체를 갖추면 등록대상.","basis":"디자인심사기준 p.33"},{"label":"④","judge":"O","text":"화상은 기기의 조작에 이용되거나 기능이 발휘되는 것에 한정.","basis":"디자인보호법 제2조 제2호의2"},{"label":"⑤","judge":"X","text":"→ 최종적으로 토지에 정착하는 것이라도 공업적으로 양산·운반 가능하고 유통 과정에서 동산으로 취급되면 물품으로 '인정된다'(예: 방갈로, 공중전화박스).","basis":"디자인심사기준 p.35"}],"final":"⑤","verify":"공식 최종정답과 일치 · 정답 보기의 근거를 첨부자료에서 확인","note":null}},{"num":34,"law":"디자인","area":"출원·명세서·보정","topic":"보정과 요지변경","format":"옳은 것","caseLaw":false,"scenario":false,"stem":"디자인등록출원의 보정과 요지변경에 관한 설명으로 옳은 것은?","items":[],"options":["공동출원의 경우 대표자가 선정되어 있지 않다면 각자가 모두를 대표하여 보정할 수 있다.","디자인등록출원의 보정은 디자인등록여부결정의 통지서가 도달되기 전까지 할 수 있다.","디자인의 대상이 되는 물품 명칭이 동일물품 외의 물품으로 보정되는 경우 최초 제출한 도면 등을 기준으로 판단하여 단순한 착오나 오기를 정정하는 것으로 인정되는 때에도 요지변경으로 본다.","도면에 관한 보정이 최초의 도면에 표현된 물품의 외관에 거의 영향을 미치지 않는 경미한 정도라도 형상이나 모양을 변경하는 것은 요지변경에 해당한다.","최초 출원서 및 도면 등을 종합적으로 고려하여 부분디자인 출원으로 당연히 인정되는 경우 “부분디자인으로 등록을 받으려는 부분”을 특정하는 기재를 삭제하는 보정은 요지변경에 해당하지 않는다."],"answer":[1],"expl":{"type":"옳은 것","rows":[{"label":"①","judge":"O","text":"대표자 미선정 시 출원 포기·취하 등 열거사항을 제외하고 각자가 모두를 대표(보정은 제외사항 아님).","basis":"디자인보호법 제13조 제1항"},{"label":"②","judge":"X","text":"→ 보정은 디자인등록여부결정의 통지서가 '발송되기 전'까지(도달 X).","basis":"디자인보호법 제48조 제4항 제1호"},{"label":"③","judge":"X","text":"→ 최초 도면 등을 기준으로 단순한 착오나 오기를 정정하는 것으로 인정되면 요지변경으로 보지 않는다.","basis":"디자인심사기준 p.233(3.2.1 단서)"},{"label":"④","judge":"X","text":"→ 물품 외관에 거의 영향을 미치지 않는 경미한 정도의 형상·모양 변경은 요지변경에 해당하지 않는다.","basis":"디자인심사기준 p.230(3.1.1(1) 단서)"},{"label":"⑤","judge":"X","text":"→ 부분디자인출원으로 당연히 인정되는 경우 부분디자인 여부(등록받으려는 부분의 특정 기재)를 삭제하는 보정은 '요지변경에 해당'한다.","basis":"디자인심사기준 p.234"}],"final":"①","verify":"공식 최종정답과 일치 · 정답 보기의 근거를 첨부자료에서 확인","note":null}},{"num":35,"law":"디자인","area":"출원·명세서·보정","topic":"부분디자인","format":"옳지 않은 것","caseLaw":false,"scenario":false,"stem":"부분디자인에 관한 설명으로 옳지 않은 것은?","items":[],"options":["물품의 부분에 표현된 화면디자인은 물품의 부분디자인으로, 화상의 부분은 화상의 부분디자인으로 등록받을 수 있다.","부분디자인의 창작비용이성에 대한 판단기준은 전체디자인의 창작비용이성에 관한 판단기준에 따르되, 전체에서 부분디자인으로 등록받으려는 부분의 기능 및 용도, 위치, 크기, 범위 등을 종합적으로 고려하여 판단한다.","부분디자인으로 등록받으려는 부분이 온전히 표현되어 있지는 않으나 해당분야의 통상의 지식을 가진 디자이너가 부분디자인으로 등록받으려는 부분의 위치, 크기, 범위를 충분히 도출할 수 있는 정도라면 구체성이 있는 것으로 판단할 수 있다.","2 이상의 물품이 한 벌의 물품으로 동시에 사용되는 경우 1디자인으로 등록받을 수 있으나 부분디자인으로는 등록받을 수 없다.","물리적으로 분리된 2 이상의 부분이 형태적 또는 기능적으로 일체성이 인정되어 1디자인 1디자인등록출원의 요건을 충족하는 부분디자인등록출원은 각각의 부분으로 분할하여 출원할 수 없다."],"answer":[4],"expl":{"type":"옳지 않은 것","rows":[{"label":"①","judge":"O","text":"물품의 부분에 표현된 화면디자인은 물품의 부분디자인으로, 화상의 부분은 화상디자인(화상의 부분 포함)으로 보호.","basis":"디자인보호법 제2조 제1호·제2호의2, 디자인심사기준 p.42~43"},{"label":"②","judge":"O","text":"부분디자인 창작비용이성은 전체디자인 기준에 따르되 부분의 기능·용도·위치·크기·범위 등을 종합 고려.","basis":"디자인심사기준 p.138(4.10)"},{"label":"③","judge":"O","text":"일부만 도시되어도 등록받으려는 부분의 위치·크기·범위를 충분히 도출할 수 있으면 구체성 결여 아님.","basis":"디자인심사기준 p.103"},{"label":"④","judge":"X","text":"→ 한 벌의 물품에 관한 부분디자인도 인정된다(한 벌의 물품의 디자인으로 인정되는 한 벌 물품의 부분).","basis":"디자인심사기준 p.10(개정연혁), p.42(2.4.2)"},{"label":"⑤","judge":"O","text":"물리적으로 분리된 2 이상의 부분이 일체성이 인정되어 1디자인으로 출원된 부분디자인은 각 부분별로 분할할 수 없음.","basis":"디자인심사기준 p.240"}],"final":"④","verify":"공식 최종정답과 일치 · 정답 보기의 근거를 첨부자료에서 확인","note":null}},{"num":36,"law":"디자인","area":"심사·공개·이의신청","topic":"일부심사등록출원","format":"모두 고르기","caseLaw":false,"scenario":false,"stem":"디자인일부심사등록출원에 관한 설명으로 옳은 것을 모두 고른 것은?","items":[{"label":"ㄱ","text":"심사관은 디자인일부심사등록출원이 국내에서 공지되어 디자인등록을 받을 수 없음이 명백한 경우라도 디자인보호법 제55조(정보 제공)에 따른 정보 및 증거에 의하지 아니하고는 디자인등록거절결정을 할 수 없다."},{"label":"ㄴ","text":"국제디자인등록출원에 대하여는 디자인일부심사등록출원을 디자인심사등록출원으로, 디자인심사등록출원을 디자인일부심사등록출원으로 변경하는 보정을 할 수 없다."},{"label":"ㄷ","text":"디자인일부심사등록 이의신청의 결정등본이 이의신청인에게 송달된 경우라도 이의신청을 취하하면 그 이의신청은 처음부터 없었던 것으로 본다."},{"label":"ㄹ","text":"디자인일부심사등록 이의신청기각결정을 받은 자가 불복할 때에는 그 결정등본을 송달받은 날부터 3개월 이내에 심판을 청구할 수 있다."},{"label":"ㅁ","text":"누구든지 디자인일부심사등록이 조약에 위반된 것을 이유로 이의신청을 하는 경우 디자인일부심사등록출원에 따라 디자인권이 설정등록된 날부터 디자인일부심사등록 공고일 후 3개월이 되는 날까지 지식재산처장에게 이의신청을 할 수 있다."}],"options":["ㄱ, ㄷ","ㄴ, ㅁ","ㄱ, ㄹ, ㅁ","ㄴ, ㄷ, ㄹ","ㄴ, ㄹ, ㅁ"],"answer":[2],"expl":{"type":"옳은 것 모두","rows":[{"label":"ㄱ","judge":"X","text":"→ 일부심사등록출원이 제33조①각호(공지 등)에 해당하여 등록받을 수 없음이 '명백한' 경우에는 정보제공 없이도 거절결정을 할 수 있다(2025.5.27. 신설).","basis":"디자인보호법 제62조 제5항"},{"label":"ㄴ","judge":"O","text":"국제디자인등록출원에는 일부심사 심사 상호 변경 보정(제48조③)을 적용하지 않음.","basis":"디자인보호법 제186조 제2항"},{"label":"ㄷ","judge":"X","text":"→ 의견진술 통지 또는 결정등본이 송달된 후에는 이의신청을 '취하할 수 없다'.","basis":"디자인보호법 제75조 제1항"},{"label":"ㄹ","judge":"X","text":"→ 이의신청 각하결정·기각결정에 대해서는 '불복할 수 없다'.","basis":"디자인보호법 제73조 제6항"},{"label":"ㅁ","judge":"O","text":"조약 위반은 이의신청 이유이며, 설정등록일부터 일부심사등록공고일 후 3개월까지 신청.","basis":"디자인보호법 제68조 제1항 제3호"}],"final":"②","verify":"공식 최종정답과 일치 · 정답 보기의 근거를 첨부자료에서 확인","note":null}},{"num":37,"law":"디자인","area":"권리·실시권","topic":"디자인권","format":"옳지 않은 것","caseLaw":false,"scenario":false,"stem":"디자인보호법상 디자인권에 관한 설명으로 옳지 않은 것은?","items":[],"options":["디자인권자ㆍ전용실시권자 또는 통상실시권자는 등록디자인 또는 이와 유사한 디자인이 그 디자인등록출원일 전에 발생한 타인의 저작물을 이용하거나 그 저작권에 저촉되는 경우에는 저작권자의 허락을 받지 아니하고는 자기의 등록디자인 또는 이와 유사한 디자인을 업으로서 실시할 수 없다.","등록디자인이 타인의 특허권과 저촉되어 디자인보호법 제123조(통상실시권 허락의 심판)에 따라 허락을 받은 통상실시권은 그 통상실시권자의 해당 디자인권ㆍ전용실시권 또는 통상실시권과 함께 이전되고 해당 디자인권ㆍ전용실시권 또는 통상실시권이 소멸되면 함께 소멸된다.","전용실시권의 설정ㆍ이전(상속이나 그 밖의 일반승계에 의한 경우는 제외한다)은 등록하지 아니하면 효력이 발생하지 아니한다.","지식재산처장은 국제디자인등록출원에 대하여 디자인보호법 제65조(디자인등록결정)에 따른 디자인등록결정이 있는 경우에는 디자인권을 설정하기 위한 등록을 하여야 한다.","정당한 권리자의 디자인등록출원이 디자인보호법 제44조(무권리자의 디자인등록출원과 정당한 권리자의 보호) 및 제45조(무권리자의 디자인등록과 정당한 권리자의 보호)에 따라 디자인권이 설정등록된 경우 그 디자인권 존속기간은 무권리자의 디자인등록출원일부터 기산한다."],"answer":[5],"expl":{"type":"옳지 않은 것","rows":[{"label":"①","judge":"O","text":"출원일 전 발생한 타인의 저작권과 저촉 시 저작권자 허락 없이 실시 불가.","basis":"디자인보호법 제95조 제3항"},{"label":"②","judge":"O","text":"제123조에 따른 통상실시권은 해당 권리와 함께 이전·소멸.","basis":"디자인보호법 제99조 제3항"},{"label":"③","judge":"O","text":"전용실시권의 설정·이전(일반승계 제외)은 등록해야 효력 발생.","basis":"디자인보호법 제98조 제1항 제2호"},{"label":"④","judge":"O","text":"국제디자인등록출원에 등록결정이 있으면 설정등록을 하여야 함.","basis":"디자인보호법 제198조 제2항"},{"label":"⑤","judge":"X","text":"→ 정당한 권리자의 디자인권 존속기간은 무권리자의 디자인등록출원일 '다음 날'부터 기산한다.","basis":"디자인보호법 제91조 제2항"}],"final":"⑤","verify":"공식 최종정답과 일치 · 정답 보기의 근거를 첨부자료에서 확인","note":null}},{"num":38,"law":"디자인","area":"권리·실시권","topic":"디자인권 이전·공유","format":"옳지 않은 것","caseLaw":false,"scenario":false,"stem":"디자인권의 이전 및 공유에 관한 설명으로 옳지 않은 것은?","items":[],"options":["디자인권이 공유인 경우에는 각 공유자는 계약으로 특별히 약정한 경우를 제외하고는 다른 공유자의 동의를 받지 아니하고 그 등록디자인 또는 이와 유사한 디자인을 단독으로 실시할 수 있다.","디자인권이 공유인 경우에는 각 공유자는 다른 공유자의 동의를 받지 아니하면 그 디자인권에 대하여 전용실시권을 설정하거나 통상실시권을 허락할 수 없다.","복수디자인등록된 디자인권은 각 디자인권마다 분리하여 이전할 수 있다.","기본디자인의 디자인권이 취소, 포기 또는 무효심결 등으로 소멸한 경우 그 기본디자인에 관한 2 이상의 관련디자인의 디자인권을 이전하려면 같은 자에게 함께 이전하여야 한다.","디자인보호법 제39조(공동출원)를 위반하여 디자인등록이 된 경우 디자인등록을 받을 수 있는 권리를 가진 자는 법원에 디자인권의 지분의 이전을 청구할 수 있고, 그 지분을 이전할 때에는 다른 공유자의 동의를 받아야 한다."],"answer":[5],"expl":{"type":"옳지 않은 것","rows":[{"label":"①","judge":"O","text":"공유자는 특약이 없으면 동의 없이 단독 실시 가능.","basis":"디자인보호법 제96조 제3항"},{"label":"②","judge":"O","text":"공유자는 동의 없이 전용실시권 설정·통상실시권 허락 불가.","basis":"디자인보호법 제96조 제4항"},{"label":"③","judge":"O","text":"복수디자인등록된 디자인권은 각 디자인권마다 분리 이전 가능.","basis":"디자인보호법 제96조 제5항"},{"label":"④","judge":"O","text":"기본디자인권 소멸 시 2 이상의 관련디자인권은 같은 자에게 함께 이전.","basis":"디자인보호법 제96조 제6항"},{"label":"⑤","judge":"X","text":"→ 이전청구에 따라 공유 디자인권의 지분을 이전하는 경우에는 다른 공유자의 동의를 '받지 아니하더라도' 이전할 수 있다.","basis":"디자인보호법 제96조의2 제3항"}],"final":"⑤","verify":"공식 최종정답과 일치 · 정답 보기의 근거를 첨부자료에서 확인","note":null}},{"num":39,"law":"디자인","area":"침해·권리보호","topic":"디자인권자 보호","format":"옳지 않은 것","caseLaw":false,"scenario":false,"stem":"디자인보호법상 디자인권자의 보호에 관한 설명으로 옳지 않은 것은?","items":[],"options":["디자인권자 또는 전용실시권자는 디자인보호법 제113조(권리침해에 대한 금지청구권 등) 제1항에 따른 청구를 할 때에는 침해행위를 조성한 물품의 폐기, 침해행위에 제공된 설비의 제거, 그 밖에 침해의 예방에 필요한 행위를 청구할 수 있다.","디자인보호법 제113조(권리침해에 대한 금지청구권 등)에 따른 침해금지 또는 예방을 청구함에 있어서 권리를 침해한 자 또는 침해할 우려가 있는 자의 고의나 과실이 있어야 하는 것은 아니다.","타인의 디자인권 또는 전용실시권을 침해한 자는 그 침해행위에 대하여 과실이 있는 것으로 본다. 다만, 디자인보호법 제43조(비밀디자인) 제1항에 따라 비밀디자인으로 설정등록된 디자인권 또는 전용실시권의 침해에 대하여는 그러하지 아니하다.","법원은 고의나 과실로 디자인권 또는 전용실시권을 침해함으로써 디자인권자 또는 전용실시권자의 업무상 신용을 떨어뜨린 자에 대하여는 디자인권자 또는 전용실시권자의 청구에 의하여 손해배상을 갈음하여 또는 손해배상과 함께 디자인권자 또는 전용실시권자의 업무상 신용회복을 위하여 필요한 조치를 명할 수 있다.","디자인권자 또는 전용실시권자가 고의나 과실로 자기의 디자인권 또는 전용실시권을 침해한 자에 대하여 그 침해에 의하여 자기가 입은 손해의 배상을 청구하는 경우 권리를 침해한 자가 그 침해행위로 이익을 얻었을 때에는 그 이익액을 디자인권자 또는 전용실시권자가 받은 손해액으로 추정한다."],"answer":[3],"expl":{"type":"옳지 않은 것","rows":[{"label":"①","judge":"O","text":"금지·예방청구 시 침해조성물 폐기, 설비 제거 등 청구 가능.","basis":"디자인보호법 제113조 제3항"},{"label":"②","judge":"O","text":"금지·예방청구권 요건에 고의·과실은 규정되어 있지 않음(손해배상과 구별).","basis":"디자인보호법 제113조 제1항, 제115조 제1항 대비"},{"label":"③","judge":"X","text":"→ 침해자는 과실이 있는 것으로 '추정한다'(간주가 아님). 비밀디자인 침해는 예외.","basis":"디자인보호법 제116조 제1항"},{"label":"④","judge":"O","text":"업무상 신용을 떨어뜨린 자에게 신용회복조치 명령 가능.","basis":"디자인보호법 제117조"},{"label":"⑤","judge":"O","text":"침해자가 얻은 이익액을 손해액으로 추정.","basis":"디자인보호법 제115조 제3항"}],"final":"③","verify":"공식 최종정답과 일치 · 정답 보기의 근거를 첨부자료에서 확인","note":null}},{"num":40,"law":"디자인","area":"심판","topic":"디자인 무효심판","format":"옳지 않은 것","caseLaw":false,"scenario":false,"stem":"디자인등록의 무효심판에 관한 설명으로 옳지 않은 것은?","items":[],"options":["등록디자인이 디자인보호법 제39조(공동출원)를 위반하였다는 사유로 디자인등록의 무효심판을 청구할 수 있는 이해관계인은 그 디자인등록을 등록받을 수 있는 권리를 가진자만 해당한다.","복수디자인등록출원된 디자인등록에 대하여는 각 디자인마다 무효심판을 청구하여야 한다.","무권리자라는 사유로 디자인등록에 대한 무효심결이 확정되고 그 정당한 권리자가 무효심결이 확정된 날부터 3개월 이내에 디자인등록출원을 한 경우, 그 디자인등록출원은 무효로 된 등록디자인의 디자인등록출원 시에 출원한 것으로 본다.","디자인권자가 디자인등록된 후 디자인보호법 제27조(외국인의 권리능력)에 따라 디자인권을 누릴 수 없는 자로 되거나 그 디자인등록이 조약에 위반하였다는 이유로 무효로 한다는 심결이 확정된 경우에는 디자인권은 그 무효사유에 해당하게 된 때부터 없었던 것으로 본다.","디자인등록출원이 디자인보호법 제42조(한 벌의 물품의 디자인)에 위반된 경우에는 디자인등록을 받을 수 없으나, 착오로 등록된 경우라도 무효심판의 대상이 되지 아니한다."],"answer":[3],"expl":{"type":"옳지 않은 것","rows":[{"label":"①","judge":"O","text":"제39조(공동출원) 위반 사유(제121조①1호 본문)는 디자인등록을 받을 수 있는 권리를 가진 자만 청구 가능.","basis":"디자인보호법 제121조 제1항"},{"label":"②","judge":"O","text":"복수디자인등록에 대하여는 각 디자인마다 무효심판 청구.","basis":"디자인보호법 제121조 제1항 후단"},{"label":"③","judge":"X","text":"→ 정당한 권리자는 무효심결이 확정된 날부터 '30일' 이내에 출원하여야 출원일 소급이 인정된다.","basis":"디자인보호법 제45조 단서"},{"label":"④","judge":"O","text":"후발적 사유(제121조①4호)는 해당하게 된 때부터 없었던 것으로 봄.","basis":"디자인보호법 제121조 제3항 단서"},{"label":"⑤","judge":"O","text":"제42조(한 벌 물품) 위반은 거절이유이나 무효사유(제121조①)에 포함되지 않음.","basis":"디자인보호법 제121조 제1항"}],"final":"③","verify":"공식 최종정답과 일치 · 정답 보기의 근거를 첨부자료에서 확인","note":null}}];</script>
+<script>
+(function () {
+  'use strict';
+
+  var PACE_MS = 75000;            // 50분 / 40문항
+  var FULL_MS = 50 * 60 * 1000;
+  var KEY = 'ipat63-mock-v1';
+  var LAWS = ['특허·실용신안', '상표', '디자인'];
+  var AREAS = ['총칙·절차', '등록요건', '출원·명세서·보정', '우선권', '심사·공개·이의신청', '권리·실시권', '침해·권리보호', '심판', '소송', '국제출원'];
+  var FORMATS = ['옳지 않은 것', '옳은 것', '모두 고르기'];
+
+  var Q = [], QN = {};
+  var app = document.getElementById('app');
+  var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // ---------- storage ----------
+  var mem = null;
+  function loadStore() {
+    var s = null;
+    try { s = JSON.parse(localStorage.getItem(KEY) || 'null'); } catch (e) { s = mem; }
+    if (!s || typeof s !== 'object') s = {};
+    return { active: s.active || null, history: Array.isArray(s.history) ? s.history : [] };
+  }
+  function save() {
+    mem = store;
+    try { localStorage.setItem(KEY, JSON.stringify(store)); } catch (e) { /* storage unavailable: keep in memory */ }
+  }
+  var store = loadStore();
+  var ui = { screen: 'home', modal: null, pending: null, resultSid: null, resultTab: 'area', review: null };
+
+  // ---------- helpers ----------
+  function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+  function pad(n) { return (n < 10 ? '0' : '') + n; }
+  function clock(ms, ceil) {
+    var t = Math.max(0, ceil ? Math.ceil(ms / 1000) : Math.floor(ms / 1000));
+    var h = Math.floor(t / 3600), m = Math.floor((t % 3600) / 60), s = t % 60;
+    return h ? h + ':' + pad(m) + ':' + pad(s) : pad(m) + ':' + pad(s);
+  }
+  function ko(ms) {
+    var t = Math.round(Math.max(0, ms) / 1000), m = Math.floor(t / 60), s = t % 60;
+    if (!m) return s + '초';
+    return s ? m + '분 ' + s + '초' : m + '분';
+  }
+  var CIRC = ['', '①', '②', '③', '④', '⑤'];
+  function dateLabel(ts) {
+    var d = new Date(ts);
+    return (d.getMonth() + 1) + '/' + d.getDate() + ' ' + pad(d.getHours()) + ':' + pad(d.getMinutes());
+  }
+  function findSession(id) {
+    if (store.active && store.active.id === id) return store.active;
+    for (var i = 0; i < store.history.length; i++) if (store.history[i].id === id) return store.history[i];
+    return null;
+  }
+  function modeLabel(s) { return s.mode === 'full' ? '전체 모의고사' : '오답 다시 풀기'; }
+  var ICON = {
+    pause: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5v14M15 5v14"/></svg>',
+    home: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 11l8-7 8 7"/><path d="M6 10v10h12V10"/></svg>',
+    left: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>',
+    right: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>'
+  };
+
+  // ---------- timer ----------
+  // Time accrues only while a question is on screen and unanswered.
+  var runSince = null, tickN = 0;
+  function shouldRun() {
+    var s = store.active;
+    return ui.screen === 'exam' && !!s && s.phase === 'solving' && !ui.modal && !document.hidden;
+  }
+  function fold(stop) {
+    var s = store.active;
+    if (runSince !== null && s) {
+      var now = Date.now(), d = Math.max(0, now - runSince);
+      s.totalMs += d; s.curMs += d;
+      runSince = stop ? null : now;
+      save();
+    } else if (stop) runSince = null;
+  }
+  function syncRun() {
+    if (shouldRun()) { if (runSince === null) runSince = Date.now(); }
+    else fold(true);
+    paintTimer();
+  }
+  function liveTotal() { var s = store.active; return s ? s.totalMs + (runSince !== null ? Date.now() - runSince : 0) : 0; }
+  function liveCur() { var s = store.active; return s ? s.curMs + (runSince !== null ? Date.now() - runSince : 0) : 0; }
+
+  function paintTimer() {
+    var s = store.active, el = document.getElementById('timer');
+    if (!s || !el) return;
+    var total = liveTotal(), left = s.limitMs - total, over = left <= 0;
+    var main = over ? '+' + clock(-left) : clock(left, true);
+    var label, sub;
+    if (s.phase === 'explain') {
+      label = '정지 · 해설 보는 중';
+      var rec = s.records[s.qnums[s.idx]];
+      sub = '풀이 ' + ko(rec ? rec.ms : 0);
+    } else {
+      label = over ? '시간 초과' : '남은 시간';
+      if (ui.modal) label = '일시정지';
+      sub = '이 문제 ' + clock(liveCur());
+    }
+    el.className = 'timer' + (over ? ' is-over' : (left <= 5 * 60000 ? ' is-warn' : '')) + (s.phase !== 'solving' || ui.modal ? ' is-paused' : '');
+    el.querySelector('.t-label').textContent = label;
+    el.querySelector('.t-main').textContent = main;
+    el.querySelector('.t-sub').textContent = sub;
+    var pm = document.getElementById('pause-clock');
+    if (pm) pm.textContent = main;
+  }
+  setInterval(function () {
+    if (runSince !== null) { tickN++; if (tickN % 20 === 0) fold(false); }
+    paintTimer();
+  }, 250);
+  document.addEventListener('visibilitychange', syncRun);
+  window.addEventListener('pagehide', function () { fold(true); });
+
+  // ---------- session flow ----------
+  function newSession(mode, qnums, parentId) {
+    return {
+      id: 's' + Date.now().toString(36), mode: mode, parentId: parentId || null, qnums: qnums.slice(),
+      limitMs: mode === 'full' ? FULL_MS : qnums.length * PACE_MS,
+      idx: 0, phase: 'solving', totalMs: 0, curMs: 0, records: {}, startedAt: Date.now(), finishedAt: null
+    };
+  }
+  function requestStart(mode, qnums, parentId) {
+    if (store.active) { ui.pending = { mode: mode, qnums: qnums, parentId: parentId }; ui.modal = 'confirm-new'; render(); return; }
+    startSession(mode, qnums, parentId);
+  }
+  function startSession(mode, qnums, parentId) {
+    fold(true);
+    store.active = newSession(mode, qnums, parentId);
+    save();
+    ui.modal = null; ui.pending = null; ui.screen = 'exam';
+    render(); scrollTop(); syncRun();
+  }
+  function resume() { ui.screen = 'exam'; ui.modal = null; render(); scrollTop(); syncRun(); }
+  function choose(n) {
+    var s = store.active;
+    if (!s || s.phase !== 'solving' || ui.modal) return;
+    fold(true);
+    var num = s.qnums[s.idx], q = QN[num];
+    s.records[num] = { choice: n, correct: q.answer.indexOf(n) !== -1, ms: s.curMs };
+    s.curMs = 0; s.phase = 'explain';
+    save(); render();
+    var v = document.getElementById('verdict');
+    if (v) v.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' });
+  }
+  function finish(s) {
+    fold(true);
+    s.phase = 'done'; s.finishedAt = Date.now();
+    store.history.unshift(s);
+    if (store.history.length > 40) store.history.length = 40;
+    store.active = null; save();
+    ui.modal = null; ui.screen = 'result'; ui.resultSid = s.id; ui.resultTab = 'area';
+    render(); scrollTop();
+  }
+  function next() {
+    var s = store.active;
+    if (!s || s.phase !== 'explain') return;
+    if (s.idx + 1 >= s.qnums.length) { finish(s); return; }
+    s.idx++; s.phase = 'solving'; s.curMs = 0;
+    save(); render(); scrollTop(); syncRun();
+  }
+  function scrollTop() { window.scrollTo(0, 0); }
+
+  // ---------- analysis ----------
+  function analyze(s) {
+    var rows = s.qnums.map(function (n) { return { n: n, q: QN[n], r: s.records[n] || null }; });
+    var answered = rows.filter(function (x) { return x.r; });
+    var correct = rows.filter(function (x) { return x.r && x.r.correct; }).length;
+    var timeMs = Math.max(s.totalMs || 0, answered.reduce(function (a, x) { return a + x.r.ms; }, 0));
+    function group(keyFn, order) {
+      var m = {};
+      rows.forEach(function (x) {
+        var k = keyFn(x.q); if (k == null) return;
+        var g = m[k] || (m[k] = { key: k, n: 0, c: 0, ms: 0, t: 0 });
+        g.n++; if (x.r && x.r.correct) g.c++; if (x.r) { g.ms += x.r.ms; g.t++; }
+      });
+      return (order || Object.keys(m)).filter(function (k) { return m[k]; }).map(function (k) { return m[k]; });
+    }
+    var byArea = group(function (q) { return q.area; }, AREAS);
+    var byLaw = group(function (q) { return q.law; }, LAWS);
+    var byFormat = group(function (q) { return q.format; }, FORMATS);
+    var byFlag = group(function (q) { return q.caseLaw ? '판례 출제' : '조문 출제'; }, ['판례 출제', '조문 출제'])
+      .concat(group(function (q) { return q.scenario ? '사례형(甲·乙)' : null; }, ['사례형(甲·乙)']));
+    var strong = byArea.filter(function (g) { return g.n >= 2 && g.c / g.n >= 0.8; })
+      .sort(function (a, b) { return b.c / b.n - a.c / a.n || b.n - a.n; });
+    var weak = byArea.filter(function (g) { return g.n >= 2 && g.c / g.n < 0.6; })
+      .sort(function (a, b) { return a.c / a.n - b.c / b.n || b.n - a.n; });
+    var wrong = rows.filter(function (x) { return !x.r || !x.r.correct; });
+    return { rows: rows, answered: answered.length, correct: correct, total: rows.length, timeMs: timeMs,
+      byArea: byArea, byLaw: byLaw, byFormat: byFormat, byFlag: byFlag, strong: strong, weak: weak, wrong: wrong };
+  }
+  function lv(c, n) { var p = n ? c / n : 0; return p >= 0.8 ? 'lv-hi' : p >= 0.6 ? 'lv-mid' : 'lv-lo'; }
+
+  // ---------- render: shared pieces ----------
+  function renderQuestionBody(q, rec, num) {
+    var answered = !!rec;
+    var h = '<article class="q">';
+    h += '<div class="q-tags"><span class="tag">' + esc(q.law) + '</span>' + (answered ? '<span class="tag t-accent">' + esc(q.topic) + '</span>' : '') + '</div>';
+    h += '<p class="stem"><span class="qn">' + q.num + '.</span>' + esc(q.stem) + '</p>';
+    if (q.items.length) {
+      h += '<div class="items">' + q.items.map(function (it) {
+        return '<div class="item"><b>' + esc(it.label) + '.</b><span>' + esc(it.text) + '</span></div>';
+      }).join('') + '</div>';
+    }
+    h += '<ol class="opts">';
+    q.options.forEach(function (t, i) {
+      var n = i + 1, cls = 'opt', mark = '';
+      if (answered) {
+        var isKey = q.answer.indexOf(n) !== -1, isMine = rec.choice === n;
+        if (isKey) { cls += ' is-ok'; mark = isMine ? '내 답 · 정답' : '정답'; }
+        else if (isMine) { cls += ' is-bad'; mark = '내 답'; }
+        else cls += ' is-dim';
+      }
+      h += '<li><button type="button" class="' + cls + '" data-act="choose" data-n="' + n + '"' + (answered ? ' disabled' : '') +
+        ' aria-label="' + n + '번 보기"><span class="bub">' + n + '</span><span>' + esc(t) +
+        (mark ? '<span class="mark">' + mark + '</span>' : '') + '</span></button></li>';
+    });
+    h += '</ol></article>';
+    return h;
+  }
+
+  function judgeClass(j) {
+    if (j === 'O') return 'j-o';
+    if (j === 'X') return 'j-x';
+    if (j === '정답') return 'j-ans';
+    return 'j-rej';
+  }
+  function renderVerdict(q, rec) {
+    var keyTxt = q.answer.map(function (n) { return CIRC[n]; }).join(', ');
+    if (!rec || rec.choice == null) {
+      return '<section class="verdict skip" id="verdict"><strong>풀지 않은 문제</strong><div class="v-sub"><span>정답 <b>' + keyTxt + '</b></span></div></section>';
+    }
+    var multi = q.answer.length > 1 ? ' (복수정답)' : '';
+    return '<section class="verdict ' + (rec.correct ? 'ok' : 'bad') + '" id="verdict">' +
+      '<strong>' + (rec.correct ? '정답입니다' : '틀렸습니다') + '</strong>' +
+      '<div class="v-sub"><span>내 답 <b>' + CIRC[rec.choice] + '</b></span><span>정답 <b>' + keyTxt + '</b>' + multi + '</span>' +
+      '<span>풀이 시간 <b>' + ko(rec.ms) + '</b></span></div></section>';
+  }
+  function renderExplanation(q, rec) {
+    var e = q.expl;
+    var mineLbl = rec && rec.choice ? CIRC[rec.choice] : null;
+    var keyLbls = q.items.length ? [] : q.answer.map(function (n) { return CIRC[n]; });
+    var h = '<section class="expl" aria-label="해설">';
+    h += '<div class="expl-head"><h2>해설</h2><span>문제 유형: ' + esc(e.type) + '</span></div>';
+    h += '<p class="expl-legend">판단 · 해설 (옳지 않은 보기는 → 옳게 고친 내용) · 근거</p>';
+    h += '<div class="rows">' + e.rows.map(function (r) {
+      var isKey = keyLbls.indexOf(r.label) !== -1, isMine = !q.items.length && r.label === mineLbl;
+      return '<div class="row' + (isKey ? ' is-key' : '') + '"><div class="row-top"><span class="row-lbl">' + esc(r.label) + '</span>' +
+        '<span class="judge ' + judgeClass(r.judge) + '">' + esc(r.judge) + '</span>' +
+        (isKey ? '<span class="chip-key">정답 보기</span>' : '') + (isMine && !isKey ? '<span class="chip-mine">내 선택</span>' : '') +
+        '</div><p class="row-text">' + esc(r.text) + '</p>' +
+        '<p class="row-basis"><span>근거</span><span>' + esc(r.basis) + '</span></p></div>';
+    }).join('') + '</div>';
+    h += '<div class="final"><div class="f1">최종 정답<em>' + esc(e.final) + '</em></div>' +
+      (e.note ? '<p class="note">' + esc(e.note) + '</p>' : '') +
+      '<p>정답 검증: ' + esc(e.verify) + '</p></div>';
+    h += '</section>';
+    return h;
+  }
+
+  // ---------- render: screens ----------
+  function render() {
+    var h = '';
+    if (ui.screen === 'exam' && store.active) h = renderExam();
+    else if (ui.screen === 'result' && findSession(ui.resultSid)) h = renderResult(findSession(ui.resultSid));
+    else if (ui.screen === 'review' && ui.review && findSession(ui.review.sid)) h = renderReview();
+    else { ui.screen = 'home'; h = renderHome(); }
+    h += renderModal();
+    app.innerHTML = h;
+    if (ui.screen === 'exam' || ui.screen === 'review') document.body.setAttribute('data-bar', ''); else document.body.removeAttribute('data-bar');
+    paintTimer();
+  }
+
+  function renderHome() {
+    var s = store.active, h = '<main class="wrap screen stack">';
+    h += '<header class="home-hero"><div class="eyebrow">2026년 제63회 변리사 1차시험 · 1교시 · A형</div>' +
+      '<h1>산업재산권법 모의고사</h1>' +
+      '<div class="meta"><span><b>40</b>문항</span><span><b>50</b>분</span><span>문항별 해설 · 풀이 시간 기록</span></div></header>';
+    if (s) {
+      var done = Object.keys(s.records).length, left = s.limitMs - s.totalMs;
+      h += '<section class="panel resume"><div class="resume-head"><strong>' + modeLabel(s) + ' 진행 중</strong>' +
+        '<span>' + (s.idx + 1) + ' / ' + s.qnums.length + '번째 · ' + done + '문항 답함 · ' +
+        (left > 0 ? '남은 시간 ' + clock(left, true) : clock(-left) + ' 초과') + '</span></div>' +
+        '<div class="btn-row"><button class="btn btn-primary" data-act="resume">이어서 풀기</button>' +
+        '<button class="btn" data-act="start-full">처음부터 새로 풀기</button></div></section>';
+    } else {
+      h += '<button class="btn btn-primary btn-block" data-act="start-full">시험 시작</button>';
+    }
+    h += '<section class="panel"><h2 class="section-title">타이머 규칙</h2><ul class="rules">' +
+      '<li><span>문제가 화면에 있고 <b>답을 고르기 전까지만</b> 시간이 흐릅니다.</span></li>' +
+      '<li><span>답을 고르면 바로 해설이 나오고, <b>다음 문제로 넘어갈 때까지 타이머가 멈춥니다.</b></span></li>' +
+      '<li><span>50분이 지나도 끝나지 않으며 <b>초과 시간</b>이 계속 표시됩니다.</span></li>' +
+      '<li><span>문항별 풀이 시간, 강점·약점, 오답 유형은 결과 화면에서 확인하고 <b>오답만 다시 풀기</b>를 할 수 있습니다. 오답 풀이 제한 시간은 문항당 1분 15초입니다.</span></li>' +
+      '</ul></section>';
+    h += '<section class="panel"><h2 class="section-title">출제 구성</h2><div class="map">' + LAWS.map(function (law) {
+      var qs = Q.filter(function (q) { return q.law === law; });
+      return '<div class="map-law"><div class="map-law-head"><span>' + law + '</span><span>' + qs.length + '문항 · ' +
+        qs[0].num + '–' + qs[qs.length - 1].num + '번</span></div><div class="map-cells">' +
+        qs.map(function (q) { return '<span class="map-cell" title="' + esc(q.topic) + '">' + q.num + '</span>'; }).join('') + '</div></div>';
+    }).join('') + '</div></section>';
+    if (store.history.length) {
+      h += '<section class="panel"><h2 class="section-title">지난 기록</h2><ul class="hist">' + store.history.map(function (x) {
+        var a = analyze(x);
+        return '<li><button data-act="open-result" data-sid="' + x.id + '"><span class="h-title">' + modeLabel(x) + '</span>' +
+          '<span class="h-score">' + a.correct + '/' + a.total + '</span>' +
+          '<span class="h-sub">' + dateLabel(x.finishedAt || x.startedAt) + ' · 풀이 ' + ko(a.timeMs) + '</span></button></li>';
+      }).join('') + '</ul></section>';
+    }
+    h += '</main>';
+    return h;
+  }
+
+  function renderBar(s, posMain, posSub) {
+    var strip = s.qnums.map(function (n, i) {
+      var r = s.records[n];
+      var c = r ? (r.correct ? 'ok' : 'bad') : (i === s.idx ? 'cur' : '');
+      return '<i class="' + c + '"></i>';
+    }).join('');
+    return '<header class="bar"><div class="bar-inner"><div class="bar-row">' +
+      '<button class="icon-btn" data-act="go-home" aria-label="홈으로 (일시정지)">' + ICON.home + '</button>' +
+      '<div class="bar-pos"><div class="p1">' + posMain + '</div><div class="p2">' + posSub + '</div></div>' +
+      '<div class="timer" id="timer" role="timer"><div class="t-label"></div><div class="t-main"></div><div class="t-sub"></div></div>' +
+      '<button class="icon-btn" data-act="pause" aria-label="일시정지">' + ICON.pause + '</button>' +
+      '</div><div class="strip" aria-hidden="true">' + strip + '</div></div></header>';
+  }
+
+  function renderExam() {
+    var s = store.active, num = s.qnums[s.idx], q = QN[num], rec = s.records[num];
+    var answered = Object.keys(s.records).length;
+    var h = renderBar(s, '문 ' + num + '<span class="of">' + (s.idx + 1) + '/' + s.qnums.length + '</span>',
+      modeLabel(s) + ' · ' + answered + '문항 답함');
+    h += '<main class="wrap screen stack">' + renderQuestionBody(q, s.phase === 'explain' ? rec : null, num);
+    if (s.phase === 'explain' && rec) {
+      h += renderVerdict(q, rec) + renderExplanation(q, rec);
+    }
+    h += '</main>';
+    if (s.phase === 'explain') {
+      var last = s.idx + 1 >= s.qnums.length;
+      h += '<div class="actionbar"><div class="wrap"><button class="btn btn-primary" data-act="next">' + (last ? '결과 보기' : '다음 문제') + '</button></div></div>';
+    }
+    return h;
+  }
+
+  function renderModal() {
+    if (!ui.modal) return '';
+    var s = store.active;
+    if (ui.modal === 'pause' && s) {
+      var left = s.limitMs - s.totalMs;
+      return '<div class="overlay" role="dialog" aria-modal="true" aria-label="일시정지"><div class="sheet">' +
+        '<h2>일시정지</h2><p>타이머가 멈췄습니다. 문제는 가려져 있어요.</p>' +
+        '<div class="big" id="pause-clock">' + (left > 0 ? clock(left, true) : '+' + clock(-left)) + '</div>' +
+        '<div class="btns"><button class="btn btn-primary" data-act="unpause">계속 풀기</button>' +
+        '<button class="btn" data-act="go-home">홈으로 (진행 상황 저장)</button>' +
+        '<button class="btn btn-danger" data-act="ask-end">여기서 끝내고 결과 보기</button></div></div></div>';
+    }
+    if (ui.modal === 'confirm-end' && s) {
+      var rest = s.qnums.length - Object.keys(s.records).length;
+      return '<div class="overlay" role="dialog" aria-modal="true" aria-label="시험 종료"><div class="sheet">' +
+        '<h2>시험을 끝낼까요?</h2><p>아직 풀지 않은 ' + rest + '문항은 오답으로 처리되고, 오답 다시 풀기에 포함됩니다.</p>' +
+        '<div class="btns"><button class="btn btn-danger" data-act="end-now">끝내고 결과 보기</button>' +
+        '<button class="btn" data-act="pause">돌아가기</button></div></div></div>';
+    }
+    if (ui.modal === 'confirm-new' && s && ui.pending) {
+      return '<div class="overlay" role="dialog" aria-modal="true" aria-label="새로 시작"><div class="sheet">' +
+        '<h2>진행 중인 시험이 있어요</h2><p>' + modeLabel(s) + ' (' + Object.keys(s.records).length + '/' + s.qnums.length +
+        '문항 답함)을 버리고 ' + (ui.pending.mode === 'full' ? '전체 모의고사를 처음부터' : '오답 ' + ui.pending.qnums.length + '문항을') + ' 시작할까요?</p>' +
+        '<div class="btns"><button class="btn btn-primary" data-act="confirm-new">새로 시작</button>' +
+        '<button class="btn" data-act="close-modal">취소</button></div></div></div>';
+    }
+    return '';
+  }
+
+  function barList(groups, showTime) {
+    return '<div class="bars">' + groups.map(function (g) {
+      var p = g.n ? Math.round(g.c / g.n * 100) : 0;
+      return '<div class="bar-item"><div class="bar-top"><span class="bt-name">' + esc(g.key) + '</span>' +
+        '<span class="bt-val">' + g.c + '/' + g.n + ' · ' + p + '%' + (showTime && g.t ? ' · 평균 ' + clock(g.ms / g.t) : '') + '</span></div>' +
+        '<div class="track"><i class="' + lv(g.c, g.n) + '" style="width:' + Math.max(p, 2) + '%"></i></div></div>';
+    }).join('') + '</div>';
+  }
+
+  function renderResult(s) {
+    var a = analyze(s), pct = a.total ? Math.round(a.correct / a.total * 100) : 0;
+    var overMs = a.timeMs - s.limitMs;
+    var h = '<main class="wrap screen stack">';
+    h += '<header class="res-head"><div class="eyebrow">' + modeLabel(s) + ' 결과 · ' + dateLabel(s.finishedAt || s.startedAt) + '</div>' +
+      '<h1>' + (s.mode === 'full' ? '산업재산권법 40문항' : '오답 ' + a.total + '문항 다시 풀기') + '</h1></header>';
+
+    // score
+    h += '<section class="panel score"><div class="score-big">' + a.correct + '<small>/' + a.total + '</small></div>' +
+      '<div class="score-facts"><span>정답률 <b>' + pct + '%</b>' + (a.answered < a.total ? ' · 미응답 <b>' + (a.total - a.answered) + '</b>' : '') + '</span>' +
+      '<span>풀이 시간 <b>' + ko(a.timeMs) + '</b> / 제한 ' + ko(s.limitMs) + '</span>' +
+      (overMs > 0 ? '<span class="over">제한 시간 ' + ko(overMs) + ' 초과</span>' : '<span>남은 시간 <b>' + ko(-overMs) + '</b></span>') +
+      '</div></section>';
+    if (s.mode === 'retry') {
+      h += '<p class="hint" style="margin:0">지난번 틀린 ' + a.total + '문항 중 이번에 ' + a.correct + '문항을 맞혔습니다.</p>';
+    }
+
+    // strengths / weaknesses
+    function swList(list) {
+      if (!list.length) return '';
+      return '<ul>' + list.slice(0, 4).map(function (g) { return '<li><span>' + esc(g.key) + '</span><span>' + g.c + '/' + g.n + '</span></li>'; }).join('') + '</ul>';
+    }
+    h += '<section class="sw" aria-label="강점과 약점">' +
+      '<div class="sw-card good"><h3>강점 영역</h3>' + (swList(a.strong) || '<p class="empty">' + (a.total < 6 ? '문항이 적어 판단하기 어렵습니다.' : '정답률 80% 이상인 영역이 아직 없습니다.') + '</p>') + '</div>' +
+      '<div class="sw-card weak"><h3>약점 영역</h3>' + (swList(a.weak) || '<p class="empty">' + (a.total < 6 ? '문항이 적어 판단하기 어렵습니다.' : '정답률 60% 미만인 영역이 없습니다.') + '</p>') + '</div>' +
+      '</section>';
+
+    // breakdown tabs
+    var tabs = [['area', '영역별'], ['law', '과목별'], ['format', '문제 형식'], ['flag', '출제 근거']];
+    var cur = ui.resultTab;
+    var groups = cur === 'law' ? a.byLaw : cur === 'format' ? a.byFormat : cur === 'flag' ? a.byFlag : a.byArea;
+    h += '<section class="panel"><h2 class="section-title">유형별 정답률 · 평균 풀이 시간</h2><div class="tabs" role="tablist">' +
+      tabs.map(function (t) { return '<button class="tab" role="tab" aria-selected="' + (t[0] === cur) + '" data-act="tab" data-tab="' + t[0] + '">' + t[1] + '</button>'; }).join('') +
+      '</div>' + barList(groups, true) + '</section>';
+
+    // wrong types
+    if (a.wrong.length) {
+      var wByFormat = {}, wCase = 0, wScen = 0;
+      a.wrong.forEach(function (x) { wByFormat[x.q.format] = (wByFormat[x.q.format] || 0) + 1; if (x.q.caseLaw) wCase++; if (x.q.scenario) wScen++; });
+      var chips = FORMATS.filter(function (f) { return wByFormat[f]; }).map(function (f) { return '<span class="tag">' + f + ' ' + wByFormat[f] + '</span>'; });
+      if (wCase) chips.push('<span class="tag">판례 문제 ' + wCase + '</span>');
+      if (wScen) chips.push('<span class="tag">사례형 ' + wScen + '</span>');
+      h += '<section class="panel"><h2 class="section-title">오답 문제 유형 · ' + a.wrong.length + '문항</h2>' +
+        '<div class="wrong-sum">' + chips.join('') + '</div><div class="wrong-groups">' +
+        AREAS.map(function (area) {
+          var ws = a.wrong.filter(function (x) { return x.q.area === area; });
+          if (!ws.length) return '';
+          return '<div><div class="wg-head"><span>' + area + '</span><span>' + ws.length + '</span></div><ul class="wg-list">' + ws.map(function (x) {
+            var i = s.qnums.indexOf(x.n);
+            var f = [x.q.law, x.q.format]; if (x.q.caseLaw) f.push('판례'); if (x.q.scenario) f.push('사례형');
+            if (!x.r) f.push('미응답');
+            return '<li><button data-act="review" data-sid="' + s.id + '" data-i="' + i + '"><span class="wn">' + x.n + '</span>' +
+              '<span class="wt">' + esc(x.q.topic) + '</span><span class="wf">' + esc(f.join(' · ')) + '</span></button></li>';
+          }).join('') + '</ul></div>';
+        }).join('') + '</div></section>';
+    }
+
+    // time analysis
+    var timed = a.rows.filter(function (x) { return x.r; });
+    var avg = timed.length ? timed.reduce(function (m, x) { return m + x.r.ms; }, 0) / timed.length : 0;
+    var slowN = timed.filter(function (x) { return x.r.ms > PACE_MS; }).length;
+    var slow = timed.slice().sort(function (x, y) { return y.r.ms - x.r.ms; }).slice(0, 5);
+    h += '<section class="panel"><h2 class="section-title">시간 분석 · 권장 페이스 문항당 1분 15초</h2><div class="time-facts">' +
+      '<div class="tf"><span>평균</span><b>' + clock(avg) + '</b></div>' +
+      '<div class="tf"><span>가장 오래</span><b>' + (slow[0] ? clock(slow[0].r.ms) : '–') + '</b></div>' +
+      '<div class="tf"><span>페이스 초과</span><b>' + slowN + '문항</b></div></div>' +
+      (slow.length ? '<ul class="slow-list">' + slow.map(function (x) {
+        return '<li><span>' + x.n + '번 · ' + esc(x.q.topic) + (x.r.correct ? '' : ' (오답)') + '</span><span>' + ko(x.r.ms) + '</span></li>';
+      }).join('') + '</ul>' : '') + '</section>';
+
+    // per-question OMR table
+    h += '<section class="panel"><h2 class="section-title">문항별 기록 · 누르면 해설</h2><div class="omr-wrap"><table class="omr"><thead><tr>' +
+      '<th>번호</th><th>답안</th><th>주제</th><th style="text-align:right">시간</th></tr></thead><tbody>' +
+      a.rows.map(function (x, i) {
+        var bubbles = '';
+        for (var n = 1; n <= 5; n++) {
+          var isKey = x.q.answer.indexOf(n) !== -1, isMine = x.r && x.r.choice === n, c = 'mini';
+          if (isMine) c += x.r.correct ? ' m-ok' : ' m-bad';
+          else if (isKey) c += ' m-key';
+          bubbles += '<span class="' + c + '">' + n + '</span>';
+        }
+        return '<tr class="clickable" data-act="review" data-sid="' + s.id + '" data-i="' + i + '"><td class="c-n">' + x.n + '</td>' +
+          '<td class="c-b">' + bubbles + '</td><td class="c-t"><div>' + esc(x.q.topic) + '</div></td>' +
+          '<td class="c-s' + (x.r && x.r.ms > PACE_MS ? ' slow' : '') + '">' + (x.r ? ko(x.r.ms) : '–') + '</td></tr>';
+      }).join('') + '</tbody></table></div>' +
+      '<div class="legend"><span><span class="mini m-ok"></span>맞힌 답</span><span><span class="mini m-bad"></span>틀린 답</span>' +
+      '<span><span class="mini m-key"></span>정답</span><span style="color:var(--warn)">주황 시간 = 1분 15초 초과</span></div></section>';
+
+    h += '</main>';
+    h += '<div class="actionbar"><div class="wrap">' +
+      '<button class="btn flex-0" data-act="home" aria-label="홈으로">' + ICON.home + '</button>' +
+      (a.wrong.length ? '<button class="btn btn-primary" data-act="retry" data-sid="' + s.id + '">오답 ' + a.wrong.length + '문항 다시 풀기</button>' : '') +
+      '<button class="btn' + (a.wrong.length ? '' : ' btn-primary') + '" data-act="start-full">' + (a.wrong.length ? '전체 다시' : '전체 다시 풀기') + '</button>' +
+      '</div></div>';
+    return h;
+  }
+
+  function renderReview() {
+    var s = findSession(ui.review.sid), i = ui.review.i, num = s.qnums[i], q = QN[num], rec = s.records[num] || null;
+    var h = '<header class="bar"><div class="bar-inner"><div class="bar-row">' +
+      '<button class="icon-btn" data-act="back-result" aria-label="결과로 돌아가기">' + ICON.left + '</button>' +
+      '<div class="bar-pos"><div class="p1">문 ' + num + ' 다시 보기</div><div class="p2">' + (i + 1) + ' / ' + s.qnums.length + ' · ' + modeLabel(s) + '</div></div>' +
+      '</div></div></header>';
+    h += '<main class="wrap screen stack">' + renderQuestionBody(q, rec || { choice: null, correct: false, ms: 0 }, num) +
+      renderVerdict(q, rec) + renderExplanation(q, rec) + '</main>';
+    h += '<div class="actionbar"><div class="wrap">' +
+      '<button class="btn" data-act="rv-move" data-d="-1"' + (i === 0 ? ' disabled' : '') + '>' + ICON.left + ' 이전</button>' +
+      '<button class="btn" data-act="back-result">결과</button>' +
+      '<button class="btn" data-act="rv-move" data-d="1"' + (i + 1 >= s.qnums.length ? ' disabled' : '') + '>다음 ' + ICON.right + '</button>' +
+      '</div></div>';
+    return h;
+  }
+
+  // ---------- events ----------
+  app.addEventListener('click', function (ev) {
+    var t = ev.target.closest('[data-act]');
+    if (!t || t.disabled) return;
+    var act = t.getAttribute('data-act');
+    switch (act) {
+      case 'start-full': requestStart('full', Q.map(function (q) { return q.num; })); break;
+      case 'resume': resume(); break;
+      case 'choose': choose(+t.getAttribute('data-n')); break;
+      case 'next': next(); break;
+      case 'pause': ui.modal = 'pause'; syncRun(); render(); break;
+      case 'unpause': ui.modal = null; render(); syncRun(); break;
+      case 'ask-end': ui.modal = 'confirm-end'; render(); break;
+      case 'end-now': if (store.active) finish(store.active); break;
+      case 'go-home': ui.modal = null; ui.screen = 'home'; syncRun(); render(); scrollTop(); break;
+      case 'home': ui.screen = 'home'; render(); scrollTop(); break;
+      case 'confirm-new': if (ui.pending) startSession(ui.pending.mode, ui.pending.qnums, ui.pending.parentId); break;
+      case 'close-modal': ui.modal = null; ui.pending = null; render(); break;
+      case 'open-result': ui.screen = 'result'; ui.resultSid = t.getAttribute('data-sid'); ui.resultTab = 'area'; render(); scrollTop(); break;
+      case 'tab': ui.resultTab = t.getAttribute('data-tab'); render(); break;
+      case 'retry': {
+        var s = findSession(t.getAttribute('data-sid'));
+        if (!s) break;
+        var w = analyze(s).wrong.map(function (x) { return x.n; });
+        if (w.length) requestStart('retry', w, s.id);
+        break;
+      }
+      case 'review': ui.review = { sid: t.getAttribute('data-sid'), i: +t.getAttribute('data-i'), y: window.scrollY }; ui.screen = 'review'; render(); scrollTop(); break;
+      case 'rv-move': {
+        var rs = findSession(ui.review.sid), ni = ui.review.i + (+t.getAttribute('data-d'));
+        if (rs && ni >= 0 && ni < rs.qnums.length) { ui.review.i = ni; render(); scrollTop(); }
+        break;
+      }
+      case 'back-result': {
+        var y = ui.review ? ui.review.y : 0;
+        ui.screen = 'result'; ui.resultSid = ui.review.sid; render(); window.scrollTo(0, y || 0);
+        break;
+      }
+    }
+  });
+  document.addEventListener('keydown', function (ev) {
+    if (ev.metaKey || ev.ctrlKey || ev.altKey) return;
+    if (ev.target && ev.target.closest && ev.target.closest('button, input, select, textarea, a')) { if (ev.key === 'Enter' || ev.key === ' ') return; }
+    var s = store.active;
+    if (ui.screen === 'exam' && s && !ui.modal) {
+      if (s.phase === 'solving' && /^[1-5]$/.test(ev.key)) { choose(+ev.key); ev.preventDefault(); }
+      else if (s.phase === 'explain' && (ev.key === 'Enter' || ev.key === 'ArrowRight')) { next(); ev.preventDefault(); }
+    }
+  });
+
+  // ---------- boot ----------
+  function boot(data) {
+    Q = data; QN = {};
+    Q.forEach(function (q) { QN[q.num] = q; });
+    if (store.active && (!store.active.qnums || !store.active.qnums.every(function (n) { return QN[n]; }))) store.active = null;
+    store.history = store.history.filter(function (s) { return s && s.qnums && s.qnums.every(function (n) { return QN[n]; }); });
+    render();
+  }
+  if (window.EXAM_DATA) boot(window.EXAM_DATA);
+  else {
+    app.innerHTML = '<main class="wrap screen"><p class="hint">문제를 불러오는 중…</p></main>';
+    fetch('questions.json').then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); }).then(boot).catch(function () {
+      app.innerHTML = '<main class="wrap screen"><p>문제 데이터를 불러오지 못했습니다. 페이지를 새로고침해 주세요.</p></main>';
+    });
+  }
+})();
+</script>
+</body>
+</html>

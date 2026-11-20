@@ -1,0 +1,865 @@
+<title>산업재산권법 모의고사</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans+KR:wght@400;500;600;700&family=Noto+Serif+KR:wght@400;600;700&display=swap">
+<style>
+/* Layout: one 720px reading column; exam screens get a sticky timer bar and a sticky bottom action bar. OMR-card motifs for answer bubbles and the progress strip. */
+:root {
+  --bg: #F2F4F7;
+  --surface: #FFFFFF;
+  --surface-2: #EBEFF5;
+  --ink: #161D2B;
+  --ink-2: #465166;
+  --ink-3: #737D92;
+  --line: #D7DDE6;
+  --accent: #2448B5;
+  --accent-ink: #FFFFFF;
+  --accent-soft: #E4EAFA;
+  --ok: #137A4C;
+  --ok-soft: #E1F3E9;
+  --bad: #C2312E;
+  --bad-soft: #FBE6E4;
+  --warn: #A35F00;
+  --warn-soft: #FDF0D8;
+  --omr: #D45478;
+  --shadow: 0 1px 2px rgba(22, 29, 43, .06), 0 6px 20px rgba(22, 29, 43, .06);
+  --f-ui: "IBM Plex Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", "Noto Sans KR", system-ui, sans-serif;
+  --f-q: "Noto Serif KR", "AppleMyungjo", "Batang", "Nanum Myeongjo", serif;
+  --f-num: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  --gutter-l: max(16px, env(safe-area-inset-left, 0px));
+  --gutter-r: max(16px, env(safe-area-inset-right, 0px));
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0F141C; --surface: #171E29; --surface-2: #1F2835; --ink: #E6EAF1; --ink-2: #AEB7C6; --ink-3: #828C9E; --line: #2B3546;
+    --accent: #8FA7FF; --accent-ink: #0F141C; --accent-soft: #1F2A48; --ok: #52C48D; --ok-soft: #133022; --bad: #FF8079; --bad-soft: #3B1C1B;
+    --warn: #F2B65C; --warn-soft: #3A2B12; --omr: #EC8DA6; --shadow: 0 1px 2px rgba(0,0,0,.3), 0 6px 20px rgba(0,0,0,.25);
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0F141C; --surface: #171E29; --surface-2: #1F2835; --ink: #E6EAF1; --ink-2: #AEB7C6; --ink-3: #828C9E; --line: #2B3546;
+  --accent: #8FA7FF; --accent-ink: #0F141C; --accent-soft: #1F2A48; --ok: #52C48D; --ok-soft: #133022; --bad: #FF8079; --bad-soft: #3B1C1B;
+  --warn: #F2B65C; --warn-soft: #3A2B12; --omr: #EC8DA6; --shadow: 0 1px 2px rgba(0,0,0,.3), 0 6px 20px rgba(0,0,0,.25);
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  background: var(--bg); color: var(--ink);
+  font-family: var(--f-ui); font-size: 15px; line-height: 1.6;
+  word-break: keep-all; overflow-wrap: anywhere;
+  -webkit-tap-highlight-color: transparent;
+}
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 30; background: var(--bg); }
+body[data-bar]::before { background: var(--surface); }
+button { font: inherit; color: inherit; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.num { font-family: var(--f-num); font-variant-numeric: tabular-nums; }
+
+.wrap { max-width: 720px; margin: 0 auto; padding-left: var(--gutter-l); padding-right: var(--gutter-r); }
+.screen { padding-block: 20px 120px; }
+
+/* ---------- buttons ---------- */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  min-height: 50px; padding: 0 20px; border-radius: 12px; border: 1px solid var(--line);
+  background: var(--surface); font-weight: 600; font-size: 16px; cursor: pointer; text-decoration: none;
+}
+.btn:active { transform: translateY(1px); }
+.btn svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; flex: none; }
+.btn:disabled { opacity: .45; cursor: default; }
+.btn-primary { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+.btn-danger { color: var(--bad); }
+.btn-block { width: 100%; }
+.btn-sm { min-height: 38px; padding: 0 14px; font-size: 14px; border-radius: 10px; }
+.icon-btn {
+  width: 40px; height: 40px; border-radius: 10px; border: 1px solid var(--line); background: var(--surface);
+  display: inline-grid; place-items: center; cursor: pointer; flex: none;
+}
+.icon-btn svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+/* ---------- home ---------- */
+.eyebrow { font-size: 12.5px; letter-spacing: .06em; color: var(--ink-3); font-weight: 600; }
+.home-hero { display: grid; gap: 10px; padding-block: 12px 4px; }
+.home-hero h1 { font-family: var(--f-q); font-weight: 700; font-size: clamp(28px, 7.4vw, 38px); line-height: 1.25; margin: 0; text-wrap: balance; }
+.home-hero .meta { display: flex; flex-wrap: wrap; gap: 6px 14px; color: var(--ink-2); font-size: 14.5px; }
+.home-hero .meta b { color: var(--ink); font-weight: 600; }
+.panel { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 18px; }
+.stack { display: grid; gap: 14px; grid-template-columns: minmax(0, 1fr); }
+.section-title { font-size: 13px; letter-spacing: .06em; color: var(--ink-3); font-weight: 600; margin: 0 0 10px; }
+.rules { margin: 0; padding: 0; list-style: none; display: grid; gap: 10px; }
+.rules li { display: grid; grid-template-columns: 22px 1fr; gap: 8px; color: var(--ink-2); font-size: 14.5px; }
+.rules li::before { content: ""; width: 8px; height: 8px; border-radius: 50%; border: 2px solid var(--omr); margin-top: 7px; justify-self: center; }
+.rules b { color: var(--ink); font-weight: 600; }
+
+.map { display: grid; gap: 12px; }
+.map-law { display: grid; gap: 6px; }
+.map-law-head { display: flex; justify-content: space-between; font-size: 14px; font-weight: 600; }
+.map-law-head span:last-child { color: var(--ink-3); font-weight: 500; }
+.map-cells { display: grid; grid-template-columns: repeat(10, minmax(0, 1fr)); gap: 4px; }
+.map-cell { aspect-ratio: 1; min-width: 0; max-width: 100%; border-radius: 50%; border: 1.5px solid var(--omr); display: grid; place-items: center; font-family: var(--f-num); font-size: 10px; color: var(--omr); }
+
+.resume { display: grid; gap: 12px; border-color: var(--accent); }
+.resume-head { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+.resume-head strong { font-size: 16px; }
+.resume-head span { color: var(--ink-2); font-size: 14px; }
+.btn-row { display: flex; gap: 10px; flex-wrap: wrap; }
+.btn-row > .btn { flex: 1 1 140px; }
+
+.hist { display: grid; gap: 0; margin: 0; padding: 0; list-style: none; }
+.hist li + li { border-top: 1px solid var(--line); }
+.hist button { width: 100%; background: none; border: 0; padding: 12px 2px; display: grid; grid-template-columns: 1fr auto; gap: 2px 12px; text-align: left; cursor: pointer; }
+.hist .h-title { font-weight: 600; }
+.hist .h-sub { color: var(--ink-3); font-size: 13px; }
+.hist .h-score { grid-row: span 2; align-self: center; font-family: var(--f-num); font-weight: 600; font-size: 17px; }
+
+/* ---------- exam bar ---------- */
+.bar { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20; background: var(--surface); border-bottom: 1px solid var(--line); }
+.bar-inner { max-width: 720px; margin: 0 auto; padding-left: var(--gutter-l); padding-right: var(--gutter-r); padding-block: 8px 8px; display: grid; gap: 8px; }
+.bar-row { display: flex; align-items: center; gap: 10px; }
+.bar-pos { flex: 1; min-width: 0; line-height: 1.25; }
+.bar-pos .p1 { font-weight: 700; font-size: 15px; }
+.bar-pos .p1 .of { font-family: var(--f-num); font-weight: 500; color: var(--ink-3); font-size: 13px; margin-left: 4px; }
+.bar-pos .p2 { font-size: 12.5px; color: var(--ink-3); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.timer { text-align: right; line-height: 1.1; }
+.timer .t-label { font-size: 11.5px; font-weight: 600; letter-spacing: .04em; color: var(--ink-3); }
+.timer .t-main { font-family: var(--f-num); font-variant-numeric: tabular-nums; font-weight: 600; font-size: 26px; letter-spacing: -.01em; }
+.timer .t-sub { font-variant-numeric: tabular-nums; font-size: 12px; color: var(--ink-3); white-space: nowrap; }
+.timer.is-warn .t-main, .timer.is-warn .t-label { color: var(--warn); }
+.timer.is-over .t-main, .timer.is-over .t-label { color: var(--bad); }
+.timer.is-paused .t-main { color: var(--ink-3); }
+.strip { display: flex; gap: 3px; }
+.strip i { flex: 1; height: 6px; border-radius: 3px; background: var(--surface-2); box-shadow: inset 0 0 0 1px var(--line); }
+.strip i.ok { background: var(--ok); box-shadow: none; }
+.strip i.bad { background: var(--bad); box-shadow: none; }
+.strip i.cur { background: var(--accent); box-shadow: none; }
+
+/* ---------- question ---------- */
+.q { display: grid; gap: 16px; }
+.q-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+.tag { display: inline-flex; align-items: center; height: 24px; padding: 0 9px; border-radius: 999px; font-size: 12.5px; font-weight: 600; background: var(--surface-2); color: var(--ink-2); }
+.tag.t-accent { background: var(--accent-soft); color: var(--accent); }
+.stem { font-family: var(--f-q); font-size: 17.5px; line-height: 1.78; font-weight: 600; margin: 0; }
+.stem .qn { font-family: var(--f-num); font-weight: 600; margin-right: 6px; }
+.items { border: 1px solid var(--ink-3); border-radius: 4px; padding: 14px 14px; display: grid; gap: 10px; background: var(--surface); }
+.item { display: grid; grid-template-columns: 26px 1fr; font-family: var(--f-q); font-size: 16px; line-height: 1.75; }
+.item b { font-weight: 600; }
+.opts { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+.opt {
+  width: 100%; display: grid; grid-template-columns: 32px 1fr; gap: 12px; align-items: start; text-align: left;
+  padding: 14px 14px; border-radius: 14px; border: 1px solid var(--line); background: var(--surface); cursor: pointer;
+  font-family: var(--f-q); font-size: 16px; line-height: 1.72; transition: border-color .12s, background-color .12s;
+}
+@media (hover: hover) { .opt:not(:disabled):hover { border-color: var(--accent); } }
+.opt:not(:disabled):active { border-color: var(--accent); background: var(--accent-soft); }
+.opt:disabled { cursor: default; }
+.bub {
+  width: 30px; height: 30px; border-radius: 50%; border: 1.5px solid var(--omr); color: var(--omr);
+  display: grid; place-items: center; font-family: var(--f-num); font-size: 14px; font-weight: 600; margin-top: -1px; flex: none;
+}
+.opt.is-ok { border-color: var(--ok); background: var(--ok-soft); }
+.opt.is-ok .bub { background: var(--ok); border-color: var(--ok); color: var(--surface); }
+.opt.is-bad { border-color: var(--bad); background: var(--bad-soft); }
+.opt.is-bad .bub { background: var(--bad); border-color: var(--bad); color: var(--surface); }
+.opt.is-dim { opacity: .62; }
+.opt .mark { display: block; font-family: var(--f-ui); font-size: 12px; font-weight: 700; margin-top: 4px; letter-spacing: .02em; }
+.opt.is-ok .mark { color: var(--ok); }
+.opt.is-bad .mark { color: var(--bad); }
+
+/* ---------- verdict + explanation ---------- */
+.verdict { scroll-margin-top: 110px; border-radius: 14px; padding: 14px 16px; display: grid; gap: 4px; }
+.verdict.ok { background: var(--ok-soft); color: var(--ok); }
+.verdict.bad { background: var(--bad-soft); color: var(--bad); }
+.verdict.skip { background: var(--surface-2); color: var(--ink-2); }
+.verdict strong { font-size: 18px; }
+.verdict .v-sub { color: var(--ink-2); font-size: 14px; display: flex; flex-wrap: wrap; gap: 4px 14px; }
+.verdict .v-sub b { color: var(--ink); font-weight: 600; }
+.expl { display: grid; gap: 12px; }
+.expl-head { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; flex-wrap: wrap; }
+.expl-head h2 { margin: 0; font-size: 18px; }
+.expl-head span { color: var(--ink-3); font-size: 13.5px; }
+.expl-legend { font-size: 12.5px; color: var(--ink-3); margin: -6px 0 0; }
+.rows { display: grid; gap: 8px; }
+.row { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; display: grid; gap: 6px; }
+.row.is-key { background: var(--accent-soft); border-color: color-mix(in srgb, var(--accent) 45%, var(--line)); }
+.row-top { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.row-lbl { font-family: var(--f-q); font-weight: 700; font-size: 16px; min-width: 20px; }
+.judge { display: inline-grid; place-items: center; min-width: 28px; height: 24px; padding: 0 7px; border-radius: 6px; font-size: 13px; font-weight: 700; border: 1.5px solid currentColor; }
+.judge.j-o { color: var(--ok); }
+.judge.j-x { color: var(--bad); }
+.judge.j-ans { color: var(--accent-ink); background: var(--accent); border-color: var(--accent); }
+.judge.j-rej { color: var(--ink-2); }
+.chip-mine, .chip-key { font-size: 12px; font-weight: 700; padding: 1px 8px; border-radius: 999px; }
+.chip-key { background: var(--accent); color: var(--accent-ink); }
+.chip-mine { background: var(--surface-2); color: var(--ink-2); }
+.row-text { margin: 0; font-size: 15px; line-height: 1.65; }
+.row-basis { margin: 0; font-size: 13px; color: var(--ink-3); display: grid; grid-template-columns: auto 1fr; gap: 8px; }
+.row-basis span:first-child { font-weight: 600; color: var(--ink-2); }
+.final { display: grid; gap: 6px; padding: 14px 16px; border-radius: 12px; background: var(--surface-2); }
+.final .f1 { font-weight: 700; font-size: 16px; }
+.final .f1 em { font-style: normal; color: var(--accent); font-family: var(--f-q); font-size: 18px; margin-left: 4px; }
+.final p { margin: 0; font-size: 13px; color: var(--ink-2); }
+.final .note { color: var(--ink); font-size: 14px; }
+
+.actionbar { position: fixed; left: 0; right: 0; bottom: 0; z-index: 20; background: var(--surface); background: color-mix(in srgb, var(--surface) 92%, transparent); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); border-top: 1px solid var(--line); padding-bottom: env(safe-area-inset-bottom, 0px); }
+.actionbar .wrap { padding-block: 10px; display: flex; gap: 10px; }
+.actionbar .btn { flex: 1; white-space: nowrap; padding: 0 14px; font-size: 15.5px; }
+.actionbar .btn-primary { flex: 1.5; }
+.actionbar .btn.flex-0 { flex: 0 0 auto; }
+
+/* ---------- overlay ---------- */
+.overlay { position: fixed; inset: 0; z-index: 40; background: var(--bg); background: color-mix(in srgb, var(--bg) 82%, transparent); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); display: grid; place-items: center; padding: 24px var(--gutter-r) 24px var(--gutter-l); }
+.sheet { width: min(420px, 100%); background: var(--surface); border: 1px solid var(--line); border-radius: 18px; padding: 22px; box-shadow: var(--shadow); display: grid; gap: 14px; }
+.sheet h2 { margin: 0; font-size: 20px; }
+.sheet p { margin: 0; color: var(--ink-2); }
+.sheet .big { font-family: var(--f-num); font-size: 34px; font-weight: 600; color: var(--ink); }
+.sheet .btns { display: grid; gap: 8px; }
+
+/* ---------- results ---------- */
+.res-head { display: grid; gap: 4px; }
+.res-head h1 { margin: 0; font-size: 24px; font-family: var(--f-q); }
+.score { display: grid; grid-template-columns: auto 1fr; gap: 18px; align-items: center; }
+.score-big { font-family: var(--f-num); font-weight: 600; font-size: 52px; line-height: 1; letter-spacing: -.02em; }
+.score-big small { font-size: 22px; color: var(--ink-3); font-weight: 500; }
+.score-facts { display: grid; gap: 6px; font-size: 14px; color: var(--ink-2); }
+.score-facts b { color: var(--ink); font-weight: 600; font-variant-numeric: tabular-nums; }
+.score-facts .over { color: var(--bad); }
+.sw { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.sw-card { border-radius: 14px; padding: 14px; display: grid; gap: 8px; align-content: start; }
+.sw-card h3 { margin: 0; font-size: 14px; }
+.sw-card.good { background: var(--ok-soft); }
+.sw-card.good h3 { color: var(--ok); }
+.sw-card.weak { background: var(--bad-soft); }
+.sw-card.weak h3 { color: var(--bad); }
+.sw-card ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 4px; font-size: 14px; }
+.sw-card li { display: flex; justify-content: space-between; gap: 8px; }
+.sw-card li span:last-child { font-family: var(--f-num); color: var(--ink-2); white-space: nowrap; }
+.sw-card .empty { color: var(--ink-2); font-size: 13.5px; }
+@media (max-width: 420px) { .sw { grid-template-columns: 1fr; } }
+
+.bars { display: grid; gap: 12px; }
+.bar-item { display: grid; gap: 5px; }
+.bar-top { display: flex; justify-content: space-between; gap: 10px; font-size: 14px; }
+.bar-top .bt-name { font-weight: 600; min-width: 0; }
+.bar-top .bt-val { font-family: var(--f-num); font-variant-numeric: tabular-nums; color: var(--ink-2); white-space: nowrap; font-size: 13px; }
+.track { height: 8px; border-radius: 4px; background: var(--surface-2); overflow: hidden; }
+.track i { display: block; height: 100%; border-radius: 4px; }
+.lv-hi { background: var(--ok); }
+.lv-mid { background: var(--warn); }
+.lv-lo { background: var(--bad); }
+.tabs { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 14px; }
+.tab { height: 34px; padding: 0 12px; border-radius: 999px; border: 1px solid var(--line); background: var(--surface); font-size: 13.5px; font-weight: 600; cursor: pointer; color: var(--ink-2); }
+.tab[aria-selected="true"] { background: var(--ink); border-color: var(--ink); color: var(--surface); }
+
+.wrong-groups { display: grid; gap: 14px; }
+.wg-head { display: flex; justify-content: space-between; font-weight: 600; font-size: 14.5px; margin-bottom: 6px; }
+.wg-head span:last-child { color: var(--bad); font-family: var(--f-num); }
+.wg-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+.wg-list button { width: 100%; text-align: left; background: var(--surface-2); border: 0; border-radius: 10px; padding: 9px 12px; cursor: pointer; display: grid; grid-template-columns: auto 1fr; gap: 2px 10px; }
+.wg-list .wn { font-family: var(--f-num); font-weight: 600; grid-row: span 2; align-self: center; }
+.wg-list .wt { font-weight: 600; font-size: 14px; }
+.wg-list .wf { font-size: 12.5px; color: var(--ink-3); }
+.wrong-sum { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
+
+.omr { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+.omr-wrap { overflow-x: auto; }
+.omr th { text-align: left; font-size: 12px; color: var(--ink-3); font-weight: 600; padding: 0 4px 8px; }
+.omr td { padding: 7px 4px; border-top: 1px solid var(--line); vertical-align: middle; }
+.omr tr.clickable { cursor: pointer; }
+.omr tr.clickable:hover td { background: var(--surface-2); }
+.omr .c-n { font-family: var(--f-num); font-weight: 600; width: 30px; }
+.omr .c-b { white-space: nowrap; width: 136px; }
+.omr .c-t { color: var(--ink-2); min-width: 0; }
+.omr .c-t div { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.omr .c-s { font-family: var(--f-num); text-align: right; white-space: nowrap; width: 62px; }
+.omr .c-s.slow { color: var(--warn); font-weight: 600; }
+.mini { display: inline-grid; place-items: center; width: 22px; height: 22px; margin-right: 3px; border-radius: 50%; border: 1.2px solid var(--omr); color: var(--omr); font-family: var(--f-num); font-size: 11px; font-weight: 600; }
+.mini.m-mine { background: var(--ink); border-color: var(--ink); color: var(--surface); }
+.mini.m-ok { background: var(--ok); border-color: var(--ok); color: var(--surface); }
+.mini.m-bad { background: var(--bad); border-color: var(--bad); color: var(--surface); }
+.mini.m-key { box-shadow: 0 0 0 2px var(--surface), 0 0 0 3.5px var(--ok); }
+.legend { display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: 12.5px; color: var(--ink-3); margin-top: 10px; align-items: center; }
+.legend .mini { width: 16px; height: 16px; font-size: 0; margin-right: 4px; vertical-align: -3px; }
+.time-facts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.tf { background: var(--surface-2); border-radius: 12px; padding: 10px 12px; display: grid; gap: 2px; }
+.tf span { font-size: 12px; color: var(--ink-3); font-weight: 600; }
+.tf b { font-family: var(--f-num); font-weight: 600; font-size: 15px; }
+.slow-list { margin: 12px 0 0; padding: 0; list-style: none; display: grid; gap: 6px; font-size: 14px; }
+.slow-list li { display: flex; justify-content: space-between; gap: 10px; }
+.slow-list li span:last-child { font-family: var(--f-num); color: var(--warn); white-space: nowrap; }
+.hint { font-size: 13px; color: var(--ink-3); margin: 8px 0 0; }
+
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; scroll-behavior: auto !important; } }
+@media (min-width: 640px) {
+  .stem { font-size: 18.5px; }
+  .opt { font-size: 16.5px; }
+}
+</style>
+<!--BODY-->
+<div id="app" aria-live="polite"></div>
+<noscript><div class="wrap screen">이 페이지는 자바스크립트가 필요합니다.</div></noscript>
+<!--DATA-->
+<script>
+(function () {
+  'use strict';
+
+  var PACE_MS = 75000;            // 50분 / 40문항
+  var FULL_MS = 50 * 60 * 1000;
+  var KEY = 'ipat63-mock-v1';
+  var LAWS = ['특허·실용신안', '상표', '디자인'];
+  var AREAS = ['총칙·절차', '등록요건', '출원·명세서·보정', '우선권', '심사·공개·이의신청', '권리·실시권', '침해·권리보호', '심판', '소송', '국제출원'];
+  var FORMATS = ['옳지 않은 것', '옳은 것', '모두 고르기'];
+
+  var Q = [], QN = {};
+  var app = document.getElementById('app');
+  var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // ---------- storage ----------
+  var mem = null;
+  function loadStore() {
+    var s = null;
+    try { s = JSON.parse(localStorage.getItem(KEY) || 'null'); } catch (e) { s = mem; }
+    if (!s || typeof s !== 'object') s = {};
+    return { active: s.active || null, history: Array.isArray(s.history) ? s.history : [] };
+  }
+  function save() {
+    mem = store;
+    try { localStorage.setItem(KEY, JSON.stringify(store)); } catch (e) { /* storage unavailable: keep in memory */ }
+  }
+  var store = loadStore();
+  var ui = { screen: 'home', modal: null, pending: null, resultSid: null, resultTab: 'area', review: null };
+
+  // ---------- helpers ----------
+  function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+  function pad(n) { return (n < 10 ? '0' : '') + n; }
+  function clock(ms, ceil) {
+    var t = Math.max(0, ceil ? Math.ceil(ms / 1000) : Math.floor(ms / 1000));
+    var h = Math.floor(t / 3600), m = Math.floor((t % 3600) / 60), s = t % 60;
+    return h ? h + ':' + pad(m) + ':' + pad(s) : pad(m) + ':' + pad(s);
+  }
+  function ko(ms) {
+    var t = Math.round(Math.max(0, ms) / 1000), m = Math.floor(t / 60), s = t % 60;
+    if (!m) return s + '초';
+    return s ? m + '분 ' + s + '초' : m + '분';
+  }
+  var CIRC = ['', '①', '②', '③', '④', '⑤'];
+  function dateLabel(ts) {
+    var d = new Date(ts);
+    return (d.getMonth() + 1) + '/' + d.getDate() + ' ' + pad(d.getHours()) + ':' + pad(d.getMinutes());
+  }
+  function findSession(id) {
+    if (store.active && store.active.id === id) return store.active;
+    for (var i = 0; i < store.history.length; i++) if (store.history[i].id === id) return store.history[i];
+    return null;
+  }
+  function modeLabel(s) { return s.mode === 'full' ? '전체 모의고사' : '오답 다시 풀기'; }
+  var ICON = {
+    pause: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5v14M15 5v14"/></svg>',
+    home: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 11l8-7 8 7"/><path d="M6 10v10h12V10"/></svg>',
+    left: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>',
+    right: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>'
+  };
+
+  // ---------- timer ----------
+  // Time accrues only while a question is on screen and unanswered.
+  var runSince = null, tickN = 0;
+  function shouldRun() {
+    var s = store.active;
+    return ui.screen === 'exam' && !!s && s.phase === 'solving' && !ui.modal && !document.hidden;
+  }
+  function fold(stop) {
+    var s = store.active;
+    if (runSince !== null && s) {
+      var now = Date.now(), d = Math.max(0, now - runSince);
+      s.totalMs += d; s.curMs += d;
+      runSince = stop ? null : now;
+      save();
+    } else if (stop) runSince = null;
+  }
+  function syncRun() {
+    if (shouldRun()) { if (runSince === null) runSince = Date.now(); }
+    else fold(true);
+    paintTimer();
+  }
+  function liveTotal() { var s = store.active; return s ? s.totalMs + (runSince !== null ? Date.now() - runSince : 0) : 0; }
+  function liveCur() { var s = store.active; return s ? s.curMs + (runSince !== null ? Date.now() - runSince : 0) : 0; }
+
+  function paintTimer() {
+    var s = store.active, el = document.getElementById('timer');
+    if (!s || !el) return;
+    var total = liveTotal(), left = s.limitMs - total, over = left <= 0;
+    var main = over ? '+' + clock(-left) : clock(left, true);
+    var label, sub;
+    if (s.phase === 'explain') {
+      label = '정지 · 해설 보는 중';
+      var rec = s.records[s.qnums[s.idx]];
+      sub = '풀이 ' + ko(rec ? rec.ms : 0);
+    } else {
+      label = over ? '시간 초과' : '남은 시간';
+      if (ui.modal) label = '일시정지';
+      sub = '이 문제 ' + clock(liveCur());
+    }
+    el.className = 'timer' + (over ? ' is-over' : (left <= 5 * 60000 ? ' is-warn' : '')) + (s.phase !== 'solving' || ui.modal ? ' is-paused' : '');
+    el.querySelector('.t-label').textContent = label;
+    el.querySelector('.t-main').textContent = main;
+    el.querySelector('.t-sub').textContent = sub;
+    var pm = document.getElementById('pause-clock');
+    if (pm) pm.textContent = main;
+  }
+  setInterval(function () {
+    if (runSince !== null) { tickN++; if (tickN % 20 === 0) fold(false); }
+    paintTimer();
+  }, 250);
+  document.addEventListener('visibilitychange', syncRun);
+  window.addEventListener('pagehide', function () { fold(true); });
+
+  // ---------- session flow ----------
+  function newSession(mode, qnums, parentId) {
+    return {
+      id: 's' + Date.now().toString(36), mode: mode, parentId: parentId || null, qnums: qnums.slice(),
+      limitMs: mode === 'full' ? FULL_MS : qnums.length * PACE_MS,
+      idx: 0, phase: 'solving', totalMs: 0, curMs: 0, records: {}, startedAt: Date.now(), finishedAt: null
+    };
+  }
+  function requestStart(mode, qnums, parentId) {
+    if (store.active) { ui.pending = { mode: mode, qnums: qnums, parentId: parentId }; ui.modal = 'confirm-new'; render(); return; }
+    startSession(mode, qnums, parentId);
+  }
+  function startSession(mode, qnums, parentId) {
+    fold(true);
+    store.active = newSession(mode, qnums, parentId);
+    save();
+    ui.modal = null; ui.pending = null; ui.screen = 'exam';
+    render(); scrollTop(); syncRun();
+  }
+  function resume() { ui.screen = 'exam'; ui.modal = null; render(); scrollTop(); syncRun(); }
+  function choose(n) {
+    var s = store.active;
+    if (!s || s.phase !== 'solving' || ui.modal) return;
+    fold(true);
+    var num = s.qnums[s.idx], q = QN[num];
+    s.records[num] = { choice: n, correct: q.answer.indexOf(n) !== -1, ms: s.curMs };
+    s.curMs = 0; s.phase = 'explain';
+    save(); render();
+    var v = document.getElementById('verdict');
+    if (v) v.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' });
+  }
+  function finish(s) {
+    fold(true);
+    s.phase = 'done'; s.finishedAt = Date.now();
+    store.history.unshift(s);
+    if (store.history.length > 40) store.history.length = 40;
+    store.active = null; save();
+    ui.modal = null; ui.screen = 'result'; ui.resultSid = s.id; ui.resultTab = 'area';
+    render(); scrollTop();
+  }
+  function next() {
+    var s = store.active;
+    if (!s || s.phase !== 'explain') return;
+    if (s.idx + 1 >= s.qnums.length) { finish(s); return; }
+    s.idx++; s.phase = 'solving'; s.curMs = 0;
+    save(); render(); scrollTop(); syncRun();
+  }
+  function scrollTop() { window.scrollTo(0, 0); }
+
+  // ---------- analysis ----------
+  function analyze(s) {
+    var rows = s.qnums.map(function (n) { return { n: n, q: QN[n], r: s.records[n] || null }; });
+    var answered = rows.filter(function (x) { return x.r; });
+    var correct = rows.filter(function (x) { return x.r && x.r.correct; }).length;
+    var timeMs = Math.max(s.totalMs || 0, answered.reduce(function (a, x) { return a + x.r.ms; }, 0));
+    function group(keyFn, order) {
+      var m = {};
+      rows.forEach(function (x) {
+        var k = keyFn(x.q); if (k == null) return;
+        var g = m[k] || (m[k] = { key: k, n: 0, c: 0, ms: 0, t: 0 });
+        g.n++; if (x.r && x.r.correct) g.c++; if (x.r) { g.ms += x.r.ms; g.t++; }
+      });
+      return (order || Object.keys(m)).filter(function (k) { return m[k]; }).map(function (k) { return m[k]; });
+    }
+    var byArea = group(function (q) { return q.area; }, AREAS);
+    var byLaw = group(function (q) { return q.law; }, LAWS);
+    var byFormat = group(function (q) { return q.format; }, FORMATS);
+    var byFlag = group(function (q) { return q.caseLaw ? '판례 출제' : '조문 출제'; }, ['판례 출제', '조문 출제'])
+      .concat(group(function (q) { return q.scenario ? '사례형(甲·乙)' : null; }, ['사례형(甲·乙)']));
+    var strong = byArea.filter(function (g) { return g.n >= 2 && g.c / g.n >= 0.8; })
+      .sort(function (a, b) { return b.c / b.n - a.c / a.n || b.n - a.n; });
+    var weak = byArea.filter(function (g) { return g.n >= 2 && g.c / g.n < 0.6; })
+      .sort(function (a, b) { return a.c / a.n - b.c / b.n || b.n - a.n; });
+    var wrong = rows.filter(function (x) { return !x.r || !x.r.correct; });
+    return { rows: rows, answered: answered.length, correct: correct, total: rows.length, timeMs: timeMs,
+      byArea: byArea, byLaw: byLaw, byFormat: byFormat, byFlag: byFlag, strong: strong, weak: weak, wrong: wrong };
+  }
+  function lv(c, n) { var p = n ? c / n : 0; return p >= 0.8 ? 'lv-hi' : p >= 0.6 ? 'lv-mid' : 'lv-lo'; }
+
+  // ---------- render: shared pieces ----------
+  function renderQuestionBody(q, rec, num) {
+    var answered = !!rec;
+    var h = '<article class="q">';
+    h += '<div class="q-tags"><span class="tag">' + esc(q.law) + '</span>' + (answered ? '<span class="tag t-accent">' + esc(q.topic) + '</span>' : '') + '</div>';
+    h += '<p class="stem"><span class="qn">' + q.num + '.</span>' + esc(q.stem) + '</p>';
+    if (q.items.length) {
+      h += '<div class="items">' + q.items.map(function (it) {
+        return '<div class="item"><b>' + esc(it.label) + '.</b><span>' + esc(it.text) + '</span></div>';
+      }).join('') + '</div>';
+    }
+    h += '<ol class="opts">';
+    q.options.forEach(function (t, i) {
+      var n = i + 1, cls = 'opt', mark = '';
+      if (answered) {
+        var isKey = q.answer.indexOf(n) !== -1, isMine = rec.choice === n;
+        if (isKey) { cls += ' is-ok'; mark = isMine ? '내 답 · 정답' : '정답'; }
+        else if (isMine) { cls += ' is-bad'; mark = '내 답'; }
+        else cls += ' is-dim';
+      }
+      h += '<li><button type="button" class="' + cls + '" data-act="choose" data-n="' + n + '"' + (answered ? ' disabled' : '') +
+        ' aria-label="' + n + '번 보기"><span class="bub">' + n + '</span><span>' + esc(t) +
+        (mark ? '<span class="mark">' + mark + '</span>' : '') + '</span></button></li>';
+    });
+    h += '</ol></article>';
+    return h;
+  }
+
+  function judgeClass(j) {
+    if (j === 'O') return 'j-o';
+    if (j === 'X') return 'j-x';
+    if (j === '정답') return 'j-ans';
+    return 'j-rej';
+  }
+  function renderVerdict(q, rec) {
+    var keyTxt = q.answer.map(function (n) { return CIRC[n]; }).join(', ');
+    if (!rec || rec.choice == null) {
+      return '<section class="verdict skip" id="verdict"><strong>풀지 않은 문제</strong><div class="v-sub"><span>정답 <b>' + keyTxt + '</b></span></div></section>';
+    }
+    var multi = q.answer.length > 1 ? ' (복수정답)' : '';
+    return '<section class="verdict ' + (rec.correct ? 'ok' : 'bad') + '" id="verdict">' +
+      '<strong>' + (rec.correct ? '정답입니다' : '틀렸습니다') + '</strong>' +
+      '<div class="v-sub"><span>내 답 <b>' + CIRC[rec.choice] + '</b></span><span>정답 <b>' + keyTxt + '</b>' + multi + '</span>' +
+      '<span>풀이 시간 <b>' + ko(rec.ms) + '</b></span></div></section>';
+  }
+  function renderExplanation(q, rec) {
+    var e = q.expl;
+    var mineLbl = rec && rec.choice ? CIRC[rec.choice] : null;
+    var keyLbls = q.items.length ? [] : q.answer.map(function (n) { return CIRC[n]; });
+    var h = '<section class="expl" aria-label="해설">';
+    h += '<div class="expl-head"><h2>해설</h2><span>문제 유형: ' + esc(e.type) + '</span></div>';
+    h += '<p class="expl-legend">판단 · 해설 (옳지 않은 보기는 → 옳게 고친 내용) · 근거</p>';
+    h += '<div class="rows">' + e.rows.map(function (r) {
+      var isKey = keyLbls.indexOf(r.label) !== -1, isMine = !q.items.length && r.label === mineLbl;
+      return '<div class="row' + (isKey ? ' is-key' : '') + '"><div class="row-top"><span class="row-lbl">' + esc(r.label) + '</span>' +
+        '<span class="judge ' + judgeClass(r.judge) + '">' + esc(r.judge) + '</span>' +
+        (isKey ? '<span class="chip-key">정답 보기</span>' : '') + (isMine && !isKey ? '<span class="chip-mine">내 선택</span>' : '') +
+        '</div><p class="row-text">' + esc(r.text) + '</p>' +
+        '<p class="row-basis"><span>근거</span><span>' + esc(r.basis) + '</span></p></div>';
+    }).join('') + '</div>';
+    h += '<div class="final"><div class="f1">최종 정답<em>' + esc(e.final) + '</em></div>' +
+      (e.note ? '<p class="note">' + esc(e.note) + '</p>' : '') +
+      '<p>정답 검증: ' + esc(e.verify) + '</p></div>';
+    h += '</section>';
+    return h;
+  }
+
+  // ---------- render: screens ----------
+  function render() {
+    var h = '';
+    if (ui.screen === 'exam' && store.active) h = renderExam();
+    else if (ui.screen === 'result' && findSession(ui.resultSid)) h = renderResult(findSession(ui.resultSid));
+    else if (ui.screen === 'review' && ui.review && findSession(ui.review.sid)) h = renderReview();
+    else { ui.screen = 'home'; h = renderHome(); }
+    h += renderModal();
+    app.innerHTML = h;
+    if (ui.screen === 'exam' || ui.screen === 'review') document.body.setAttribute('data-bar', ''); else document.body.removeAttribute('data-bar');
+    paintTimer();
+  }
+
+  function renderHome() {
+    var s = store.active, h = '<main class="wrap screen stack">';
+    h += '<header class="home-hero"><div class="eyebrow">2026년 제63회 변리사 1차시험 · 1교시 · A형</div>' +
+      '<h1>산업재산권법 모의고사</h1>' +
+      '<div class="meta"><span><b>40</b>문항</span><span><b>50</b>분</span><span>문항별 해설 · 풀이 시간 기록</span></div></header>';
+    if (s) {
+      var done = Object.keys(s.records).length, left = s.limitMs - s.totalMs;
+      h += '<section class="panel resume"><div class="resume-head"><strong>' + modeLabel(s) + ' 진행 중</strong>' +
+        '<span>' + (s.idx + 1) + ' / ' + s.qnums.length + '번째 · ' + done + '문항 답함 · ' +
+        (left > 0 ? '남은 시간 ' + clock(left, true) : clock(-left) + ' 초과') + '</span></div>' +
+        '<div class="btn-row"><button class="btn btn-primary" data-act="resume">이어서 풀기</button>' +
+        '<button class="btn" data-act="start-full">처음부터 새로 풀기</button></div></section>';
+    } else {
+      h += '<button class="btn btn-primary btn-block" data-act="start-full">시험 시작</button>';
+    }
+    h += '<section class="panel"><h2 class="section-title">타이머 규칙</h2><ul class="rules">' +
+      '<li><span>문제가 화면에 있고 <b>답을 고르기 전까지만</b> 시간이 흐릅니다.</span></li>' +
+      '<li><span>답을 고르면 바로 해설이 나오고, <b>다음 문제로 넘어갈 때까지 타이머가 멈춥니다.</b></span></li>' +
+      '<li><span>50분이 지나도 끝나지 않으며 <b>초과 시간</b>이 계속 표시됩니다.</span></li>' +
+      '<li><span>문항별 풀이 시간, 강점·약점, 오답 유형은 결과 화면에서 확인하고 <b>오답만 다시 풀기</b>를 할 수 있습니다. 오답 풀이 제한 시간은 문항당 1분 15초입니다.</span></li>' +
+      '</ul></section>';
+    h += '<section class="panel"><h2 class="section-title">출제 구성</h2><div class="map">' + LAWS.map(function (law) {
+      var qs = Q.filter(function (q) { return q.law === law; });
+      return '<div class="map-law"><div class="map-law-head"><span>' + law + '</span><span>' + qs.length + '문항 · ' +
+        qs[0].num + '–' + qs[qs.length - 1].num + '번</span></div><div class="map-cells">' +
+        qs.map(function (q) { return '<span class="map-cell" title="' + esc(q.topic) + '">' + q.num + '</span>'; }).join('') + '</div></div>';
+    }).join('') + '</div></section>';
+    if (store.history.length) {
+      h += '<section class="panel"><h2 class="section-title">지난 기록</h2><ul class="hist">' + store.history.map(function (x) {
+        var a = analyze(x);
+        return '<li><button data-act="open-result" data-sid="' + x.id + '"><span class="h-title">' + modeLabel(x) + '</span>' +
+          '<span class="h-score">' + a.correct + '/' + a.total + '</span>' +
+          '<span class="h-sub">' + dateLabel(x.finishedAt || x.startedAt) + ' · 풀이 ' + ko(a.timeMs) + '</span></button></li>';
+      }).join('') + '</ul></section>';
+    }
+    h += '</main>';
+    return h;
+  }
+
+  function renderBar(s, posMain, posSub) {
+    var strip = s.qnums.map(function (n, i) {
+      var r = s.records[n];
+      var c = r ? (r.correct ? 'ok' : 'bad') : (i === s.idx ? 'cur' : '');
+      return '<i class="' + c + '"></i>';
+    }).join('');
+    return '<header class="bar"><div class="bar-inner"><div class="bar-row">' +
+      '<button class="icon-btn" data-act="go-home" aria-label="홈으로 (일시정지)">' + ICON.home + '</button>' +
+      '<div class="bar-pos"><div class="p1">' + posMain + '</div><div class="p2">' + posSub + '</div></div>' +
+      '<div class="timer" id="timer" role="timer"><div class="t-label"></div><div class="t-main"></div><div class="t-sub"></div></div>' +
+      '<button class="icon-btn" data-act="pause" aria-label="일시정지">' + ICON.pause + '</button>' +
+      '</div><div class="strip" aria-hidden="true">' + strip + '</div></div></header>';
+  }
+
+  function renderExam() {
+    var s = store.active, num = s.qnums[s.idx], q = QN[num], rec = s.records[num];
+    var answered = Object.keys(s.records).length;
+    var h = renderBar(s, '문 ' + num + '<span class="of">' + (s.idx + 1) + '/' + s.qnums.length + '</span>',
+      modeLabel(s) + ' · ' + answered + '문항 답함');
+    h += '<main class="wrap screen stack">' + renderQuestionBody(q, s.phase === 'explain' ? rec : null, num);
+    if (s.phase === 'explain' && rec) {
+      h += renderVerdict(q, rec) + renderExplanation(q, rec);
+    }
+    h += '</main>';
+    if (s.phase === 'explain') {
+      var last = s.idx + 1 >= s.qnums.length;
+      h += '<div class="actionbar"><div class="wrap"><button class="btn btn-primary" data-act="next">' + (last ? '결과 보기' : '다음 문제') + '</button></div></div>';
+    }
+    return h;
+  }
+
+  function renderModal() {
+    if (!ui.modal) return '';
+    var s = store.active;
+    if (ui.modal === 'pause' && s) {
+      var left = s.limitMs - s.totalMs;
+      return '<div class="overlay" role="dialog" aria-modal="true" aria-label="일시정지"><div class="sheet">' +
+        '<h2>일시정지</h2><p>타이머가 멈췄습니다. 문제는 가려져 있어요.</p>' +
+        '<div class="big" id="pause-clock">' + (left > 0 ? clock(left, true) : '+' + clock(-left)) + '</div>' +
+        '<div class="btns"><button class="btn btn-primary" data-act="unpause">계속 풀기</button>' +
+        '<button class="btn" data-act="go-home">홈으로 (진행 상황 저장)</button>' +
+        '<button class="btn btn-danger" data-act="ask-end">여기서 끝내고 결과 보기</button></div></div></div>';
+    }
+    if (ui.modal === 'confirm-end' && s) {
+      var rest = s.qnums.length - Object.keys(s.records).length;
+      return '<div class="overlay" role="dialog" aria-modal="true" aria-label="시험 종료"><div class="sheet">' +
+        '<h2>시험을 끝낼까요?</h2><p>아직 풀지 않은 ' + rest + '문항은 오답으로 처리되고, 오답 다시 풀기에 포함됩니다.</p>' +
+        '<div class="btns"><button class="btn btn-danger" data-act="end-now">끝내고 결과 보기</button>' +
+        '<button class="btn" data-act="pause">돌아가기</button></div></div></div>';
+    }
+    if (ui.modal === 'confirm-new' && s && ui.pending) {
+      return '<div class="overlay" role="dialog" aria-modal="true" aria-label="새로 시작"><div class="sheet">' +
+        '<h2>진행 중인 시험이 있어요</h2><p>' + modeLabel(s) + ' (' + Object.keys(s.records).length + '/' + s.qnums.length +
+        '문항 답함)을 버리고 ' + (ui.pending.mode === 'full' ? '전체 모의고사를 처음부터' : '오답 ' + ui.pending.qnums.length + '문항을') + ' 시작할까요?</p>' +
+        '<div class="btns"><button class="btn btn-primary" data-act="confirm-new">새로 시작</button>' +
+        '<button class="btn" data-act="close-modal">취소</button></div></div></div>';
+    }
+    return '';
+  }
+
+  function barList(groups, showTime) {
+    return '<div class="bars">' + groups.map(function (g) {
+      var p = g.n ? Math.round(g.c / g.n * 100) : 0;
+      return '<div class="bar-item"><div class="bar-top"><span class="bt-name">' + esc(g.key) + '</span>' +
+        '<span class="bt-val">' + g.c + '/' + g.n + ' · ' + p + '%' + (showTime && g.t ? ' · 평균 ' + clock(g.ms / g.t) : '') + '</span></div>' +
+        '<div class="track"><i class="' + lv(g.c, g.n) + '" style="width:' + Math.max(p, 2) + '%"></i></div></div>';
+    }).join('') + '</div>';
+  }
+
+  function renderResult(s) {
+    var a = analyze(s), pct = a.total ? Math.round(a.correct / a.total * 100) : 0;
+    var overMs = a.timeMs - s.limitMs;
+    var h = '<main class="wrap screen stack">';
+    h += '<header class="res-head"><div class="eyebrow">' + modeLabel(s) + ' 결과 · ' + dateLabel(s.finishedAt || s.startedAt) + '</div>' +
+      '<h1>' + (s.mode === 'full' ? '산업재산권법 40문항' : '오답 ' + a.total + '문항 다시 풀기') + '</h1></header>';
+
+    // score
+    h += '<section class="panel score"><div class="score-big">' + a.correct + '<small>/' + a.total + '</small></div>' +
+      '<div class="score-facts"><span>정답률 <b>' + pct + '%</b>' + (a.answered < a.total ? ' · 미응답 <b>' + (a.total - a.answered) + '</b>' : '') + '</span>' +
+      '<span>풀이 시간 <b>' + ko(a.timeMs) + '</b> / 제한 ' + ko(s.limitMs) + '</span>' +
+      (overMs > 0 ? '<span class="over">제한 시간 ' + ko(overMs) + ' 초과</span>' : '<span>남은 시간 <b>' + ko(-overMs) + '</b></span>') +
+      '</div></section>';
+    if (s.mode === 'retry') {
+      h += '<p class="hint" style="margin:0">지난번 틀린 ' + a.total + '문항 중 이번에 ' + a.correct + '문항을 맞혔습니다.</p>';
+    }
+
+    // strengths / weaknesses
+    function swList(list) {
+      if (!list.length) return '';
+      return '<ul>' + list.slice(0, 4).map(function (g) { return '<li><span>' + esc(g.key) + '</span><span>' + g.c + '/' + g.n + '</span></li>'; }).join('') + '</ul>';
+    }
+    h += '<section class="sw" aria-label="강점과 약점">' +
+      '<div class="sw-card good"><h3>강점 영역</h3>' + (swList(a.strong) || '<p class="empty">' + (a.total < 6 ? '문항이 적어 판단하기 어렵습니다.' : '정답률 80% 이상인 영역이 아직 없습니다.') + '</p>') + '</div>' +
+      '<div class="sw-card weak"><h3>약점 영역</h3>' + (swList(a.weak) || '<p class="empty">' + (a.total < 6 ? '문항이 적어 판단하기 어렵습니다.' : '정답률 60% 미만인 영역이 없습니다.') + '</p>') + '</div>' +
+      '</section>';
+
+    // breakdown tabs
+    var tabs = [['area', '영역별'], ['law', '과목별'], ['format', '문제 형식'], ['flag', '출제 근거']];
+    var cur = ui.resultTab;
+    var groups = cur === 'law' ? a.byLaw : cur === 'format' ? a.byFormat : cur === 'flag' ? a.byFlag : a.byArea;
+    h += '<section class="panel"><h2 class="section-title">유형별 정답률 · 평균 풀이 시간</h2><div class="tabs" role="tablist">' +
+      tabs.map(function (t) { return '<button class="tab" role="tab" aria-selected="' + (t[0] === cur) + '" data-act="tab" data-tab="' + t[0] + '">' + t[1] + '</button>'; }).join('') +
+      '</div>' + barList(groups, true) + '</section>';
+
+    // wrong types
+    if (a.wrong.length) {
+      var wByFormat = {}, wCase = 0, wScen = 0;
+      a.wrong.forEach(function (x) { wByFormat[x.q.format] = (wByFormat[x.q.format] || 0) + 1; if (x.q.caseLaw) wCase++; if (x.q.scenario) wScen++; });
+      var chips = FORMATS.filter(function (f) { return wByFormat[f]; }).map(function (f) { return '<span class="tag">' + f + ' ' + wByFormat[f] + '</span>'; });
+      if (wCase) chips.push('<span class="tag">판례 문제 ' + wCase + '</span>');
+      if (wScen) chips.push('<span class="tag">사례형 ' + wScen + '</span>');
+      h += '<section class="panel"><h2 class="section-title">오답 문제 유형 · ' + a.wrong.length + '문항</h2>' +
+        '<div class="wrong-sum">' + chips.join('') + '</div><div class="wrong-groups">' +
+        AREAS.map(function (area) {
+          var ws = a.wrong.filter(function (x) { return x.q.area === area; });
+          if (!ws.length) return '';
+          return '<div><div class="wg-head"><span>' + area + '</span><span>' + ws.length + '</span></div><ul class="wg-list">' + ws.map(function (x) {
+            var i = s.qnums.indexOf(x.n);
+            var f = [x.q.law, x.q.format]; if (x.q.caseLaw) f.push('판례'); if (x.q.scenario) f.push('사례형');
+            if (!x.r) f.push('미응답');
+            return '<li><button data-act="review" data-sid="' + s.id + '" data-i="' + i + '"><span class="wn">' + x.n + '</span>' +
+              '<span class="wt">' + esc(x.q.topic) + '</span><span class="wf">' + esc(f.join(' · ')) + '</span></button></li>';
+          }).join('') + '</ul></div>';
+        }).join('') + '</div></section>';
+    }
+
+    // time analysis
+    var timed = a.rows.filter(function (x) { return x.r; });
+    var avg = timed.length ? timed.reduce(function (m, x) { return m + x.r.ms; }, 0) / timed.length : 0;
+    var slowN = timed.filter(function (x) { return x.r.ms > PACE_MS; }).length;
+    var slow = timed.slice().sort(function (x, y) { return y.r.ms - x.r.ms; }).slice(0, 5);
+    h += '<section class="panel"><h2 class="section-title">시간 분석 · 권장 페이스 문항당 1분 15초</h2><div class="time-facts">' +
+      '<div class="tf"><span>평균</span><b>' + clock(avg) + '</b></div>' +
+      '<div class="tf"><span>가장 오래</span><b>' + (slow[0] ? clock(slow[0].r.ms) : '–') + '</b></div>' +
+      '<div class="tf"><span>페이스 초과</span><b>' + slowN + '문항</b></div></div>' +
+      (slow.length ? '<ul class="slow-list">' + slow.map(function (x) {
+        return '<li><span>' + x.n + '번 · ' + esc(x.q.topic) + (x.r.correct ? '' : ' (오답)') + '</span><span>' + ko(x.r.ms) + '</span></li>';
+      }).join('') + '</ul>' : '') + '</section>';
+
+    // per-question OMR table
+    h += '<section class="panel"><h2 class="section-title">문항별 기록 · 누르면 해설</h2><div class="omr-wrap"><table class="omr"><thead><tr>' +
+      '<th>번호</th><th>답안</th><th>주제</th><th style="text-align:right">시간</th></tr></thead><tbody>' +
+      a.rows.map(function (x, i) {
+        var bubbles = '';
+        for (var n = 1; n <= 5; n++) {
+          var isKey = x.q.answer.indexOf(n) !== -1, isMine = x.r && x.r.choice === n, c = 'mini';
+          if (isMine) c += x.r.correct ? ' m-ok' : ' m-bad';
+          else if (isKey) c += ' m-key';
+          bubbles += '<span class="' + c + '">' + n + '</span>';
+        }
+        return '<tr class="clickable" data-act="review" data-sid="' + s.id + '" data-i="' + i + '"><td class="c-n">' + x.n + '</td>' +
+          '<td class="c-b">' + bubbles + '</td><td class="c-t"><div>' + esc(x.q.topic) + '</div></td>' +
+          '<td class="c-s' + (x.r && x.r.ms > PACE_MS ? ' slow' : '') + '">' + (x.r ? ko(x.r.ms) : '–') + '</td></tr>';
+      }).join('') + '</tbody></table></div>' +
+      '<div class="legend"><span><span class="mini m-ok"></span>맞힌 답</span><span><span class="mini m-bad"></span>틀린 답</span>' +
+      '<span><span class="mini m-key"></span>정답</span><span style="color:var(--warn)">주황 시간 = 1분 15초 초과</span></div></section>';
+
+    h += '</main>';
+    h += '<div class="actionbar"><div class="wrap">' +
+      '<button class="btn flex-0" data-act="home" aria-label="홈으로">' + ICON.home + '</button>' +
+      (a.wrong.length ? '<button class="btn btn-primary" data-act="retry" data-sid="' + s.id + '">오답 ' + a.wrong.length + '문항 다시 풀기</button>' : '') +
+      '<button class="btn' + (a.wrong.length ? '' : ' btn-primary') + '" data-act="start-full">' + (a.wrong.length ? '전체 다시' : '전체 다시 풀기') + '</button>' +
+      '</div></div>';
+    return h;
+  }
+
+  function renderReview() {
+    var s = findSession(ui.review.sid), i = ui.review.i, num = s.qnums[i], q = QN[num], rec = s.records[num] || null;
+    var h = '<header class="bar"><div class="bar-inner"><div class="bar-row">' +
+      '<button class="icon-btn" data-act="back-result" aria-label="결과로 돌아가기">' + ICON.left + '</button>' +
+      '<div class="bar-pos"><div class="p1">문 ' + num + ' 다시 보기</div><div class="p2">' + (i + 1) + ' / ' + s.qnums.length + ' · ' + modeLabel(s) + '</div></div>' +
+      '</div></div></header>';
+    h += '<main class="wrap screen stack">' + renderQuestionBody(q, rec || { choice: null, correct: false, ms: 0 }, num) +
+      renderVerdict(q, rec) + renderExplanation(q, rec) + '</main>';
+    h += '<div class="actionbar"><div class="wrap">' +
+      '<button class="btn" data-act="rv-move" data-d="-1"' + (i === 0 ? ' disabled' : '') + '>' + ICON.left + ' 이전</button>' +
+      '<button class="btn" data-act="back-result">결과</button>' +
+      '<button class="btn" data-act="rv-move" data-d="1"' + (i + 1 >= s.qnums.length ? ' disabled' : '') + '>다음 ' + ICON.right + '</button>' +
+      '</div></div>';
+    return h;
+  }
+
+  // ---------- events ----------
+  app.addEventListener('click', function (ev) {
+    var t = ev.target.closest('[data-act]');
+    if (!t || t.disabled) return;
+    var act = t.getAttribute('data-act');
+    switch (act) {
+      case 'start-full': requestStart('full', Q.map(function (q) { return q.num; })); break;
+      case 'resume': resume(); break;
+      case 'choose': choose(+t.getAttribute('data-n')); break;
+      case 'next': next(); break;
+      case 'pause': ui.modal = 'pause'; syncRun(); render(); break;
+      case 'unpause': ui.modal = null; render(); syncRun(); break;
+      case 'ask-end': ui.modal = 'confirm-end'; render(); break;
+      case 'end-now': if (store.active) finish(store.active); break;
+      case 'go-home': ui.modal = null; ui.screen = 'home'; syncRun(); render(); scrollTop(); break;
+      case 'home': ui.screen = 'home'; render(); scrollTop(); break;
+      case 'confirm-new': if (ui.pending) startSession(ui.pending.mode, ui.pending.qnums, ui.pending.parentId); break;
+      case 'close-modal': ui.modal = null; ui.pending = null; render(); break;
+      case 'open-result': ui.screen = 'result'; ui.resultSid = t.getAttribute('data-sid'); ui.resultTab = 'area'; render(); scrollTop(); break;
+      case 'tab': ui.resultTab = t.getAttribute('data-tab'); render(); break;
+      case 'retry': {
+        var s = findSession(t.getAttribute('data-sid'));
+        if (!s) break;
+        var w = analyze(s).wrong.map(function (x) { return x.n; });
+        if (w.length) requestStart('retry', w, s.id);
+        break;
+      }
+      case 'review': ui.review = { sid: t.getAttribute('data-sid'), i: +t.getAttribute('data-i'), y: window.scrollY }; ui.screen = 'review'; render(); scrollTop(); break;
+      case 'rv-move': {
+        var rs = findSession(ui.review.sid), ni = ui.review.i + (+t.getAttribute('data-d'));
+        if (rs && ni >= 0 && ni < rs.qnums.length) { ui.review.i = ni; render(); scrollTop(); }
+        break;
+      }
+      case 'back-result': {
+        var y = ui.review ? ui.review.y : 0;
+        ui.screen = 'result'; ui.resultSid = ui.review.sid; render(); window.scrollTo(0, y || 0);
+        break;
+      }
+    }
+  });
+  document.addEventListener('keydown', function (ev) {
+    if (ev.metaKey || ev.ctrlKey || ev.altKey) return;
+    if (ev.target && ev.target.closest && ev.target.closest('button, input, select, textarea, a')) { if (ev.key === 'Enter' || ev.key === ' ') return; }
+    var s = store.active;
+    if (ui.screen === 'exam' && s && !ui.modal) {
+      if (s.phase === 'solving' && /^[1-5]$/.test(ev.key)) { choose(+ev.key); ev.preventDefault(); }
+      else if (s.phase === 'explain' && (ev.key === 'Enter' || ev.key === 'ArrowRight')) { next(); ev.preventDefault(); }
+    }
+  });
+
+  // ---------- boot ----------
+  function boot(data) {
+    Q = data; QN = {};
+    Q.forEach(function (q) { QN[q.num] = q; });
+    if (store.active && (!store.active.qnums || !store.active.qnums.every(function (n) { return QN[n]; }))) store.active = null;
+    store.history = store.history.filter(function (s) { return s && s.qnums && s.qnums.every(function (n) { return QN[n]; }); });
+    render();
+  }
+  if (window.EXAM_DATA) boot(window.EXAM_DATA);
+  else {
+    app.innerHTML = '<main class="wrap screen"><p class="hint">문제를 불러오는 중…</p></main>';
+    fetch('questions.json').then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); }).then(boot).catch(function () {
+      app.innerHTML = '<main class="wrap screen"><p>문제 데이터를 불러오지 못했습니다. 페이지를 새로고침해 주세요.</p></main>';
+    });
+  }
+})();
+</script>
